@@ -22,7 +22,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -39,6 +38,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }

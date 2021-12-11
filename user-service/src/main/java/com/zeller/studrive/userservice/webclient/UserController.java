@@ -25,7 +25,6 @@ public class UserController {
     @GetMapping(path = "/save")
     public void saveTest() {
         User user = new User();
-        user.setId(1L);
         user.setFirstName("Dennis");
         user.setLastName("Zeller");
         user.setEmail("test@pgadmin.de");
