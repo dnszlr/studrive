@@ -1,0 +1,11 @@
+CREATE SCHEMA IF NOT EXISTS userservice;
+
+drop table if exists userservice.users cascade;
+
+CREATE TABLE IF NOT EXISTS userservice.users (
+    ID SERIAL PRIMARY KEY,
+    FIRSTNAME VARCHAR(50) NULL,
+    LASTNAME VARCHAR(50) NULL,
+    EMAIL VARCHAR(225) NULL,
+    UNIVERSITY VARCHAR(225)
+);

@@ -1,0 +1,3 @@
+rootProject.name = 'studrive'
+
+include 'user-service'
