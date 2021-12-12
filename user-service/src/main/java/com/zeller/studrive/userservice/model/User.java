@@ -20,17 +20,12 @@ public class User {
         this.email = email;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "firstName", nullable = false)
     private String firstName;
-    @Column(name = "lastName", nullable = false)
     private String lastName;
-    @Column(name = "email", nullable = false)
     private String email;
+    private PaymentDetails paymentDetails;
     // TODO Change this to datatype with city,.. in a later version. This variable should be assigned by VerificationService
-    @Column(name = "university")
     private String university;
 
     public void setId(Long id) {
@@ -43,6 +38,7 @@ public class User {
         return id;
     }
 
+    @Column(name = "firstName", nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -51,6 +47,7 @@ public class User {
         this.firstName = firstName;
     }
 
+    @Column(name = "lastName", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -59,6 +56,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }
@@ -67,6 +65,17 @@ public class User {
         this.email = email;
     }
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "paymentDetailId")
+    public PaymentDetails getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(PaymentDetails paymentDetails) {
+        this.paymentDetails = paymentDetails;
+    }
+
+    @Column(name = "university")
     public String getUniversity() {
         return university;
     }
