@@ -1,4 +1,4 @@
 rootProject.name = 'studrive'
 
-include 'swagger-config'
+include 'openapi-config'
 include 'user-service'
