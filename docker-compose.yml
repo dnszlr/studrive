@@ -9,7 +9,7 @@ services:
     volumes:
       - mongodbdata:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=toor
+      - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
   mongo-express:
     # Version 0.54.0 because latest doesn't show server status, change when fixed.
@@ -19,7 +19,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=toor
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=root
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
       - ME_CONFIG_MONGODB_SERVER=mongodb
@@ -32,7 +32,7 @@ services:
     volumes:
       - postgresdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=toor
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=studrivedatabase
   pgadmin:
@@ -48,6 +48,11 @@ services:
     build: ./user-service
     ports:
       - "9001:8080"
+  #offer-service
+  offer-service:
+    build: ./offer-service
+    ports:
+      - "9002:8080"
 
 volumes:
   mongodbdata: {}

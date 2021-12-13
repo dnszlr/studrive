@@ -2,3 +2,4 @@ rootProject.name = 'studrive'
 
 include 'openapi-config'
 include 'user-service'
+include 'offer-service'
