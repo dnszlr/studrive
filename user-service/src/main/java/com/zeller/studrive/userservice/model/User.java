@@ -13,29 +13,40 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
     private Long id;
+    private String matriculationNr;
+    private String university;
     private String firstName;
     private String lastName;
     private String email;
     private PaymentDetails paymentDetails;
-    // TODO Change this to datatype with city,.. in a later version. This variable should be assigned by VerificationService
-    private String university;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "matriculationNr", nullable = false)
+    public String getMatriculationNr() {
+        return matriculationNr;
+    }
+
+    public void setMatriculationNr(String matriculationNr) {
+        this.matriculationNr = matriculationNr;
+    }
+
+    @Column(name = "university", nullable = false)
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
     @Column(name = "firstName", nullable = false)
@@ -75,15 +86,6 @@ public class User {
         this.paymentDetails = paymentDetails;
     }
 
-    @Column(name = "university")
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,20 +93,22 @@ public class User {
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
+        if (!matriculationNr.equals(user.matriculationNr)) return false;
+        if (!university.equals(user.university)) return false;
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
         if (!email.equals(user.email)) return false;
-        return Objects.equals(university, user.university);
+        return Objects.equals(paymentDetails, user.paymentDetails);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = matriculationNr.hashCode();
+        result = 31 * result + university.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
         result = 31 * result + email.hashCode();
-        result = 31 * result + (university != null ? university.hashCode() : 0);
+        result = 31 * result + (paymentDetails != null ? paymentDetails.hashCode() : 0);
         return result;
     }
 }

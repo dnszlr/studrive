@@ -6,7 +6,7 @@ subprojects {
     apply plugin: "java"
     group = 'com.zeller.studrive'
     version = '1.0.0-SNAPSHOT'
-    sourceCompatibility = '11'
+    sourceCompatibility = '1.8'
     repositories {
         mavenCentral()
     }

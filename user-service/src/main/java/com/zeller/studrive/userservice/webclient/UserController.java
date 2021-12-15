@@ -29,25 +29,25 @@ public class UserController {
         return userService.save(user);
     }
 
+    /**
+     * Determines a user based on the passed id
+     *
+     * @param userId - The id of the user
+     * @return the user or null
+     */
     @GetMapping(path = "/{userId}")
     public Optional<User> get(@PathVariable Long userId) {
         return userService.findById(userId);
     }
 
     /**
-     * @param userId - the user to be updated
+     * @param userId         - the user to be updated
      * @param paymentDetails - the paymentDetails that should be updated for the user
      * @return the updated user or null
      */
     @PutMapping(path = "/{userId}/paymentDetails")
     public Optional<User> update(@PathVariable Long userId, @RequestBody PaymentDetails paymentDetails) {
-        Optional<User> user = userService.findById(userId);
-        if (user.isPresent()) {
-            User userEntity = user.get();
-            userEntity.setPaymentDetails(paymentDetails);
-            userService.save(userEntity);
-        }
-        return user;
+        return userService.updatePaymentDetails(userId, paymentDetails);
     }
 
     /**
@@ -58,8 +58,7 @@ public class UserController {
      */
     @GetMapping(path = "/{userId}/verify")
     public boolean verifyPaymentDetails(@PathVariable Long userId) {
-        Optional<User> user = userService.findById(userId);
-        return user.isPresent() && user.get().getPaymentDetails() != null;
+        return userService.verifyPaymentDetails(userId);
     }
 
 }
