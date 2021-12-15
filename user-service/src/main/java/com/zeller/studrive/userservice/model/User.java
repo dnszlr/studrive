@@ -14,7 +14,7 @@ public class User {
     }
 
     private Long id;
-    private String matriculationNr;
+    private String matriculationNumber;
     private String university;
     private String firstName;
     private String lastName;
@@ -31,13 +31,13 @@ public class User {
         this.id = id;
     }
 
-    @Column(name = "matriculationNr", nullable = false)
-    public String getMatriculationNr() {
-        return matriculationNr;
+    @Column(name = "matriculationNumber", nullable = false)
+    public String getMatriculationNumber() {
+        return matriculationNumber;
     }
 
-    public void setMatriculationNr(String matriculationNr) {
-        this.matriculationNr = matriculationNr;
+    public void setMatriculationNumber(String matriculationNumber) {
+        this.matriculationNumber = matriculationNumber;
     }
 
     @Column(name = "university", nullable = false)
@@ -93,7 +93,7 @@ public class User {
 
         User user = (User) o;
 
-        if (!matriculationNr.equals(user.matriculationNr)) return false;
+        if (!matriculationNumber.equals(user.matriculationNumber)) return false;
         if (!university.equals(user.university)) return false;
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
@@ -103,7 +103,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = matriculationNr.hashCode();
+        int result = matriculationNumber.hashCode();
         result = 31 * result + university.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
