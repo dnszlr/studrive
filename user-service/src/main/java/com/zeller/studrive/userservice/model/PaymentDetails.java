@@ -72,6 +72,18 @@ public class PaymentDetails {
         this.accountNumber = accountNumber;
     }
 
+    /**
+     * Compares all fields except id for equality
+     * @param that - the payment detail to compare
+     * @return boolean true if equals, false if not
+     */
+    public boolean attributeEquals(PaymentDetails that) {
+        if (checkDigit != that.checkDigit) return false;
+        if (bankCode != that.bankCode) return false;
+        if (accountNumber != that.accountNumber) return false;
+        return countryCode.equals(that.countryCode);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

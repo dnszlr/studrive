@@ -8,5 +8,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.1'
+    implementation 'org.json:json:20211205'
+    implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     implementation project(":openapi-config")
 }

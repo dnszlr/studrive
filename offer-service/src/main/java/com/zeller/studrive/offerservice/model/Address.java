@@ -4,69 +4,110 @@ import java.util.Objects;
 
 public class Address {
 
-    private String location;
-    private String postalCode;
-    private String street;
-    private int houseNumber;
+	private String city;
+	private String postalCode;
+	private String street;
+	private int houseNumber;
+	private double latitude;
+	private double longitude;
 
-    public Address(String location, String postalCode, String street, int houseNumber) {
-        this.location = location;
-        this.postalCode = postalCode;
-        this.street = street;
-        this.houseNumber = houseNumber;
-    }
+	public Address(String city, String postalCode, String street, int houseNumber) {
+		this.city = city;
+		this.postalCode = postalCode;
+		this.street = street;
+		this.houseNumber = houseNumber;
+	}
 
-    public String getLocation() {
-        return location;
-    }
+	public Address() {
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public String getPostalCode() {
-        return postalCode;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
+	public String getPostalCode() {
+		return postalCode;
+	}
 
-    public String getStreet() {
-        return street;
-    }
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public int getHouseNumber() {
-        return houseNumber;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public void setHouseNumber(int houseNumber) {
-        this.houseNumber = houseNumber;
-    }
+	public int getHouseNumber() {
+		return houseNumber;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setHouseNumber(int houseNumber) {
+		this.houseNumber = houseNumber;
+	}
 
-        Address address = (Address) o;
+	public double getLatitude() {
+		return latitude;
+	}
 
-        if (houseNumber != address.houseNumber) return false;
-        if (!Objects.equals(location, address.location)) return false;
-        if (!Objects.equals(postalCode, address.postalCode)) return false;
-        return Objects.equals(street, address.street);
-    }
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = location != null ? location.hashCode() : 0;
-        result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + houseNumber;
-        return result;
-    }
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getQueryString() {
+		String uriSeparator = "+";
+		return this.city + uriSeparator + this.postalCode + uriSeparator + this.street + uriSeparator + this.houseNumber + ".json";
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
+
+		Address address = (Address) o;
+
+		if(houseNumber != address.houseNumber)
+			return false;
+		if(Double.compare(address.latitude, latitude) != 0)
+			return false;
+		if(Double.compare(address.longitude, longitude) != 0)
+			return false;
+		if(!Objects.equals(city, address.city))
+			return false;
+		if(!Objects.equals(postalCode, address.postalCode))
+			return false;
+		return Objects.equals(street, address.street);
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = city != null ? city.hashCode() : 0;
+		result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
+		result = 31 * result + (street != null ? street.hashCode() : 0);
+		result = 31 * result + houseNumber;
+		temp = Double.doubleToLongBits(latitude);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(longitude);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 }

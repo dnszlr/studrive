@@ -4,21 +4,23 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Document
 public class Ride {
 
     @Id
     private String id;
-    private String driverId;
+    private Long driverId;
     private Address start;
     private Address destination;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Car car;
     private double pricePerSeat;
+    private RideStatus rideStatus;
 
-    public Ride(String driverId, Address start, Address destination, LocalDateTime startDate, LocalDateTime endDate, Car car, double pricePerSeat) {
+    public Ride(Long driverId, Address start, Address destination, LocalDateTime startDate, LocalDateTime endDate, Car car, double pricePerSeat) {
         this.driverId = driverId;
         this.start = start;
         this.destination = destination;
@@ -36,11 +38,11 @@ public class Ride {
         this.id = id;
     }
 
-    public String getDriverId() {
+    public Long getDriverId() {
         return driverId;
     }
 
-    public void setDriverId(String driverId) {
+    public void setDriverId(Long driverId) {
         this.driverId = driverId;
     }
 
@@ -92,6 +94,14 @@ public class Ride {
         this.pricePerSeat = pricePerSeat;
     }
 
+    public RideStatus getRideStatus() {
+        return rideStatus;
+    }
+
+    public void setRideStatus(RideStatus rideStatus) {
+        this.rideStatus = rideStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,28 +110,30 @@ public class Ride {
         Ride ride = (Ride) o;
 
         if (Double.compare(ride.pricePerSeat, pricePerSeat) != 0) return false;
-        if (!id.equals(ride.id)) return false;
-        if (!driverId.equals(ride.driverId)) return false;
-        if (!start.equals(ride.start)) return false;
-        if (!destination.equals(ride.destination)) return false;
-        if (!startDate.equals(ride.startDate)) return false;
-        if (!endDate.equals(ride.endDate)) return false;
-        return car.equals(ride.car);
+        if (!Objects.equals(id, ride.id)) return false;
+        if (!Objects.equals(driverId, ride.driverId)) return false;
+        if (!Objects.equals(start, ride.start)) return false;
+        if (!Objects.equals(destination, ride.destination)) return false;
+        if (!Objects.equals(startDate, ride.startDate)) return false;
+        if (!Objects.equals(endDate, ride.endDate)) return false;
+        if (!Objects.equals(car, ride.car)) return false;
+        return rideStatus == ride.rideStatus;
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = id.hashCode();
-        result = 31 * result + driverId.hashCode();
-        result = 31 * result + start.hashCode();
-        result = 31 * result + destination.hashCode();
-        result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
-        result = 31 * result + car.hashCode();
+        result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (driverId != null ? driverId.hashCode() : 0);
+        result = 31 * result + (start != null ? start.hashCode() : 0);
+        result = 31 * result + (destination != null ? destination.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (car != null ? car.hashCode() : 0);
         temp = Double.doubleToLongBits(pricePerSeat);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (rideStatus != null ? rideStatus.hashCode() : 0);
         return result;
     }
 }
