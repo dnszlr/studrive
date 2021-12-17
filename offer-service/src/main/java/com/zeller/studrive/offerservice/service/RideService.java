@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class RideService {
@@ -87,14 +88,24 @@ public class RideService {
 	 * @return The list of available rides for the passed values
 	 */
 	public List<Ride> findAvailableRide(LocalDate startDate, Address start, Address destination) {
+		// TODO Auf Status eingehen
+		LocalDateTime ldt = LocalDateTime.of(startDate, LocalTime.of(0, 0, 0));
 		mapboxGeocoding.getGeodata(start);
+		List<Ride> startResult = getAvailableRidesList("start.coordinates", ldt, start);
 		mapboxGeocoding.getGeodata(destination);
-		double[] startCoords = start.getCoordinates();
-		Point point = new Point(startCoords[0], startCoords[1]);
+		List<Ride> destinationResult = getAvailableRidesList("destination.coordinates", ldt, start);
+		// TODO Testen ob das auch wirklich so funktioniert mit mehreren Werten
+		startResult.retainAll(destinationResult);
+		return startResult;
+	}
+
+	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
+		// TODO Distance entweder in Query fest setzen oder dynamisch übergeben
 		Distance distance = new Distance(30);
-		GeoResults<Ride> startRides = rideRepository.findAvailableRides(LocalDateTime.of(startDate, LocalTime.of(0, 0, 0)), point,
-				distance);
-		return null;
+		double[] coords = address.getCoordinates();
+		Point point = new Point(coords[0], coords[1]);
+		List<GeoResult<Ride>> result = rideRepository.findAvailableRides(index, formatted, point, distance).getContent();
+		return result.stream().map(GeoResult::getContent).collect(Collectors.toList());
 	}
 
 	public List<Ride> findRidesByDriver(Long driverId) {

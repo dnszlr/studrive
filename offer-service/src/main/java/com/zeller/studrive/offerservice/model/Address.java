@@ -12,7 +12,6 @@ public class Address {
 	private String postalCode;
 	private String street;
 	private int houseNumber;
-	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2D)
 	private double[] coordinates;
 
 	public Address(String city, String postalCode, String street, int houseNumber) {

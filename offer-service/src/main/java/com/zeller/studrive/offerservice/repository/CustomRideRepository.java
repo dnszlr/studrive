@@ -9,5 +9,5 @@ import java.time.LocalDateTime;
 
 public interface CustomRideRepository {
 
-	GeoResults<Ride> findAvailableRides(LocalDateTime startDate, Point point, Distance distance);
+	GeoResults<Ride> findAvailableRides(String index, LocalDateTime startDate, Point point, Distance distance);
 }
