@@ -1,6 +1,6 @@
 package com.zeller.studrive.offerservice.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.Objects;
 
 public class Car {
 
@@ -46,8 +46,8 @@ public class Car {
         Car car = (Car) o;
 
         if (seats != car.seats) return false;
-        if (brand != null ? !brand.equals(car.brand) : car.brand != null) return false;
-        return licencePlate != null ? licencePlate.equals(car.licencePlate) : car.licencePlate == null;
+        if (!Objects.equals(brand, car.brand)) return false;
+        return Objects.equals(licencePlate, car.licencePlate);
     }
 
     @Override

@@ -1,8 +1,5 @@
 package com.zeller.studrive.offerservice.model;
 
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
-
 import java.util.Arrays;
 import java.util.Objects;
 

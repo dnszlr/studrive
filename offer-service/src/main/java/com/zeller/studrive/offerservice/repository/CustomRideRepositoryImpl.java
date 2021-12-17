@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 

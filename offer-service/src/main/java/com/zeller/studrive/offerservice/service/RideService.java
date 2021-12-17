@@ -90,16 +90,14 @@ public class RideService {
 	public List<Ride> findAvailableRide(LocalDate startDate, Address start, Address destination) {
 		// TODO Auf Status eingehen
 		LocalDateTime ldt = LocalDateTime.of(startDate, LocalTime.of(0, 0, 0));
-		mapboxGeocoding.getGeodata(start);
 		List<Ride> startResult = getAvailableRidesList("start.coordinates", ldt, start);
-		mapboxGeocoding.getGeodata(destination);
-		List<Ride> destinationResult = getAvailableRidesList("destination.coordinates", ldt, start);
-		// TODO Testen ob das auch wirklich so funktioniert mit mehreren Werten
+		List<Ride> destinationResult = getAvailableRidesList("destination.coordinates", ldt, destination);
 		startResult.retainAll(destinationResult);
 		return startResult;
 	}
 
 	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
+		mapboxGeocoding.getGeodata(address);
 		// TODO Distance entweder in Query fest setzen oder dynamisch übergeben
 		Distance distance = new Distance(30);
 		double[] coords = address.getCoordinates();
