@@ -1,5 +1,9 @@
 package com.zeller.studrive.offerservice.model;
 
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Address {
@@ -8,8 +12,8 @@ public class Address {
 	private String postalCode;
 	private String street;
 	private int houseNumber;
-	private double latitude;
-	private double longitude;
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2D)
+	private double[] coordinates;
 
 	public Address(String city, String postalCode, String street, int houseNumber) {
 		this.city = city;
@@ -53,20 +57,12 @@ public class Address {
 		this.houseNumber = houseNumber;
 	}
 
-	public double getLatitude() {
-		return latitude;
+	public double[] getCoordinates() {
+		return coordinates;
 	}
 
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public void setCoordinates(double[] coordinates) {
+		this.coordinates = coordinates;
 	}
 
 	public String getQueryString() {
@@ -85,29 +81,22 @@ public class Address {
 
 		if(houseNumber != address.houseNumber)
 			return false;
-		if(Double.compare(address.latitude, latitude) != 0)
-			return false;
-		if(Double.compare(address.longitude, longitude) != 0)
-			return false;
 		if(!Objects.equals(city, address.city))
 			return false;
 		if(!Objects.equals(postalCode, address.postalCode))
 			return false;
-		return Objects.equals(street, address.street);
+		if(!Objects.equals(street, address.street))
+			return false;
+		return Arrays.equals(coordinates, address.coordinates);
 	}
 
 	@Override
 	public int hashCode() {
-		int result;
-		long temp;
-		result = city != null ? city.hashCode() : 0;
+		int result = city != null ? city.hashCode() : 0;
 		result = 31 * result + (postalCode != null ? postalCode.hashCode() : 0);
 		result = 31 * result + (street != null ? street.hashCode() : 0);
 		result = 31 * result + houseNumber;
-		temp = Double.doubleToLongBits(latitude);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(longitude);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + Arrays.hashCode(coordinates);
 		return result;
 	}
 }

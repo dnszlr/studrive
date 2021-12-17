@@ -31,7 +31,7 @@ public class MapboxGeocoding {
 	 * @param address - The address from which the latitude and longitude values are to be determined
 	 * @return The passed Address with the updated latitude and longitude values.
 	 */
-	public boolean getCoordinates(Address address) {
+	public boolean getGeodata(Address address) {
 		boolean result = false;
 		String response =
 				apiClient.get().uri(Constants.SLASH + address.getQueryString() + Constants.TOKENEXT + Constants.MAPBOXTOKEN + Constants.LIMIT)
@@ -45,8 +45,8 @@ public class MapboxGeocoding {
 			final JSONObject features = (JSONObject) json.getJSONArray("features").get(0);
 			final JSONObject geometry = features.getJSONObject("geometry");
 			final JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-			address.setLongitude(coordinates.getDouble(0));
-			address.setLatitude(coordinates.getDouble(1));
+			// coordinates[0] = longitude, coordinates[1] = latitude.
+			address.setCoordinates(new double[]{coordinates.getDouble(0), coordinates.getDouble(1)});
 			result = true;
 		} catch(Exception ex) {
 			logger.error("Error while reading latitude and longitude from mapbox json", ex);

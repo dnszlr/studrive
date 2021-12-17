@@ -6,10 +6,12 @@ import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
+import org.springframework.data.geo.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +31,10 @@ public class RideService {
 	 * @return the newly created ride
 	 */
 	public Ride offerRide(Ride ride) {
+		// TODO Validation der übergebenen Werte
 		ride.setRideStatus(RideStatus.AVAILABLE);
-		mapboxGeocoding.getCoordinates(ride.getStart());
-		mapboxGeocoding.getCoordinates(ride.getDestination());
+		mapboxGeocoding.getGeodata(ride.getStart());
+		mapboxGeocoding.getGeodata(ride.getDestination());
 		return this.rideRepository.save(ride);
 	}
 
@@ -54,7 +57,7 @@ public class RideService {
 	}
 
 	/**
-	 * Closes the ride that belongs to the passed id by changing its status to closed
+	 * Closes the ride that belongs to the passed id by changing its status to close
 	 * This can only happen if the ride is at least 24 hours old and has not been already canceled or closed
 	 *
 	 * @param id - the id of the trip to be closed
@@ -76,22 +79,25 @@ public class RideService {
 
 	/**
 	 * Returns a list of available rides for the passed values.
-	 * <p>
-	 * This is not optimal but because there is no UI planned implementing a location picker would be overkill.
-	 * Latitude and Longitude queries would be best.
-	 * Mapbox is a free tool to do that, if required in the future.
+	 * For this purpose a geoquery is performed on the database to find all rides within a given radius
 	 *
+	 * @param startDate   - The day the journey should begin
 	 * @param start       - The address where the ride starts
 	 * @param destination - The destination where the ride ends
 	 * @return The list of available rides for the passed values
 	 */
-	public List<Ride> findAvailableRide(Address start, Address destination) {
-		mapboxGeocoding.getCoordinates(start);
-		mapboxGeocoding.getCoordinates(destination);
+	public List<Ride> findAvailableRide(LocalDate startDate, Address start, Address destination) {
+		mapboxGeocoding.getGeodata(start);
+		mapboxGeocoding.getGeodata(destination);
+		double[] startCoords = start.getCoordinates();
+		Point point = new Point(startCoords[0], startCoords[1]);
+		Distance distance = new Distance(30);
+		GeoResults<Ride> startRides = rideRepository.findAvailableRides(LocalDateTime.of(startDate, LocalTime.of(0, 0, 0)), point,
+				distance);
 		return null;
 	}
 
-	public List<Ride> findRideByDriver(Long driverId) {
+	public List<Ride> findRidesByDriver(Long driverId) {
 		return rideRepository.findRidesByDriverId(driverId);
 	}
 

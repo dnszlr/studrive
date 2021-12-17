@@ -2,3 +2,5 @@
 /.gradle/
 /user-service/build/
 /user-service/build/classes/java/main/
+/offer-service/build/
+/offer-service/build/classes/java/main/
