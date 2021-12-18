@@ -1,5 +1,6 @@
 package com.zeller.studrive.offerservice.service;
 
+import com.zeller.studrive.offerservice.helper.Constants;
 import com.zeller.studrive.offerservice.helper.MapboxGeocoding;
 import com.zeller.studrive.offerservice.model.Address;
 import com.zeller.studrive.offerservice.model.Ride;
@@ -79,35 +80,58 @@ public class RideService {
 	}
 
 	/**
-	 * Returns a list of available rides for the passed values.
-	 * For this purpose a geoquery is performed on the database to find all rides within a given radius
+	 * Searches all rides of a driver
+	 *
+	 * @param driverId - The id of the driver whose trips should be returned
+	 * @return The list of rides for the passed driver
+	 */
+	public List<Ride> findRidesByDriver(Long driverId) {
+		return rideRepository.findRidesByDriverId(driverId);
+	}
+
+	/**
+	 * Check if there are still free seats in the car.
+	 *
+	 * @param rideId - The id of the car whose status is to be checked
+	 * @return true if there are available seats, false if not
+	 */
+	public boolean verifyRideSeats(String rideId) {
+		Optional<Ride> rideTemp = rideRepository.findById(rideId);
+		return rideTemp.isPresent() && checkRideStatus(rideTemp.get(), RideStatus.AVAILABLE);
+	}
+
+	/**
+	 * Initializes a geoquery for the passed parameters and then merges the results
 	 *
 	 * @param startDate   - The day the journey should begin
 	 * @param start       - The address where the ride starts
 	 * @param destination - The destination where the ride ends
 	 * @return The list of available rides for the passed values
 	 */
-	public List<Ride> findAvailableRide(LocalDate startDate, Address start, Address destination) {
-		// TODO Auf Status eingehen
+	public List<Ride> getAvailableRide(LocalDate startDate, Address start, Address destination) {
 		LocalDateTime ldt = LocalDateTime.of(startDate, LocalTime.of(0, 0, 0));
-		List<Ride> startResult = getAvailableRidesList("start.coordinates", ldt, start);
-		List<Ride> destinationResult = getAvailableRidesList("destination.coordinates", ldt, destination);
+		// It is not possible to perform the query for both addresses at the same time, so one must be performed first and then the other.
+		// Therefore, the results must be combined afterwards.
+		List<Ride> startResult = getAvailableRidesList(Constants.STARTINDEX, ldt, start);
+		List<Ride> destinationResult = getAvailableRidesList(Constants.DESTINATIONINDEX, ldt, destination);
 		startResult.retainAll(destinationResult);
 		return startResult;
 	}
 
+	/**
+	 * Calls the repository to perform a geoquery to find all available rides.
+	 *
+	 * @param index     - The index that must be applied to the respective address field
+	 * @param formatted - The LocalDateTime formatted from a simple LocalDate
+	 * @param address   - The address for which the geoquery should be performed
+	 * @return The list of available rides for the passed values
+	 */
 	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
 		mapboxGeocoding.getGeodata(address);
-		// TODO Distance entweder in Query fest setzen oder dynamisch übergeben
-		Distance distance = new Distance(30);
 		double[] coords = address.getCoordinates();
 		Point point = new Point(coords[0], coords[1]);
-		List<GeoResult<Ride>> result = rideRepository.findAvailableRides(index, formatted, point, distance).getContent();
+		List<GeoResult<Ride>> result = rideRepository.findAvailableRides(index, formatted, point).getContent();
 		return result.stream().map(GeoResult::getContent).collect(Collectors.toList());
-	}
-
-	public List<Ride> findRidesByDriver(Long driverId) {
-		return rideRepository.findRidesByDriverId(driverId);
 	}
 
 	/**
@@ -129,7 +153,6 @@ public class RideService {
 	 * @return true if the passed ride has the rideStatus, false if not
 	 */
 	private boolean checkRideStatus(Ride ride, RideStatus rideStatus) {
-		return ride.getRideStatus().equals(rideStatus);
+		return ride.getRideStatus() == rideStatus;
 	}
-
 }

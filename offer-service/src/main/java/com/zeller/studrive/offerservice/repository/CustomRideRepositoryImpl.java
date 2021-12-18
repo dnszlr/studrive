@@ -1,6 +1,8 @@
 package com.zeller.studrive.offerservice.repository;
 
+import com.zeller.studrive.offerservice.helper.Constants;
 import com.zeller.studrive.offerservice.model.Ride;
+import com.zeller.studrive.offerservice.model.RideStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
@@ -18,19 +20,30 @@ public class CustomRideRepositoryImpl implements CustomRideRepository {
 	@Autowired
 	MongoTemplate mongoTemplate;
 
+	/**
+	 * Performs a geoquery on the database to find all available rides within a radius of 30km
+	 *
+	 * @param index     - The index that must be applied to the respective address field
+	 * @param startDate - All rides take place after this date
+	 * @param point     - The point that determines the location of the address on a map
+	 * @return The list of GeoResults returned from the database
+	 */
 	@Override
-	public GeoResults<Ride> findAvailableRides(String index, LocalDateTime startDate, Point point, Distance distance) {
-		String indexName = mongoTemplate.indexOps("ride").ensureIndex(new GeospatialIndex(index));
+	public GeoResults<Ride> findAvailableRides(String index, LocalDateTime startDate, Point point) {
+		String indexName = mongoTemplate.indexOps(Constants.RIDECOLLECTION).ensureIndex(new GeospatialIndex(index));
 		Query query = new Query();
-		Criteria criteria = Criteria.where("startDate").lte(startDate);
-		query.addCriteria(criteria);
+		Criteria time = Criteria.where(Constants.STARTDATE).lte(startDate);
+		Criteria status = Criteria.where(Constants.RIDESTATUS).is(RideStatus.AVAILABLE);
+		query.addCriteria(time);
+		query.addCriteria(status);
 		NearQuery near = NearQuery.near(point);
 		near.query(query);
 		near.spherical(true);
 		near.inKilometers();
-		near.maxDistance(distance);
+		// If the radius should be set dynamically, this parameter must be passed through and not set here.
+		near.maxDistance(new Distance(30));
 		GeoResults<Ride> results = mongoTemplate.geoNear(near, Ride.class);
-		mongoTemplate.indexOps("ride").dropIndex(indexName);
+		mongoTemplate.indexOps(Constants.RIDECOLLECTION).dropIndex(indexName);
 		return results;
 	}
 }

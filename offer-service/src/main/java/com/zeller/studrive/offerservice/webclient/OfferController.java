@@ -1,6 +1,6 @@
 package com.zeller.studrive.offerservice.webclient;
 
-import com.zeller.studrive.offerservice.model.AvailableResponse;
+import com.zeller.studrive.offerservice.model.AvailableRequest;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.service.RideService;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +34,19 @@ public class OfferController {
 	}
 
 	@PostMapping(path = "/available")
-	public List<Ride> getAvailableRides(@RequestBody AvailableResponse availableResponse) {
-		rideService.findAvailableRide(availableResponse.getStartDate(), availableResponse.getStart(), availableResponse.getDestination());
-		return null;
+	public List<Ride> findAvailableRide(@RequestBody AvailableRequest availableRequest) {
+		return rideService.getAvailableRide(availableRequest.getStartDate(), availableRequest.getStart(),
+				availableRequest.getDestination());
 	}
 
-	@GetMapping(path = "/drivers/{driverId}")
-	public List<Ride> getRidesByDriver(@PathVariable Long driverId) {
+	@GetMapping(path = "/{driverId}/driver")
+	public List<Ride> findRidesByDriver(@PathVariable Long driverId) {
 		return rideService.findRidesByDriver(driverId);
+	}
+
+	@GetMapping(path = "/{rideId}/seats")
+	public boolean verifyRideSeats(@PathVariable String rideId) {
+		return rideService.verifyRideSeats(rideId);
 	}
 
 }

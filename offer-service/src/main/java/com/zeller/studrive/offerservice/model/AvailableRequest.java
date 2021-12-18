@@ -2,7 +2,7 @@ package com.zeller.studrive.offerservice.model;
 
 import java.time.LocalDate;
 
-public class AvailableResponse {
+public class AvailableRequest {
 	private Address start;
 	private Address destination;
 	private LocalDate startDate;
