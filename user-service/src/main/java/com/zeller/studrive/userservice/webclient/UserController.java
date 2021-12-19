@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequestMapping(path = "/v1/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping(path = "/{userId}")
     public Optional<User> findUserById(@PathVariable Long userId) {
-        return userService.findById(userId);
+        return userService.getById(userId);
     }
 
     @PutMapping(path = "/{userId}/paymentDetails")

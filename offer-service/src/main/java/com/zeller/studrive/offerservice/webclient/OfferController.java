@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequestMapping(path = "/v1/rides")
 public class OfferController {
 
-	private RideService rideService;
+	private final RideService rideService;
 
 	public OfferController(RideService rideService) {
 		this.rideService = rideService;
@@ -39,15 +39,14 @@ public class OfferController {
 				availableRequest.getDestination());
 	}
 
-	@GetMapping(path = "/{driverId}/driver")
+	@GetMapping(path = "/driver/{driverId}")
 	public List<Ride> findRidesByDriver(@PathVariable Long driverId) {
-		return rideService.findRidesByDriver(driverId);
+		return rideService.getRidesByDriver(driverId);
 	}
 
 	@GetMapping(path = "/{rideId}/seats")
 	public boolean verifyRideSeats(@PathVariable String rideId) {
 		return rideService.verifyRideSeats(rideId);
 	}
-
 }
 

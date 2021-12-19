@@ -31,7 +31,7 @@ public class UserService {
 	 * @param id - The id of the user
 	 * @return the user
 	 */
-	public Optional<User> findById(Long id) {
+	public Optional<User> getById(Long id) {
 		return userRepository.findById(id);
 	}
 

@@ -69,7 +69,7 @@ public class RideService {
 		Optional<Ride> rideTemp = this.rideRepository.findById(id);
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
-			if(validateTime(ride.getEndDate(), 1) &&
+			if(validateTime(ride.getEndDate()) &&
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
 				// TODO Async Sitzplätze aktualisieren
@@ -85,7 +85,7 @@ public class RideService {
 	 * @param driverId - The id of the driver whose trips should be returned
 	 * @return The list of rides for the passed driver
 	 */
-	public List<Ride> findRidesByDriver(Long driverId) {
+	public List<Ride> getRidesByDriver(Long driverId) {
 		return rideRepository.findRidesByDriverId(driverId);
 	}
 
@@ -135,14 +135,13 @@ public class RideService {
 	}
 
 	/**
-	 * Checks if the passed time plus the number of days is greater than or equal to the current time
+	 * Checks if the passed time plus one day is greater than or equal to the current time
 	 *
 	 * @param time - The time to be checked
-	 * @param days - The days that should be added to the time
 	 * @return true if the passed time plus days is greater than or equal to the current time, false if not
 	 */
-	private boolean validateTime(LocalDateTime time, int days) {
-		return time.plusDays(days).isAfter(LocalDateTime.now());
+	private boolean validateTime(LocalDateTime time) {
+		return time.plusDays(1).isAfter(LocalDateTime.now());
 	}
 
 	/**

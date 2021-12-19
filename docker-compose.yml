@@ -53,6 +53,11 @@ services:
     build: ./offer-service
     ports:
       - "9002:8080"
+  #order-service
+  order-service:
+    build: ./order-service
+    ports:
+      - "9003:8080"
 
 volumes:
   mongodbdata: {}
