@@ -1,5 +1,6 @@
 package com.zeller.studrive.orderservice.service;
 
+import com.zeller.studrive.orderservice.basic.RequestClient;
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.model.SeatStatus;
 import com.zeller.studrive.orderservice.repository.SeatRepository;
@@ -15,6 +16,9 @@ public class SeatService {
 	@Autowired
 	private SeatRepository seatRepository;
 
+	@Autowired
+	private RequestClient requestClient;
+
 	/**
 	 * Checks if the passed seat is a new entry in the database.
 	 * If yes, it will be saved, if not, the existing entry will be updated.
@@ -23,7 +27,11 @@ public class SeatService {
 	 * @return the newly created seat
 	 */
 	public Seat bookSeat(Seat seat) {
-		return seatRepository.save(seat);
+		if(requestClient.verifyRideSeats(seat.getRideId()) && requestClient.verifyPaymentDetail(seat.getPassengerId())) {
+			seat = seatRepository.save(seat);
+		}
+		// TODO Keine optimale Lösung
+		return seat;
 	}
 
 	public Optional<Seat> cancelSeat(String seatId) {

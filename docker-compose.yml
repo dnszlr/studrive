@@ -43,6 +43,19 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@studrive.com
       - PGADMIN_DEFAULT_PASSWORD=admin
+  #rabbitmq
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
   #user-service
   user-service:
     build: ./user-service
@@ -60,11 +73,5 @@ services:
       - "9003:8080"
 
 volumes:
-  mongodbdata: {}
-  postgresdata: {}
-
-networks:
-  mongo:
-    name: mongodb-network
-  postgres:
-    name: postgres-network
+  mongodbdata: { }
+  postgresdata: { }

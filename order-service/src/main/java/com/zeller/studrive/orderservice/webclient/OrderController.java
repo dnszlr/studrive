@@ -4,7 +4,6 @@ import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.service.SeatService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

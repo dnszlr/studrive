@@ -1,4 +1,4 @@
-package com.zeller.studrive.offerservice.helper;
+package com.zeller.studrive.offerservice.basic;
 
 import com.zeller.studrive.offerservice.model.Address;
 import org.json.JSONArray;
@@ -13,16 +13,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.time.Duration;
 
 @Service
-public class MapboxGeocoding {
+public class MapboxClient {
+
 	private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);
 
 	@Autowired
-	private final WebClient apiClient;
-	private final String mapboxToken = "sk.eyJ1IjoibWthbGFzaCIsImEiOiJja3AyYWVsNm0xMjltMndsZ3FqZXhnZG11In0.G0zqmJ50IGR31LpPx82LNg";
-	Logger logger = LoggerFactory.getLogger(MapboxGeocoding.class);
+	private final WebClient mapboxClient;
+	Logger logger = LoggerFactory.getLogger(MapboxClient.class);
 
-	public MapboxGeocoding(WebClient apiClient) {
-		this.apiClient = apiClient;
+	public MapboxClient(WebClient mapboxClient) {
+		this.mapboxClient = mapboxClient;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class MapboxGeocoding {
 	public boolean getGeodata(Address address) {
 		boolean result = false;
 		String response =
-				apiClient.get().uri(Constants.SLASH + address.getQueryString() + Constants.TOKENEXT + Constants.MAPBOXTOKEN + Constants.LIMIT)
+				mapboxClient.get().uri(Constant.SLASH + address.getQueryString() + Constant.TOKENEXT + Constant.MAPBOXTOKEN + Constant.LIMIT)
 						.accept(MediaType.APPLICATION_JSON)
 						.retrieve()
 						.bodyToMono(String.class)

@@ -1,7 +1,7 @@
 package com.zeller.studrive.offerservice.service;
 
-import com.zeller.studrive.offerservice.helper.Constants;
-import com.zeller.studrive.offerservice.helper.MapboxGeocoding;
+import com.zeller.studrive.offerservice.basic.Constant;
+import com.zeller.studrive.offerservice.basic.MapboxClient;
 import com.zeller.studrive.offerservice.model.Address;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
@@ -23,7 +23,7 @@ public class RideService {
 	@Autowired
 	private RideRepository rideRepository;
 	@Autowired
-	private MapboxGeocoding mapboxGeocoding;
+	private MapboxClient mapboxClient;
 
 	/**
 	 * Checks if the passed ride is a new entry in the database.
@@ -35,8 +35,8 @@ public class RideService {
 	public Ride offerRide(Ride ride) {
 		// TODO Validation der übergebenen Werte
 		ride.setRideStatus(RideStatus.AVAILABLE);
-		mapboxGeocoding.getGeodata(ride.getStart());
-		mapboxGeocoding.getGeodata(ride.getDestination());
+		mapboxClient.getGeodata(ride.getStart());
+		mapboxClient.getGeodata(ride.getDestination());
 		return this.rideRepository.save(ride);
 	}
 
@@ -52,7 +52,6 @@ public class RideService {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
 			// TODO Async Sitzplätze aktualisieren
-			// TODO Benachrichtungen an Mitfahrer?
 			this.rideRepository.save(ride);
 		}
 		return rideTemp;
@@ -112,8 +111,8 @@ public class RideService {
 		LocalDateTime ldt = LocalDateTime.of(startDate, LocalTime.of(0, 0, 0));
 		// It is not possible to perform the query for both addresses at the same time, so one must be performed first and then the other.
 		// Therefore, the results must be combined afterwards.
-		List<Ride> startResult = getAvailableRidesList(Constants.STARTINDEX, ldt, start);
-		List<Ride> destinationResult = getAvailableRidesList(Constants.DESTINATIONINDEX, ldt, destination);
+		List<Ride> startResult = getAvailableRidesList(Constant.STARTINDEX, ldt, start);
+		List<Ride> destinationResult = getAvailableRidesList(Constant.DESTINATIONINDEX, ldt, destination);
 		startResult.retainAll(destinationResult);
 		return startResult;
 	}
@@ -127,7 +126,7 @@ public class RideService {
 	 * @return The list of available rides for the passed values
 	 */
 	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
-		mapboxGeocoding.getGeodata(address);
+		mapboxClient.getGeodata(address);
 		double[] coords = address.getCoordinates();
 		Point point = new Point(coords[0], coords[1]);
 		List<GeoResult<Ride>> result = rideRepository.findAvailableRides(index, formatted, point).getContent();

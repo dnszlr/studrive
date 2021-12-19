@@ -1,8 +1,9 @@
-package com.zeller.studrive.offerservice.helper;
+package com.zeller.studrive.offerservice.basic;
 
-public class Constants {
+public class Constant {
 
-	// Tokens
+	// Mapbox
+	public static final String MAPBOXAPI = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 	public static final String MAPBOXTOKEN = "sk.eyJ1IjoibWthbGFzaCIsImEiOiJja3AyYWVsNm0xMjltMndsZ3FqZXhnZG11In0.G0zqmJ50IGR31LpPx82LNg";
 
 	// Query parameters
