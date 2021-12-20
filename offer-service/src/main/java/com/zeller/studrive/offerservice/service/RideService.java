@@ -2,6 +2,7 @@ package com.zeller.studrive.offerservice.service;
 
 import com.zeller.studrive.offerservice.basic.Constant;
 import com.zeller.studrive.offerservice.basic.MapboxClient;
+import com.zeller.studrive.offerservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.offerservice.model.Address;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
@@ -22,6 +23,8 @@ public class RideService {
 
 	@Autowired
 	private RideRepository rideRepository;
+	@Autowired
+	private TaskSender taskSender;
 	@Autowired
 	private MapboxClient mapboxClient;
 
@@ -51,7 +54,8 @@ public class RideService {
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
-			// TODO Async Sitzplätze aktualisieren
+			// TODO Wie unterscheiden zwischen cancel und close?
+			taskSender.cancelSeats(ride.getId());
 			this.rideRepository.save(ride);
 		}
 		return rideTemp;
@@ -71,7 +75,8 @@ public class RideService {
 			if(validateTime(ride.getEndDate()) &&
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
-				// TODO Async Sitzplätze aktualisieren
+				// TODO Wie unterscheiden zwischen cancel und close?
+				taskSender.closeSeats(ride.getId());
 				this.rideRepository.save(ride);
 			}
 		}

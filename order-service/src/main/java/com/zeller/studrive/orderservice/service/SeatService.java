@@ -1,6 +1,7 @@
 package com.zeller.studrive.orderservice.service;
 
 import com.zeller.studrive.orderservice.basic.RequestClient;
+import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.model.SeatStatus;
 import com.zeller.studrive.orderservice.repository.SeatRepository;
@@ -15,7 +16,8 @@ public class SeatService {
 
 	@Autowired
 	private SeatRepository seatRepository;
-
+	@Autowired
+	private TaskSender taskSender;
 	@Autowired
 	private RequestClient requestClient;
 
@@ -40,8 +42,7 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			boolean validStatus = false;
 			if(checkSeatStatus(seat, SeatStatus.ACCEPTED)) {
-				// TODO Rechnung löschen
-				// TODO Fahrt aktualisieren
+				taskSender.cancelOperation(seat.getId());
 				validStatus = true;
 			}
 			if(validStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
@@ -56,6 +57,9 @@ public class SeatService {
 		Optional<Seat> seatTemp = seatRepository.findById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
+			seat.setSeatStatus(SeatStatus.ACCEPTED);
+			seatRepository.save(seat);
+			taskSender.acceptOperation(seat.getId());
 		}
 		return seatTemp;
 	}
@@ -67,6 +71,7 @@ public class SeatService {
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.DENIED);
 				seatRepository.save(seat);
+				taskSender.declineOperation(seat.getId());
 			}
 		}
 		return seatTemp;

@@ -13,11 +13,9 @@ import java.util.Optional;
 public class OrderController {
 
 	private final SeatService seatService;
-	private final TaskSender taskSender;
 
-	public OrderController(SeatService seatService, TaskSender taskSender) {
+	public OrderController(SeatService seatService) {
 		this.seatService = seatService;
-		this.taskSender = taskSender;
 	}
 
 	@PostMapping(path = "/")
@@ -48,10 +46,5 @@ public class OrderController {
 	@GetMapping(path = "/ride/{rideId}")
 	public List<Seat> findSeatsByRide(@PathVariable String rideId) {
 		return seatService.getSeatsByRide(rideId);
-	}
-
-	@GetMapping(path = "/rabbit")
-	public void rabbit() {
-		taskSender.send();
 	}
 }
