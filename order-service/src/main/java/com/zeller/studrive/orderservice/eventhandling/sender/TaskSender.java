@@ -22,7 +22,7 @@ public class TaskSender {
 	public void send() {
 		String message = "Hallo von order.service";
 		//template.convertAndSend(directExchange.getName(), Constant.TO_ACCOUNTING_KEY, message);
-		template.convertAndSend(directExchange.getName(), "offer.order.key", message);
+		template.convertAndSend(directExchange.getName(), "orderToOffer.key", message);
 		logger.info("Message send: " + message);
 	}
 }

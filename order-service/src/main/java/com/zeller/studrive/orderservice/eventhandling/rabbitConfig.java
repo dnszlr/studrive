@@ -19,7 +19,7 @@ public class rabbitConfig {
 
 		@Bean
 		public Queue offerQueue() {
-			return new Queue(Constant.OFFER_ORDER_QUEUE);
+			return new Queue("orderToOffer.queue");
 		}
 
 		@Bean
@@ -27,7 +27,7 @@ public class rabbitConfig {
 									Queue offerQueue) {
 			return BindingBuilder.bind(offerQueue)
 					.to(direct)
-					.with(Constant.FROM_OFFER_KEY);
+					.with("orderToOffer.key");
 		}
 
 		@Bean

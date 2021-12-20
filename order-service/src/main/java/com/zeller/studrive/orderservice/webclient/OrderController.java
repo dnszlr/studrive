@@ -1,5 +1,6 @@
 package com.zeller.studrive.orderservice.webclient;
 
+import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.service.SeatService;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class OrderController {
 
 	private final SeatService seatService;
+	private final TaskSender taskSender;
 
-	public OrderController(SeatService seatService) {
+	public OrderController(SeatService seatService, TaskSender taskSender) {
 		this.seatService = seatService;
+		this.taskSender = taskSender;
 	}
 
 	@PostMapping(path = "/")
@@ -47,4 +50,8 @@ public class OrderController {
 		return seatService.getSeatsByRide(rideId);
 	}
 
+	@GetMapping(path = "/rabbit")
+	public void rabbit() {
+		taskSender.send();
+	}
 }

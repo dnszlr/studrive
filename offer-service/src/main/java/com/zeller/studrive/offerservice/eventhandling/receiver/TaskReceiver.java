@@ -9,7 +9,7 @@ public class TaskReceiver {
 
 	Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
 
-	@RabbitListener(queues = "offer.order.queue")
+	@RabbitListener(queues = "orderToOffer.queue")
 	public void receive(String in) {
 		receive(in, 1);
 	}
