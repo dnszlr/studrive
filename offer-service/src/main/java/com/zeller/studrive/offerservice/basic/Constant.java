@@ -17,4 +17,10 @@ public class Constant {
 	public static final String STARTDATE = "startDate";
 	public static final String STARTINDEX = "start.coordinates";
 	public static final String DESTINATIONINDEX = "destination.coordinates";
+
+	// Rabbitmq
+	public static final String DIRECT = "offer.service";
+	public static final String TO_ORDER_KEY = "offer.order.key";
+	public static final String FROM_ORDER_KEY = "order.offer.key";
+	public static final String ORDER_OFFER_QUEUE = "order.offer.queue";
 }

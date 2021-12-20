@@ -1,5 +1,6 @@
 package com.zeller.studrive.offerservice.webclient;
 
+import com.zeller.studrive.offerservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.offerservice.model.AvailableRequest;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.service.RideService;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class OfferController {
 
 	private final RideService rideService;
+	private final TaskSender taskSender;
 
-	public OfferController(RideService rideService) {
+	public OfferController(RideService rideService, TaskSender taskSender) {
 		this.rideService = rideService;
+		this.taskSender = taskSender;
 	}
 
 	@PostMapping(path = "/")
@@ -47,6 +50,11 @@ public class OfferController {
 	@GetMapping(path = "/{rideId}/seats")
 	public boolean verifyRideSeats(@PathVariable String rideId) {
 		return rideService.verifyRideSeats(rideId);
+	}
+
+	@GetMapping(path = "/rabbit")
+	public void rabbit() {
+		taskSender.send();
 	}
 }
 

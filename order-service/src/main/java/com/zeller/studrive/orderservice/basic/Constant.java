@@ -11,4 +11,11 @@ public class Constant {
 	public static final String SLASH = "/";
 	public static final String SEATS = "seats";
 	public static final String VERIFY = "verify";
+
+	// Rabbitmq
+	public static final String DIRECT = "order.service";
+	public static final String TO_OFFER_KEY = "order.offer.key";
+	public static final String TO_ACCOUNTING_KEY = "order.accounting.key";
+	public static final String FROM_OFFER_KEY = "offer.order.key";
+	public static final String OFFER_ORDER_QUEUE = "offer.order.queue";
 }

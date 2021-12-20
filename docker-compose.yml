@@ -71,6 +71,11 @@ services:
     build: ./order-service
     ports:
       - "9003:8080"
+  #accounting-service
+  accounting-service:
+    build: ./accounting-service
+    ports:
+      - "9004:8080"
 
 volumes:
   mongodbdata: { }

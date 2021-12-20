@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/accounting-service" />
             <option value="$PROJECT_DIR$/offer-service" />
             <option value="$PROJECT_DIR$/openapi-config" />
             <option value="$PROJECT_DIR$/order-service" />
