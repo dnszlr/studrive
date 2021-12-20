@@ -20,7 +20,4 @@ public class Constant {
 
 	// Rabbitmq
 	public static final String DIRECT = "offer.service";
-	public static final String TO_ORDER_KEY = "offer.order.key";
-	public static final String FROM_ORDER_KEY = "order.offer.key";
-	public static final String ORDER_OFFER_QUEUE = "order.offer.queue";
 }

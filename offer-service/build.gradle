@@ -13,4 +13,5 @@ dependencies {
     implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-amqp:2.6.1'
     implementation project(":openapi-config")
+    implementation project(":rabbitmq-data")
 }

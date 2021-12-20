@@ -1,6 +1,7 @@
 package com.zeller.studrive.orderservice.eventhandling.sender;
 
 import com.zeller.studrive.orderservice.basic.Constant;
+import com.zeller.studrive.rabbitmqdata.OrderServiceConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
@@ -21,8 +22,8 @@ public class TaskSender {
 	@Scheduled(fixedDelay = 1000, initialDelay = 500)
 	public void send() {
 		String message = "Hallo von order.service";
-		template.convertAndSend(directExchange.getName(), "orderToAccounting.key", message);
-		template.convertAndSend(directExchange.getName(), "orderToOffer.key", message);
+		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_ACCOUNTING_KEY, message);
+		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_OFFER_KEY, message);
 		logger.info("Message send: " + message);
 	}
 }

@@ -1,5 +1,6 @@
 package com.zeller.studrive.accountingservice.eventhandling.receiver;
 
+import com.zeller.studrive.rabbitmqdata.OrderServiceConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -8,7 +9,7 @@ public class TaskReceiver {
 
 	Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
 
-	@RabbitListener(queues = "orderToAccounting.queue")
+	@RabbitListener(queues = OrderServiceConstant.ORDER_TO_ACCOUNTING_QUEUE)
 	public void receive(String in) {
 		receive(in, 1);
 	}
