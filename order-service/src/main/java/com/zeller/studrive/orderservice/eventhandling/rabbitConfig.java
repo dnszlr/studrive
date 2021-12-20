@@ -31,6 +31,19 @@ public class rabbitConfig {
 		}
 
 		@Bean
+		public Queue accountingQueue() {
+			return new Queue("orderToAccounting.queue");
+		}
+
+		@Bean
+		public Binding bindingAccounting(DirectExchange direct,
+									Queue accountingQueue) {
+			return BindingBuilder.bind(accountingQueue)
+					.to(direct)
+					.with("orderToAccounting.key");
+		}
+
+		@Bean
 		public TaskReceiver receiver() {
 			return new TaskReceiver();
 		}

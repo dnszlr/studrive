@@ -21,7 +21,7 @@ public class TaskSender {
 	@Scheduled(fixedDelay = 1000, initialDelay = 500)
 	public void send() {
 		String message = "Hallo von order.service";
-		//template.convertAndSend(directExchange.getName(), Constant.TO_ACCOUNTING_KEY, message);
+		template.convertAndSend(directExchange.getName(), "orderToAccounting.key", message);
 		template.convertAndSend(directExchange.getName(), "orderToOffer.key", message);
 		logger.info("Message send: " + message);
 	}
