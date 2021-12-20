@@ -2,13 +2,14 @@ package com.zeller.studrive.orderservice.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Objects;
 
 @Document
 public class Seat {
 
-	@Id
+	@Field("id")
 	private String id;
 	private Long passengerId;
 	private String rideId;

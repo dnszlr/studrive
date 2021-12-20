@@ -2,6 +2,7 @@ package com.zeller.studrive.offerservice.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 @Document
 public class Ride {
 
-    @Id
+    @Field("id")
     private String id;
     private Long driverId;
     private Address start;
