@@ -1,9 +1,8 @@
 package com.zeller.studrive.orderservice.eventhandling;
 
-import com.zeller.studrive.orderservice.basic.Constant;
 import com.zeller.studrive.orderservice.eventhandling.receiver.TaskReceiver;
 import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
-import com.zeller.studrive.rabbitmqdata.OrderServiceConstant;
+import com.zeller.studrive.orderservicemq.basic.RabbitMQConstant;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +12,14 @@ public class RabbitConfig {
 
 	@Bean
 	public DirectExchange direct() {
-		return new DirectExchange(OrderServiceConstant.ORDER_DIRECT);
+		return new DirectExchange(RabbitMQConstant.ORDER_DIRECT);
 	}
 
 	private static class ReceiverConfig {
 
 		@Bean
 		public Queue offerQueue() {
-			return new Queue(OrderServiceConstant.ORDER_TO_OFFER_QUEUE);
+			return new Queue(RabbitMQConstant.ORDER_TO_OFFER_QUEUE);
 		}
 
 		@Bean
@@ -28,20 +27,20 @@ public class RabbitConfig {
 									Queue offerQueue) {
 			return BindingBuilder.bind(offerQueue)
 					.to(direct)
-					.with(OrderServiceConstant.ORDER_TO_OFFER_KEY);
+					.with(RabbitMQConstant.ORDER_TO_OFFER_KEY);
 		}
 
 		@Bean
 		public Queue accountingQueue() {
-			return new Queue(OrderServiceConstant.ORDER_TO_ACCOUNTING_QUEUE);
+			return new Queue(RabbitMQConstant.ORDER_TO_ACCOUNTING_QUEUE);
 		}
 
 		@Bean
 		public Binding bindingAccounting(DirectExchange direct,
-									Queue accountingQueue) {
+										 Queue accountingQueue) {
 			return BindingBuilder.bind(accountingQueue)
 					.to(direct)
-					.with(OrderServiceConstant.ORDER_TO_ACCOUNTING_KEY);
+					.with(RabbitMQConstant.ORDER_TO_ACCOUNTING_KEY);
 		}
 
 		@Bean

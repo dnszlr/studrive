@@ -1,6 +1,6 @@
 package com.zeller.studrive.orderservice.eventhandling.sender;
 
-import com.zeller.studrive.rabbitmqdata.OrderServiceConstant;
+import com.zeller.studrive.orderservicemq.basic.RabbitMQConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
@@ -18,16 +18,16 @@ public class TaskSender {
 	private DirectExchange directExchange;
 
 	public void cancelOperation(String id) {
-		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_ACCOUNTING_KEY, id);
-		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_OFFER_KEY, id);
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ORDER_TO_ACCOUNTING_KEY, id);
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ORDER_TO_OFFER_KEY, id);
 	}
 
 	public void acceptOperation(String id) {
-		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_ACCOUNTING_KEY, id);
-		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_OFFER_KEY, id);
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ORDER_TO_ACCOUNTING_KEY, id);
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ORDER_TO_OFFER_KEY, id);
 	}
 
 	public void declineOperation(String id) {
-		template.convertAndSend(directExchange.getName(), OrderServiceConstant.ORDER_TO_OFFER_KEY, id);
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ORDER_TO_OFFER_KEY, id);
 	}
 }

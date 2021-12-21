@@ -1,9 +1,6 @@
-package com.zeller.studrive.rabbitmqdata;
+package com.zeller.studrive.orderservicemq.basic;
 
-/**
- * RabbitMQ order-service Routing Attributes (direct, queues, keys)
- */
-public class OrderServiceConstant {
+public class RabbitMQConstant {
 
 	// DIRECT
 	public static final String ORDER_DIRECT = "order.service";
