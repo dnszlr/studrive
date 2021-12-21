@@ -1,19 +1,18 @@
 package com.zeller.studrive.accoutingservicemq.eventmodel;
 
-import com.zeller.studrive.accoutingservicemq.basic.Operation;
 
-public class AccountCreated {
+import java.io.Serializable;
+
+public class AccountCreated implements Serializable {
 
 	private Long passengerId;
 	private String seatId;
 	private String rideId;
-	private final Operation created;
 
 	public AccountCreated(Long passengerId, String seatId, String rideId) {
 		this.passengerId = passengerId;
 		this.seatId = seatId;
 		this.rideId = rideId;
-		this.created = Operation.CREATED;
 	}
 
 	public Long getPassengerId() {
@@ -38,9 +37,5 @@ public class AccountCreated {
 
 	public void setRideId(String rideId) {
 		this.rideId = rideId;
-	}
-
-	public Operation getCreated() {
-		return created;
 	}
 }

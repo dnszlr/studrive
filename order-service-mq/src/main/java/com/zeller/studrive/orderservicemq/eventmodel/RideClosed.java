@@ -1,14 +1,12 @@
 package com.zeller.studrive.orderservicemq.eventmodel;
 
-import com.zeller.studrive.orderservicemq.basic.Operation;
+import java.io.Serializable;
 
-public class RideClosed {
+public class RideClosed implements Serializable {
 	private String rideId;
-	private final Operation closed;
 
 	public RideClosed(String rideId) {
 		this.rideId = rideId;
-		closed = Operation.CLOSED;
 	}
 
 	public String getRideId() {
@@ -17,9 +15,5 @@ public class RideClosed {
 
 	public void setRideId(String rideId) {
 		this.rideId = rideId;
-	}
-
-	public Operation getClosed() {
-		return closed;
 	}
 }

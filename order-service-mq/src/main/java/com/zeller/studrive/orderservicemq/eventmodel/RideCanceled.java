@@ -1,14 +1,12 @@
 package com.zeller.studrive.orderservicemq.eventmodel;
 
-import com.zeller.studrive.orderservicemq.basic.Operation;
+import java.io.Serializable;
 
-public class RideCanceled {
+public class RideCanceled implements Serializable {
 	private String rideId;
-	private final Operation canceled;
 
 	public RideCanceled(String rideId) {
 		this.rideId = rideId;
-		this.canceled = Operation.CANCELED;
 	}
 
 	public String getRideId() {
@@ -17,9 +15,5 @@ public class RideCanceled {
 
 	public void setRideId(String rideId) {
 		this.rideId = rideId;
-	}
-
-	public Operation getCanceled() {
-		return canceled;
 	}
 }

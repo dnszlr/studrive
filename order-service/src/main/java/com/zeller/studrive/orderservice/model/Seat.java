@@ -1,15 +1,19 @@
 package com.zeller.studrive.orderservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Objects;
 
 @Document
 public class Seat {
 
-	@Field("id")
+	@MongoId(value = FieldType.OBJECT_ID)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String id;
 	private Long passengerId;
 	private String rideId;

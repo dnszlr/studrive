@@ -1,15 +1,13 @@
 package com.zeller.studrive.offerservicemq.eventmodel;
 
-import com.zeller.studrive.offerservicemq.basic.Operation;
+import java.io.Serializable;
 
-public class SeatAccepted {
+public class SeatAccepted implements Serializable {
 
 	private String seatId;
-	private final Operation accepted;
 
 	public SeatAccepted(String seatId) {
 		this.seatId = seatId;
-		this.accepted = Operation.ACCEPTED;
 	}
 
 	public String getSeatId() {
@@ -18,9 +16,5 @@ public class SeatAccepted {
 
 	public void setSeatId(String seatId) {
 		this.seatId = seatId;
-	}
-
-	public Operation getAccepted() {
-		return accepted;
 	}
 }

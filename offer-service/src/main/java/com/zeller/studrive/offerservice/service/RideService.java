@@ -9,6 +9,8 @@ import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
 import com.zeller.studrive.orderservicemq.eventmodel.RideCanceled;
 import com.zeller.studrive.orderservicemq.eventmodel.RideClosed;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class RideService {
 	@Autowired
 	private MapboxClient mapboxClient;
 
+	Logger logger = LoggerFactory.getLogger(RideService.class);
+
 	/**
 	 * Checks if the passed ride is a new entry in the database.
 	 * If yes, it will be saved, if not, the existing entry will be updated.
@@ -38,7 +42,6 @@ public class RideService {
 	 * @return the newly created ride
 	 */
 	public Ride offerRide(Ride ride) {
-		// TODO Validation der übergebenen Werte
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		mapboxClient.getGeodata(ride.getStart());
 		mapboxClient.getGeodata(ride.getDestination());
@@ -52,7 +55,7 @@ public class RideService {
 	 * @return the canceled ride or null
 	 */
 	public Optional<Ride> cancelRide(String id) {
-		Optional<Ride> rideTemp = this.rideRepository.findById(id);
+		Optional<Ride> rideTemp = this.rideRepository.findRidesById(id);
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
@@ -70,7 +73,7 @@ public class RideService {
 	 * @return the closed ride or null
 	 */
 	public Optional<Ride> closeRide(String id) {
-		Optional<Ride> rideTemp = this.rideRepository.findById(id);
+		Optional<Ride> rideTemp = this.rideRepository.findRidesById(id);
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
 			if(validateTime(ride.getEndDate()) &&
@@ -100,7 +103,7 @@ public class RideService {
 	 * @return true if there are available seats, false if not
 	 */
 	public boolean verifyRideSeats(String rideId) {
-		Optional<Ride> rideTemp = rideRepository.findById(rideId);
+		Optional<Ride> rideTemp = rideRepository.findRidesById(rideId);
 		return rideTemp.isPresent() && checkRideStatus(rideTemp.get(), RideStatus.AVAILABLE);
 	}
 

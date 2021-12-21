@@ -41,7 +41,7 @@ public class SeatService {
 	}
 
 	public Optional<Seat> cancelSeat(String seatId) {
-		Optional<Seat> seatTemp = seatRepository.findById(seatId);
+		Optional<Seat> seatTemp = seatRepository.findSeatsById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
 			boolean validStatus = false;
@@ -58,7 +58,7 @@ public class SeatService {
 	}
 
 	public Optional<Seat> acceptSeat(String seatId) {
-		Optional<Seat> seatTemp = seatRepository.findById(seatId);
+		Optional<Seat> seatTemp = seatRepository.findSeatsById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
 			seat.setSeatStatus(SeatStatus.ACCEPTED);
@@ -70,7 +70,7 @@ public class SeatService {
 	}
 
 	public Optional<Seat> declineSeat(String seatId) {
-		Optional<Seat> seatTemp = seatRepository.findById(seatId);
+		Optional<Seat> seatTemp = seatRepository.findSeatsById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {

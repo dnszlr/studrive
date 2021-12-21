@@ -22,12 +22,13 @@ public class TaskSender {
 	private DirectExchange directExchange;
 
 	public void cancelSeat(SeatCanceled seatCanceled, AccountCanceled accountCanceled) {
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_SEAT_KEY, seatCanceled);
+		//template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_SEAT_KEY, seatCanceled);
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_ACCOUNTING_KEY, accountCanceled);
 	}
 
 	public void acceptSeat(SeatAccepted seatAccepted, AccountCreated accountCreated) {
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.ACCEPT_SEAT_KEY, seatAccepted);
+		logger.info("In sender: " + seatAccepted.getSeatId());
+		//template.convertAndSend(directExchange.getName(), RabbitMQConstant.ACCEPT_SEAT_KEY, seatAccepted);
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CREATE_ACCOUNTING_KEY, accountCreated);
 	}
 

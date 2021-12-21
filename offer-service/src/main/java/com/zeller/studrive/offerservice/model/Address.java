@@ -1,5 +1,7 @@
 package com.zeller.studrive.offerservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -9,6 +11,7 @@ public class Address {
 	private String postalCode;
 	private String street;
 	private int houseNumber;
+	@JsonIgnore
 	private double[] coordinates;
 
 	public Address(String city, String postalCode, String street, int houseNumber) {
