@@ -1,6 +1,8 @@
 package com.zeller.studrive.offerservice.eventhandling.sender;
 
 import com.zeller.studrive.offerservicemq.basic.RabbitMQConstant;
+import com.zeller.studrive.orderservicemq.eventmodel.RideCanceled;
+import com.zeller.studrive.orderservicemq.eventmodel.RideClosed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
@@ -17,11 +19,11 @@ public class TaskSender {
 	@Autowired
 	private DirectExchange directExchange;
 
-	public void cancelSeats(String id) {
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.OFFER_TO_ORDER_KEY, id);
+	public void cancelSeats(RideCanceled rideCanceled) {
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_RIDE_KEY, rideCanceled);
 	}
 
-	public void closeSeats(String id) {
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.OFFER_TO_ORDER_KEY, id);
+	public void closeSeats(RideClosed rideClosed) {
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CLOSE_RIDE_KEY, rideClosed);
 	}
 }

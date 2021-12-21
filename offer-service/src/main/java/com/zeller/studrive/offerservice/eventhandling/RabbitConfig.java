@@ -18,16 +18,29 @@ public class RabbitConfig {
 	private static class ReceiverConfig {
 
 		@Bean
-		public Queue orderQueue() {
-			return new Queue(RabbitMQConstant.OFFER_TO_ORDER_QUEUE);
+		public Queue cancelRideQueue() {
+			return new Queue(RabbitMQConstant.CANCEL_RIDE_QUEUE);
 		}
 
 		@Bean
-		public Binding bindingOffer(DirectExchange direct,
-									Queue orderQueue) {
-			return BindingBuilder.bind(orderQueue)
+		public Binding bindingCancelRide(DirectExchange direct,
+									Queue cancelRideQueue) {
+			return BindingBuilder.bind(cancelRideQueue)
 					.to(direct)
-					.with(RabbitMQConstant.OFFER_TO_ORDER_KEY);
+					.with(RabbitMQConstant.CANCEL_RIDE_KEY);
+		}
+
+		@Bean
+		public Queue closeRideQueue() {
+			return new Queue(RabbitMQConstant.CLOSE_RIDE_QUEUE);
+		}
+
+		@Bean
+		public Binding bindingCloseRide(DirectExchange direct,
+									Queue closeRideQueue) {
+			return BindingBuilder.bind(closeRideQueue)
+					.to(direct)
+					.with(RabbitMQConstant.CLOSE_RIDE_KEY);
 		}
 
 		@Bean

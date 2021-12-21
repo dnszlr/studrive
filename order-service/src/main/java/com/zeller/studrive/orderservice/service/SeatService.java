@@ -1,5 +1,9 @@
 package com.zeller.studrive.orderservice.service;
 
+import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCanceled;
+import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCreated;
+import com.zeller.studrive.offerservicemq.eventmodel.SeatAccepted;
+import com.zeller.studrive.offerservicemq.eventmodel.SeatCanceled;
 import com.zeller.studrive.orderservice.basic.RequestClient;
 import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
@@ -42,7 +46,7 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			boolean validStatus = false;
 			if(checkSeatStatus(seat, SeatStatus.ACCEPTED)) {
-				taskSender.cancelOperation(seat.getId());
+				taskSender.cancelSeat(new SeatCanceled(seat.getId()), new AccountCanceled(seat.getId()));
 				validStatus = true;
 			}
 			if(validStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
@@ -59,7 +63,8 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			seat.setSeatStatus(SeatStatus.ACCEPTED);
 			seatRepository.save(seat);
-			taskSender.acceptOperation(seat.getId());
+			taskSender.acceptSeat(new SeatAccepted(seat.getId()), new AccountCreated(seat.getPassengerId(), seat.getId(),
+					seat.getRideId()));
 		}
 		return seatTemp;
 	}
@@ -71,7 +76,6 @@ public class SeatService {
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.DENIED);
 				seatRepository.save(seat);
-				taskSender.declineOperation(seat.getId());
 			}
 		}
 		return seatTemp;

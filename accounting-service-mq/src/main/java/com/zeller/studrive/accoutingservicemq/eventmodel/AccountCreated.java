@@ -7,16 +7,12 @@ public class AccountCreated {
 	private Long passengerId;
 	private String seatId;
 	private String rideId;
-	private String paymentDetails;
-	private double amount;
 	private final Operation created;
 
-	public AccountCreated(Long passengerId, String seatId, String rideId, String paymentDetails, double amount) {
+	public AccountCreated(Long passengerId, String seatId, String rideId) {
 		this.passengerId = passengerId;
 		this.seatId = seatId;
 		this.rideId = rideId;
-		this.paymentDetails = paymentDetails;
-		this.amount = amount;
 		this.created = Operation.CREATED;
 	}
 
@@ -42,22 +38,6 @@ public class AccountCreated {
 
 	public void setRideId(String rideId) {
 		this.rideId = rideId;
-	}
-
-	public String getPaymentDetails() {
-		return paymentDetails;
-	}
-
-	public void setPaymentDetails(String paymentDetails) {
-		this.paymentDetails = paymentDetails;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public Operation getCreated() {

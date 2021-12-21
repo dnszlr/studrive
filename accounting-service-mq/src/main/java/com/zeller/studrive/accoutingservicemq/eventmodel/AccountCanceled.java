@@ -4,20 +4,20 @@ import com.zeller.studrive.accoutingservicemq.basic.Operation;
 
 public class AccountCanceled {
 
-	private Long accountId;
+	private String seatId;
 	private final Operation operation;
 
-	public AccountCanceled(Long accountId) {
-		this.accountId = accountId;
+	public AccountCanceled(String seatId) {
+		this.seatId = seatId;
 		this.operation = Operation.CANCELED;
 	}
 
-	public Long getAccountId() {
-		return accountId;
+	public String getSeatId() {
+		return seatId;
 	}
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
+	public void setAccountId(String seatId) {
+		this.seatId = seatId;
 	}
 
 	public Operation getOperation() {

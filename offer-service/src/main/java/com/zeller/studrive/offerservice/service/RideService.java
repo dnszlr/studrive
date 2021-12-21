@@ -7,6 +7,8 @@ import com.zeller.studrive.offerservice.model.Address;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
+import com.zeller.studrive.orderservicemq.eventmodel.RideCanceled;
+import com.zeller.studrive.orderservicemq.eventmodel.RideClosed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Service;
@@ -54,9 +56,8 @@ public class RideService {
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
-			// TODO Wie unterscheiden zwischen cancel und close?
-			taskSender.cancelSeats(ride.getId());
 			this.rideRepository.save(ride);
+			taskSender.cancelSeats(new RideCanceled(ride.getId()));
 		}
 		return rideTemp;
 	}
@@ -75,9 +76,8 @@ public class RideService {
 			if(validateTime(ride.getEndDate()) &&
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
-				// TODO Wie unterscheiden zwischen cancel und close?
-				taskSender.closeSeats(ride.getId());
 				this.rideRepository.save(ride);
+				taskSender.closeSeats(new RideClosed(ride.getId()));
 			}
 		}
 		return rideTemp;
