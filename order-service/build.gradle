@@ -15,5 +15,5 @@ dependencies {
     implementation project(":openapi-config")
     implementation project(":order-service-mq")
     implementation project(":offer-service-mq")
-
+    implementation project(":accounting-service-mq")
 }
