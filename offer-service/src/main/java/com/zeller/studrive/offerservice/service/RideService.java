@@ -7,8 +7,6 @@ import com.zeller.studrive.offerservice.model.Address;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
-import com.zeller.studrive.orderservicemq.eventmodel.RideCanceled;
-import com.zeller.studrive.orderservicemq.eventmodel.RideClosed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,10 @@ public class RideService {
 	private MapboxClient mapboxClient;
 
 	Logger logger = LoggerFactory.getLogger(RideService.class);
+
+	public Ride save(Ride ride) {
+		return rideRepository.save(ride);
+	}
 
 	/**
 	 * Checks if the passed ride is a new entry in the database.
@@ -60,7 +62,7 @@ public class RideService {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
 			this.rideRepository.save(ride);
-			taskSender.cancelSeats(new RideCanceled(ride.getId()));
+			taskSender.cancelRide(ride.getId());
 		}
 		return rideTemp;
 	}
@@ -80,7 +82,7 @@ public class RideService {
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
 				this.rideRepository.save(ride);
-				taskSender.closeSeats(new RideClosed(ride.getId()));
+				taskSender.closeRide(ride.getId());
 			}
 		}
 		return rideTemp;
@@ -123,6 +125,10 @@ public class RideService {
 		List<Ride> destinationResult = getAvailableRidesList(Constant.DESTINATIONINDEX, ldt, destination);
 		startResult.retainAll(destinationResult);
 		return startResult;
+	}
+
+	public Optional<Ride> findById(String rideId) {
+		return rideRepository.findRidesById(rideId);
 	}
 
 	/**

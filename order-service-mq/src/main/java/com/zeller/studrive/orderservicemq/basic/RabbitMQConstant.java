@@ -6,10 +6,10 @@ public class RabbitMQConstant {
 	public static final String ORDER_DIRECT = "order.service";
 
 	// TO OFFER-SERVICE
-	public static final String ACCEPT_SEAT_QUEUE = "accept.seat.queue";
-	public static final String ACCEPT_SEAT_KEY = "accept.seat.key";
-	public static final String CANCEL_SEAT_QUEUE = "cancel.seat.queue";
-	public static final String CANCEL_SEAT_KEY = "cancel.seat.key";
+	public static final String OCCUPY_RIDE_QUEUE = "occupy.ride.queue";
+	public static final String OCCUPY_RIDE_KEY = "occupy.ride.key";
+	public static final String FREE_RIDE_QUEUE = "free.ride.queue";
+	public static final String FREE_RIDE_KEY = "free.ride.key";
 
 	// TO ACCOUNTING-SERVICE
 	public static final String CREATE_ACCOUNTING_QUEUE = "create.accounting.queue";

@@ -1,6 +1,6 @@
 package com.zeller.studrive.accountingservice.model;
 
-import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCreated;
+import com.zeller.studrive.accoutingservicemq.eventmodel.CreateAccount;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -22,10 +22,10 @@ public class Accounting {
 	public Accounting() {
 	}
 
-	public Accounting(AccountCreated accountCreated) {
-		this.passengerId = accountCreated.getPassengerId();
-		this.seatId = accountCreated.getSeatId();
-		this.rideId = accountCreated.getRideId();
+	public Accounting(CreateAccount createAccount) {
+		this.passengerId = createAccount.getPassengerId();
+		this.seatId = createAccount.getSeatId();
+		this.rideId = createAccount.getRideId();
 		this.accountingStatus = AccountingStatus.OPEN;
 	}
 

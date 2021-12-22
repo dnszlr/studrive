@@ -18,31 +18,30 @@ public class RabbitConfig {
 	private static class ReceiverConfig {
 
 		@Bean
-		public Queue acceptSeatQueue() {
-			return new Queue(RabbitMQConstant.ACCEPT_SEAT_QUEUE);
+		public Queue updateRideQueue() {
+			return new Queue(RabbitMQConstant.OCCUPY_RIDE_QUEUE);
 		}
 
 		@Bean
-		public Binding bindingAcceptSeat(DirectExchange direct,
-									Queue acceptSeatQueue) {
-			return BindingBuilder.bind(acceptSeatQueue)
+		public Binding bindingUpdateRide(DirectExchange direct,
+										 Queue updateRideQueue) {
+			return BindingBuilder.bind(updateRideQueue)
 					.to(direct)
-					.with(RabbitMQConstant.ACCEPT_SEAT_KEY);
+					.with(RabbitMQConstant.OCCUPY_RIDE_KEY);
 		}
 
 		@Bean
-		public Queue cancelSeatQueue() {
-			return new Queue(RabbitMQConstant.CANCEL_SEAT_QUEUE);
+		public Queue availableRideQueue() {
+			return new Queue(RabbitMQConstant.FREE_RIDE_QUEUE);
 		}
 
 		@Bean
-		public Binding bindingCancelSeat(DirectExchange direct,
-										 Queue cancelSeatQueue) {
-			return BindingBuilder.bind(cancelSeatQueue)
+		public Binding bindingAvailableRide(DirectExchange direct,
+											Queue availableRideQueue) {
+			return BindingBuilder.bind(availableRideQueue)
 					.to(direct)
-					.with(RabbitMQConstant.CANCEL_SEAT_KEY);
+					.with(RabbitMQConstant.FREE_RIDE_KEY);
 		}
-
 
 		@Bean
 		public Queue createAccountingQueue() {
@@ -51,7 +50,7 @@ public class RabbitConfig {
 
 		@Bean
 		public Binding bindingCreateAccounting(DirectExchange direct,
-										 Queue createAccountingQueue) {
+											   Queue createAccountingQueue) {
 			return BindingBuilder.bind(createAccountingQueue)
 					.to(direct)
 					.with(RabbitMQConstant.CREATE_ACCOUNTING_KEY);
@@ -64,7 +63,7 @@ public class RabbitConfig {
 
 		@Bean
 		public Binding bindingCancelAccounting(DirectExchange direct,
-										 Queue cancelAccountingQueue) {
+											   Queue cancelAccountingQueue) {
 			return BindingBuilder.bind(cancelAccountingQueue)
 					.to(direct)
 					.with(RabbitMQConstant.CANCEL_ACCOUNTING_KEY);

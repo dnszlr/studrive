@@ -1,9 +1,9 @@
 package com.zeller.studrive.orderservice.eventhandling.sender;
 
-import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCanceled;
-import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCreated;
-import com.zeller.studrive.offerservicemq.eventmodel.SeatAccepted;
-import com.zeller.studrive.offerservicemq.eventmodel.SeatCanceled;
+import com.zeller.studrive.accoutingservicemq.eventmodel.CancelAccount;
+import com.zeller.studrive.accoutingservicemq.eventmodel.CreateAccount;
+import com.zeller.studrive.offerservicemq.eventmodel.FreeRide;
+import com.zeller.studrive.offerservicemq.eventmodel.OccupyRide;
 import com.zeller.studrive.orderservicemq.basic.RabbitMQConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +21,14 @@ public class TaskSender {
 	@Autowired
 	private DirectExchange directExchange;
 
-	public void cancelSeat(SeatCanceled seatCanceled, AccountCanceled accountCanceled) {
-		//template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_SEAT_KEY, seatCanceled);
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_ACCOUNTING_KEY, accountCanceled);
+	public void cancelSeat(String rideId, CancelAccount cancelAccount) {
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.FREE_RIDE_KEY, new FreeRide(rideId));
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_ACCOUNTING_KEY, cancelAccount);
 	}
 
-	public void acceptSeat(SeatAccepted seatAccepted, AccountCreated accountCreated) {
-		logger.info("In sender: " + seatAccepted.getSeatId());
-		//template.convertAndSend(directExchange.getName(), RabbitMQConstant.ACCEPT_SEAT_KEY, seatAccepted);
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CREATE_ACCOUNTING_KEY, accountCreated);
+	public void acceptSeat(String rideId, CreateAccount createAccount, int currentSeats) {
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.OCCUPY_RIDE_KEY, new OccupyRide(rideId, currentSeats));
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CREATE_ACCOUNTING_KEY, createAccount);
 	}
 
 }

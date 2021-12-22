@@ -1,9 +1,7 @@
 package com.zeller.studrive.orderservice.service;
 
-import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCanceled;
-import com.zeller.studrive.accoutingservicemq.eventmodel.AccountCreated;
-import com.zeller.studrive.offerservicemq.eventmodel.SeatAccepted;
-import com.zeller.studrive.offerservicemq.eventmodel.SeatCanceled;
+import com.zeller.studrive.accoutingservicemq.eventmodel.CancelAccount;
+import com.zeller.studrive.accoutingservicemq.eventmodel.CreateAccount;
 import com.zeller.studrive.orderservice.basic.RequestClient;
 import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
@@ -24,6 +22,10 @@ public class SeatService {
 	private TaskSender taskSender;
 	@Autowired
 	private RequestClient requestClient;
+
+	public List<Seat> saveAll(List<Seat> seats) {
+		return seatRepository.saveAll(seats);
+	}
 
 	/**
 	 * Checks if the passed seat is a new entry in the database.
@@ -46,7 +48,7 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			boolean validStatus = false;
 			if(checkSeatStatus(seat, SeatStatus.ACCEPTED)) {
-				taskSender.cancelSeat(new SeatCanceled(seat.getId()), new AccountCanceled(seat.getId()));
+				taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
 				validStatus = true;
 			}
 			if(validStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
@@ -63,8 +65,9 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			seat.setSeatStatus(SeatStatus.ACCEPTED);
 			seatRepository.save(seat);
-			taskSender.acceptSeat(new SeatAccepted(seat.getId()), new AccountCreated(seat.getPassengerId(), seat.getId(),
-					seat.getRideId()));
+			String rideId = seat.getRideId();
+			CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId(), rideId);
+			taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
 		}
 		return seatTemp;
 	}
@@ -98,5 +101,9 @@ public class SeatService {
 	 */
 	private boolean checkSeatStatus(Seat seat, SeatStatus seatStatus) {
 		return seat.getSeatStatus() == seatStatus;
+	}
+
+	private int getCurrentSeats(String rideId) {
+		return seatRepository.findSeatsByRideId(rideId).size();
 	}
 }

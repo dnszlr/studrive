@@ -3,13 +3,13 @@ package com.zeller.studrive.accoutingservicemq.eventmodel;
 
 import java.io.Serializable;
 
-public class AccountCreated implements Serializable {
+public class CreateAccount implements Serializable {
 
 	private Long passengerId;
 	private String seatId;
 	private String rideId;
 
-	public AccountCreated(Long passengerId, String seatId, String rideId) {
+	public CreateAccount(Long passengerId, String seatId, String rideId) {
 		this.passengerId = passengerId;
 		this.seatId = seatId;
 		this.rideId = rideId;

@@ -2,11 +2,11 @@ package com.zeller.studrive.accoutingservicemq.eventmodel;
 
 import java.io.Serializable;
 
-public class AccountCanceled implements Serializable {
+public class CancelAccount implements Serializable {
 
 	private String seatId;
 
-	public AccountCanceled(String seatId) {
+	public CancelAccount(String seatId) {
 		this.seatId = seatId;
 	}
 

@@ -1,11 +1,12 @@
-package com.zeller.studrive.orderservicemq.eventmodel;
+package com.zeller.studrive.offerservicemq.eventmodel;
 
 import java.io.Serializable;
 
-public class RideCanceled implements Serializable {
+public class FreeRide implements Serializable {
+
 	private String rideId;
 
-	public RideCanceled(String rideId) {
+	public FreeRide(String rideId) {
 		this.rideId = rideId;
 	}
 
