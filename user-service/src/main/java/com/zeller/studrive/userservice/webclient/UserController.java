@@ -37,8 +37,17 @@ public class UserController {
 		return createResponseEntity(userService.updatePaymentDetails(userId, paymentDetails));
 	}
 
+	/**
+	 * Creates the appropriate ResponseEntity for the passed optional. If the optional contains null the HttpStatus NOT_FOUND is returned.
+	 * If the optional contains an entity, it will be returned with HttpStatus OK.
+	 *
+	 * @param user - The optional which contains either a user or null
+	 * @return A new response entity that provides information about the outcome of the operation
+	 */
 	private ResponseEntity<PaymentDetailsResponse> createResponseEntity(Optional<User> user) {
-		return user.map(value -> new ResponseEntity<>(new PaymentDetailsResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+		return user.map(value ->
+				new ResponseEntity<>(new PaymentDetailsResponse(value), HttpStatus.OK)).orElseGet(() ->
+				new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping(path = "/{userId}/verify")
