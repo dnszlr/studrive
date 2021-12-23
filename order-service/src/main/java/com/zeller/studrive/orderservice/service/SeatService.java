@@ -34,27 +34,25 @@ public class SeatService {
 	 * @param seat - the seat to be saved
 	 * @return the newly created seat
 	 */
-	public Seat bookSeat(Seat seat) {
+	public Optional<Seat> bookSeat(Seat seat) {
+		Optional<Seat> seatTemp = Optional.empty();
 		if(requestClient.verifyRideSeats(seat.getRideId()) && requestClient.verifyPaymentDetail(seat.getPassengerId())) {
-			seat = seatRepository.save(seat);
+			seatTemp = Optional.of(seatRepository.save(seat));
 		}
-		// TODO Keine optimale Lösung
-		return seat;
+		return seatTemp;
 	}
 
 	public Optional<Seat> cancelSeat(String seatId) {
 		Optional<Seat> seatTemp = seatRepository.findSeatsById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
-			boolean validStatus = false;
-			if(checkSeatStatus(seat, SeatStatus.ACCEPTED)) {
-				// TODO Darf erst nach dem speichern geschehen
-				taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
-				validStatus = true;
-			}
-			if(validStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
+			boolean acceptedStatus = checkSeatStatus(seat, SeatStatus.ACCEPTED);
+			if(acceptedStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.CANCELED);
 				seatRepository.save(seat);
+				if(acceptedStatus) {
+					taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
+				}
 			}
 		}
 		return seatTemp;

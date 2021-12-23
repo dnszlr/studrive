@@ -2,6 +2,8 @@ package com.zeller.studrive.orderservice.webclient;
 
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.service.SeatService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,26 +20,28 @@ public class OrderController {
 	}
 
 	@PostMapping(path = "/")
-	public Seat bookSeat(@RequestBody Seat seat) {
-		return seatService.bookSeat(seat);
+	public ResponseEntity<BookSeatResponse> bookSeat(@RequestBody Seat seat) {
+		Optional<Seat> seatTemp = seatService.bookSeat(seat);
+		return seatTemp.map(value -> new ResponseEntity<>(new BookSeatResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
 	}
 
-	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/cancel")
-	public Optional<Seat> cancelSeat(@PathVariable String seatId) {
-		return seatService.cancelSeat(seatId);
+	public ResponseEntity<StatusChangeResponse> cancelSeat(@PathVariable String seatId) {
+		return createResponseEntity(seatService.cancelSeat(seatId));
 	}
 
-	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/accept")
-	public Optional<Seat> acceptSeat(@PathVariable String seatId) {
-		return seatService.acceptSeat(seatId);
+	public ResponseEntity<StatusChangeResponse> acceptSeat(@PathVariable String seatId) {
+		return createResponseEntity(seatService.acceptSeat(seatId));
 	}
 
-	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/decline")
-	public Optional<Seat> declineSeat(@PathVariable String seatId) {
-		return seatService.declineSeat(seatId);
+	public ResponseEntity<StatusChangeResponse> declineSeat(@PathVariable String seatId) {
+		return createResponseEntity(seatService.declineSeat(seatId));
+	}
+
+	private ResponseEntity<StatusChangeResponse> createResponseEntity(Optional<Seat> seat) {
+		return seat.map(value -> new ResponseEntity<>(new StatusChangeResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@GetMapping(path = "/passenger/{passengerId}")

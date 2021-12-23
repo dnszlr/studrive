@@ -3,6 +3,8 @@ package com.zeller.studrive.offerservice.webclient;
 import com.zeller.studrive.offerservice.model.FindAvailableRequest;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.service.RideService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,20 +21,23 @@ public class OfferController {
 	}
 
 	@PostMapping(path = "/")
-	public Ride offerRide(@RequestBody Ride ride) {
-		return rideService.offerRide(ride);
+	public OfferRideResponse offerRide(@RequestBody Ride ride) {
+		Ride createdRide = rideService.offerRide(ride);
+		return new OfferRideResponse(createdRide.getId());
 	}
 
-	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{rideId}/cancel")
-	public Optional<Ride> cancelRide(@PathVariable String rideId) {
-		return rideService.cancelRide(rideId);
+	public ResponseEntity<StatusChangeResponse> cancelRide(@PathVariable String rideId) {
+		return createResponseEntity(rideService.cancelRide(rideId));
 	}
 
-	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{rideId}/close")
-	public Optional<Ride> closeRide(@PathVariable String rideId) {
-		return rideService.closeRide(rideId);
+	public ResponseEntity<StatusChangeResponse> closeRide(@PathVariable String rideId) {
+		return createResponseEntity(rideService.closeRide(rideId));
+	}
+
+	private ResponseEntity<StatusChangeResponse> createResponseEntity(Optional<Ride> ride) {
+		return ride.map(value -> new ResponseEntity<>(new StatusChangeResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PostMapping(path = "/available")
