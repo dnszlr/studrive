@@ -45,6 +45,8 @@ public class RideService {
 	 */
 	public Ride offerRide(Ride ride) {
 		// TODO was ist wenn Geodata nicht gefunden wird?
+		// TODO Überschneidungen noch machen?
+		// TODO Was ist mit validierung der Werte? (Datum in Zukunft und nicht überkreuz)
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		mapboxClient.getGeodata(ride.getStart());
 		mapboxClient.getGeodata(ride.getDestination());
@@ -74,7 +76,9 @@ public class RideService {
 			ride.setRideStatus(RideStatus.CANCELED);
 			// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
 			this.rideRepository.save(ride);
+			logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
 			taskSender.cancelRide(ride.getId());
+
 		}
 		return rideTemp;
 	}
@@ -95,6 +99,7 @@ public class RideService {
 				ride.setRideStatus(RideStatus.CLOSED);
 				// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
 				this.rideRepository.save(ride);
+				logger.info("RideService.closeRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
 				taskSender.closeRide(ride.getId());
 			}
 		}
@@ -137,6 +142,7 @@ public class RideService {
 		List<Ride> startResult = getAvailableRidesList(Constant.STARTINDEX, ldt, start);
 		List<Ride> destinationResult = getAvailableRidesList(Constant.DESTINATIONINDEX, ldt, destination);
 		startResult.retainAll(destinationResult);
+		logger.info(startResult.size() + " available rides were found");
 		return startResult;
 	}
 
@@ -149,6 +155,7 @@ public class RideService {
 	 * @return The list of available rides for the passed values
 	 */
 	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
+		// TODO was ist wenn Geodata nicht gefunden wird?
 		mapboxClient.getGeodata(address);
 		double[] coords = address.getCoordinates();
 		Point point = new Point(coords[0], coords[1]);

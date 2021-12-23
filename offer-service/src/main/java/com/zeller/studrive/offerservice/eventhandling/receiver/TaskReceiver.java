@@ -40,7 +40,7 @@ public class TaskReceiver {
 				rideService.save(ride);
 			}
 		} else {
-			logger.info("No ride with the id: " + occupyRide.getRideId() + " was found.");
+			logger.info("TaskReceiver.occupyRide: No ride with the was found.");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class TaskReceiver {
 				rideService.save(ride);
 			}
 		} else {
-			logger.info("No ride with the id: " + freeRide.getRideId() + " was found.");
+			logger.info("TaskReceiver.freeRide: No ride with the id was found.");
 		}
 	}
 }
