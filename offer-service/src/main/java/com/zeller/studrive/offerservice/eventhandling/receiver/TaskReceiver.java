@@ -25,6 +25,11 @@ public class TaskReceiver {
 	public TaskReceiver() {
 	}
 
+	/**
+	 * Subscribes to the RabbitMQ query through which a message is transmitted from the order-service if a seat is accepted.
+	 *
+	 * @param occupyRide - RabbitMQ message object that contains all the required information.
+	 */
 	@RabbitListener(queues = RabbitMQConstant.OCCUPY_RIDE_QUEUE)
 	public void occupyRide(OccupyRide occupyRide) {
 		Optional<Ride> rideTemp = rideService.findById(occupyRide.getRideId());
@@ -39,6 +44,11 @@ public class TaskReceiver {
 		}
 	}
 
+	/**
+	 * Subscribes to the RabbitMQ query through which a message is transmitted from the order-service if a seat is canceled.
+	 *
+	 * @param freeRide- RabbitMQ message object that contains all the required information.
+	 */
 	@RabbitListener(queues = RabbitMQConstant.FREE_RIDE_QUEUE)
 	public void freeRide(FreeRide freeRide) {
 		Optional<Ride> rideTemp = rideService.findById(freeRide.getRideId());

@@ -44,10 +44,21 @@ public class RideService {
 	 * @return the newly created ride
 	 */
 	public Ride offerRide(Ride ride) {
+		// TODO was ist wenn Geodata nicht gefunden wird?
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		mapboxClient.getGeodata(ride.getStart());
 		mapboxClient.getGeodata(ride.getDestination());
 		return this.rideRepository.save(ride);
+	}
+
+	/**
+	 * Returns the ride matching the passed id
+	 *
+	 * @param rideId - The id of the requested ride
+	 * @return The ride or null
+	 */
+	public Optional<Ride> findById(String rideId) {
+		return rideRepository.findRidesById(rideId);
 	}
 
 	/**
@@ -61,6 +72,7 @@ public class RideService {
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
 			ride.setRideStatus(RideStatus.CANCELED);
+			// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
 			this.rideRepository.save(ride);
 			taskSender.cancelRide(ride.getId());
 		}
@@ -81,6 +93,7 @@ public class RideService {
 			if(validateTime(ride.getEndDate()) &&
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
+				// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
 				this.rideRepository.save(ride);
 				taskSender.closeRide(ride.getId());
 			}
@@ -125,10 +138,6 @@ public class RideService {
 		List<Ride> destinationResult = getAvailableRidesList(Constant.DESTINATIONINDEX, ldt, destination);
 		startResult.retainAll(destinationResult);
 		return startResult;
-	}
-
-	public Optional<Ride> findById(String rideId) {
-		return rideRepository.findRidesById(rideId);
 	}
 
 	/**

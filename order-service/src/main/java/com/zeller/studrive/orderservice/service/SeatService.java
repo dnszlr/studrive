@@ -124,6 +124,7 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.DENIED);
+				// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
 				seatRepository.save(seat);
 				logger.info("SeatService.declineSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
 			}

@@ -26,7 +26,7 @@ public class TaskSender {
 	 * @param cancelAccount - The Rabbitmq message object that contains all the information for the accounting service
 	 */
 	public void cancelSeat(String rideId, CancelAccount cancelAccount) {
-		logger.info("TaskSender.cancelSeat: RabbitMQ cancel message send to accounting and offer-service");
+		logger.info("TaskSender.cancelSeat: RabbitMQ message send to accounting and offer-service");
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.FREE_RIDE_KEY, new FreeRide(rideId));
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_ACCOUNTING_KEY, cancelAccount);
 	}
@@ -39,7 +39,7 @@ public class TaskSender {
 	 * @param currentSeats  - The amount of seats currently assigned to this trip
 	 */
 	public void acceptSeat(String rideId, CreateAccount createAccount, int currentSeats) {
-		logger.info("TaskSender.acceptSeat: RabbitMQ accept message send to accounting and offer-service");
+		logger.info("TaskSender.acceptSeat: RabbitMQ message send to accounting and offer-service");
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.OCCUPY_RIDE_KEY, new OccupyRide(rideId, currentSeats));
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CREATE_ACCOUNTING_KEY, createAccount);
 	}

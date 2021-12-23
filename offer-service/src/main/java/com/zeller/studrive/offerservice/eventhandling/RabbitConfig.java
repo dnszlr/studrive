@@ -7,6 +7,10 @@ import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class configures the queues and keys for the communication via RabbitMQ. For this purpose the respective queues are defined here
+ * on which the class offer and with which key this happens.
+ */
 @Configuration
 public class RabbitConfig {
 
@@ -17,27 +21,31 @@ public class RabbitConfig {
 
 	private static class ReceiverConfig {
 
+		// Queue
 		@Bean
 		public Queue cancelSeatsQueue() {
 			return new Queue(RabbitMQConstant.CANCEL_SEATS_QUEUE);
 		}
 
+		// Key for Queue
 		@Bean
 		public Binding bindingCancelSeats(DirectExchange direct,
-									Queue cancelSeatsQueue) {
+										  Queue cancelSeatsQueue) {
 			return BindingBuilder.bind(cancelSeatsQueue)
 					.to(direct)
 					.with(RabbitMQConstant.CANCEL_SEATS_KEY);
 		}
 
+		// Queue
 		@Bean
 		public Queue closeSeatsQueue() {
 			return new Queue(RabbitMQConstant.CLOSE_SEATS_QUEUE);
 		}
 
+		// Key for Queue
 		@Bean
 		public Binding bindingCloseSeats(DirectExchange direct,
-									Queue closeSeatsQueue) {
+										 Queue closeSeatsQueue) {
 			return BindingBuilder.bind(closeSeatsQueue)
 					.to(direct)
 					.with(RabbitMQConstant.CLOSE_SEATS_KEY);

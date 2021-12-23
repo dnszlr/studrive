@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * This class configures the API endpoints to the external mapbox client. Using these endpoints, http requests can later be sent to the
+ * respective service via the web client.
+ */
 @Configuration
 public class WebClientConfig {
 

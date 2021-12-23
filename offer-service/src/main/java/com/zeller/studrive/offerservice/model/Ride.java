@@ -21,6 +21,7 @@ public class Ride {
     private LocalDateTime endDate;
     private Car car;
     private double pricePerSeat;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private RideStatus rideStatus;
 
     public Ride(Long driverId, Address start, Address destination, LocalDateTime startDate, LocalDateTime endDate, Car car, double pricePerSeat) {
