@@ -17,7 +17,4 @@ public class Constant {
 	public static final String STARTDATE = "startDate";
 	public static final String STARTINDEX = "start.coordinates";
 	public static final String DESTINATIONINDEX = "destination.coordinates";
-
-	// Rabbitmq
-	public static final String DIRECT = "offer.service";
 }

@@ -1,7 +1,6 @@
 package com.zeller.studrive.offerservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -13,7 +12,7 @@ import java.util.Objects;
 public class Ride {
 
     @MongoId(value = FieldType.OBJECT_ID)
-    @JsonProperty(access = Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     private Long driverId;
     private Address start;

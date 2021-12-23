@@ -1,5 +1,7 @@
 package com.zeller.studrive.userservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -23,6 +25,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Long getId() {
         return id;
     }

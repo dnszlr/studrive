@@ -1,6 +1,5 @@
 package com.zeller.studrive.orderservice.webclient;
 
-import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.service.SeatService;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +22,19 @@ public class OrderController {
 		return seatService.bookSeat(seat);
 	}
 
+	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/cancel")
 	public Optional<Seat> cancelSeat(@PathVariable String seatId) {
 		return seatService.cancelSeat(seatId);
 	}
 
+	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/accept")
 	public Optional<Seat> acceptSeat(@PathVariable String seatId) {
 		return seatService.acceptSeat(seatId);
 	}
 
+	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{seatId}/decline")
 	public Optional<Seat> declineSeat(@PathVariable String seatId) {
 		return seatService.declineSeat(seatId);

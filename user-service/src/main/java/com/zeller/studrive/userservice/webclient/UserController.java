@@ -27,6 +27,7 @@ public class UserController {
         return userService.getById(userId);
     }
 
+    // TODO NUR ID UND PAYMENTDETAILS
     @PutMapping(path = "/{userId}/paymentDetails")
     public Optional<User> updatePaymentDetails(@PathVariable Long userId, @RequestBody PaymentDetails paymentDetails) {
         return userService.updatePaymentDetails(userId, paymentDetails);

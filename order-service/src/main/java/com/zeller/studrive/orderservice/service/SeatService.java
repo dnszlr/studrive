@@ -48,6 +48,7 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			boolean validStatus = false;
 			if(checkSeatStatus(seat, SeatStatus.ACCEPTED)) {
+				// TODO Darf erst nach dem speichern geschehen
 				taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
 				validStatus = true;
 			}

@@ -1,7 +1,6 @@
 package com.zeller.studrive.offerservice.webclient;
 
-import com.zeller.studrive.offerservice.eventhandling.sender.TaskSender;
-import com.zeller.studrive.offerservice.model.AvailableRequest;
+import com.zeller.studrive.offerservice.model.FindAvailableRequest;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.service.RideService;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +23,22 @@ public class OfferController {
 		return rideService.offerRide(ride);
 	}
 
+	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{rideId}/cancel")
 	public Optional<Ride> cancelRide(@PathVariable String rideId) {
 		return rideService.cancelRide(rideId);
 	}
 
+	// TODO NUR ID UND STATUS
 	@PutMapping(path = "/{rideId}/close")
 	public Optional<Ride> closeRide(@PathVariable String rideId) {
 		return rideService.closeRide(rideId);
 	}
 
 	@PostMapping(path = "/available")
-	public List<Ride> findAvailableRide(@RequestBody AvailableRequest availableRequest) {
-		return rideService.getAvailableRide(availableRequest.getStartDate(), availableRequest.getStart(),
-				availableRequest.getDestination());
+	public List<Ride> findAvailableRide(@RequestBody FindAvailableRequest findAvailableRequest) {
+		return rideService.getAvailableRide(findAvailableRequest.getStartDate(), findAvailableRequest.getStart(),
+				findAvailableRequest.getDestination());
 	}
 
 	@GetMapping(path = "/driver/{driverId}")

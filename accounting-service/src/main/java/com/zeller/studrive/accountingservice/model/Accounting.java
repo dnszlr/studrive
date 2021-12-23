@@ -1,5 +1,6 @@
 package com.zeller.studrive.accountingservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zeller.studrive.accoutingservicemq.eventmodel.CreateAccount;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Accounting {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	public Long getId() {
 		return id;
 	}

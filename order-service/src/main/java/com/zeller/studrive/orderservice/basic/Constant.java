@@ -11,7 +11,4 @@ public class Constant {
 	public static final String SLASH = "/";
 	public static final String SEATS = "seats";
 	public static final String VERIFY = "verify";
-
-	// Rabbitmq
-	public static final String DIRECT = "order.service";
 }

@@ -5,15 +5,11 @@ import com.zeller.studrive.accoutingservicemq.eventmodel.CreateAccount;
 import com.zeller.studrive.offerservicemq.eventmodel.FreeRide;
 import com.zeller.studrive.offerservicemq.eventmodel.OccupyRide;
 import com.zeller.studrive.orderservicemq.basic.RabbitMQConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TaskSender {
-
-	Logger logger = LoggerFactory.getLogger(TaskSender.class);
 
 	@Autowired
 	private RabbitTemplate template;

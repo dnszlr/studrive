@@ -1,5 +1,7 @@
 package com.zeller.studrive.userservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -32,6 +34,7 @@ public class PaymentDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Long getId() {
         return id;
     }

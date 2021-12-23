@@ -14,7 +14,7 @@ import java.time.Duration;
 public class RequestClient {
 
 	private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);
-	Logger logger = LoggerFactory.getLogger(RequestClient.class);
+	final Logger logger = LoggerFactory.getLogger(RequestClient.class);
 
 	@Autowired
 	@Qualifier("userClient")

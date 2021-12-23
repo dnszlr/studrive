@@ -19,7 +19,7 @@ public class MapboxClient {
 
 	@Autowired
 	private final WebClient mapboxClient;
-	Logger logger = LoggerFactory.getLogger(MapboxClient.class);
+	final Logger logger = LoggerFactory.getLogger(MapboxClient.class);
 
 	public MapboxClient(WebClient mapboxClient) {
 		this.mapboxClient = mapboxClient;
