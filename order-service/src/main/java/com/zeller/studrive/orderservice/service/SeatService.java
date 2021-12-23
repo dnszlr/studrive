@@ -69,7 +69,7 @@ public class SeatService {
 			seat.setSeatStatus(SeatStatus.ACCEPTED);
 			seatRepository.save(seat);
 			String rideId = seat.getRideId();
-			CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId(), rideId);
+			CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
 			taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
 		}
 		return seatTemp;

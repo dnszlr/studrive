@@ -13,7 +13,6 @@ public class Accounting {
 	private Long id;
 	private Long passengerId;
 	private String seatId;
-	private String rideId;
 	@Enumerated(EnumType.STRING)
 	private AccountingStatus accountingStatus;
 
@@ -26,7 +25,6 @@ public class Accounting {
 	public Accounting(CreateAccount createAccount) {
 		this.passengerId = createAccount.getPassengerId();
 		this.seatId = createAccount.getSeatId();
-		this.rideId = createAccount.getRideId();
 		this.accountingStatus = AccountingStatus.OPEN;
 	}
 
@@ -59,15 +57,6 @@ public class Accounting {
 		this.seatId = seatId;
 	}
 
-	@Column(name = "ride")
-	public String getRideId() {
-		return rideId;
-	}
-
-	public void setRideId(String rideId) {
-		this.rideId = rideId;
-	}
-
 	@Column(name = "accountingStatus")
 	public AccountingStatus getAccountingStatus() {
 		return accountingStatus;
@@ -92,8 +81,6 @@ public class Accounting {
 			return false;
 		if(!Objects.equals(seatId, that.seatId))
 			return false;
-		if(!Objects.equals(rideId, that.rideId))
-			return false;
 		return accountingStatus == that.accountingStatus;
 	}
 
@@ -102,7 +89,6 @@ public class Accounting {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (passengerId != null ? passengerId.hashCode() : 0);
 		result = 31 * result + (seatId != null ? seatId.hashCode() : 0);
-		result = 31 * result + (rideId != null ? rideId.hashCode() : 0);
 		result = 31 * result + (accountingStatus != null ? accountingStatus.hashCode() : 0);
 		return result;
 	}

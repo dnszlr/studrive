@@ -7,12 +7,10 @@ public class CreateAccount implements Serializable {
 
 	private Long passengerId;
 	private String seatId;
-	private String rideId;
 
-	public CreateAccount(Long passengerId, String seatId, String rideId) {
+	public CreateAccount(Long passengerId, String seatId) {
 		this.passengerId = passengerId;
 		this.seatId = seatId;
-		this.rideId = rideId;
 	}
 
 	public Long getPassengerId() {
@@ -29,13 +27,5 @@ public class CreateAccount implements Serializable {
 
 	public void setSeatId(String seatId) {
 		this.seatId = seatId;
-	}
-
-	public String getRideId() {
-		return rideId;
-	}
-
-	public void setRideId(String rideId) {
-		this.rideId = rideId;
 	}
 }
