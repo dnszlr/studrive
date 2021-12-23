@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface SeatRepository extends MongoRepository<Seat, String> {
 
-	Optional<Seat> findSeatsById(String id);
+	Optional<Seat> findSeatById(String id);
 
 	List<Seat> findSeatsByPassengerId(Long passengerId);
 

@@ -25,6 +25,11 @@ public class OrderController {
 		return seatTemp.map(value -> new ResponseEntity<>(new BookSeatResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
 	}
 
+	@GetMapping(path = "/{seatId}")
+	public Optional<Seat> findRideById(@PathVariable String seatId) {
+		return seatService.findById(seatId);
+	}
+
 	@PutMapping(path = "/{seatId}/cancel")
 	public ResponseEntity<StatusChangeResponse> cancelSeat(@PathVariable String seatId) {
 		return createResponseEntity(seatService.cancelSeat(seatId));

@@ -26,6 +26,11 @@ public class OfferController {
 		return new OfferRideResponse(createdRide.getId());
 	}
 
+	@GetMapping(path = "/{rideId}")
+	public Optional<Ride> findRideById(@PathVariable String rideId) {
+		return rideService.findById(rideId);
+	}
+
 	@PutMapping(path = "/{rideId}/cancel")
 	public ResponseEntity<StatusChangeResponse> cancelRide(@PathVariable String rideId) {
 		return createResponseEntity(rideService.cancelRide(rideId));
