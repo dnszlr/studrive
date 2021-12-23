@@ -45,6 +45,13 @@ public class OrderController {
 		return createResponseEntity(seatService.declineSeat(seatId));
 	}
 
+	/**
+	 * Creates the appropriate ResponseEntity for the passed optional. If the optional contains null the HttpStatus NOT_FOUND is returned.
+	 * If the optional contains an entity, it will be returned with HttpStatus OK.
+	 *
+	 * @param seat - The optional which contains either a seat or null
+	 * @return A new response entity that provides information about the outcome of the operation
+	 */
 	private ResponseEntity<StatusChangeResponse> createResponseEntity(Optional<Seat> seat) {
 		return seat.map(value -> new ResponseEntity<>(new StatusChangeResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}

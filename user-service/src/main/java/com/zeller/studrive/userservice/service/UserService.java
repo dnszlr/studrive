@@ -53,7 +53,7 @@ public class UserService {
 			if(upd == null || !upd.attributeEquals(paymentDetails)) {
 				userEntity.setPaymentDetails(paymentDetails);
 				userRepository.save(userEntity);
-				logger.info("Payment information for the user with the id " + userEntity.getId() + " updated.");
+				logger.info("UserService.updatePaymentDetails: Payment information for the user with the id " + userEntity.getId() + " updated.");
 			}
 		}
 		return userTemp;

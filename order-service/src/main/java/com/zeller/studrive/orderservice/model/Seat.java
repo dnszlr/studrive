@@ -15,6 +15,7 @@ public class Seat {
 	private String id;
 	private Long passengerId;
 	private String rideId;
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private SeatStatus seatStatus;
 
 	public Seat(Long passengerId, String rideId, SeatStatus seatStatus) {

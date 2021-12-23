@@ -21,24 +21,42 @@ public class TaskReceiver {
 	@Autowired
 	private SeatService seatService;
 
+	/**
+	 * Subscribes to the RabbitMQ query through which a message is transmitted from the offer-service if a ride is cancelled.
+	 *
+	 * @param updateSeats - RabbitMQ message object that contains all the required information.
+	 */
 	@RabbitListener(queues = RabbitMQConstant.CANCEL_SEATS_QUEUE)
 	public void cancelSeats(UpdateSeats updateSeats) {
 		if(updateSeats.getOperation() == Operation.CANCEL) {
-			updateSeats(updateSeats.getRideId(), SeatStatus.CANCELED);
+			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CANCELED);
 		} else {
-			logger.info("Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CANCEL + " expected");
+			logger.info("TaskReceiver.cancelSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CANCEL + " " +
+					"expected");
 		}
 	}
 
+	/**
+	 * Subscribes to the RabbitMQ query through which a message is transmitted from the offer-service if a ride is closed.
+	 *
+	 * @param updateSeats - RabbitMQ message object that contains all the required information.
+	 */
 	@RabbitListener(queues = RabbitMQConstant.CLOSE_SEATS_QUEUE)
 	public void closeSeats(UpdateSeats updateSeats) {
 		if(updateSeats.getOperation() == Operation.CLOSE) {
 			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CLOSED);
 		} else {
-			logger.info("Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CLOSE + " expected");
+			logger.info("TaskReceiver.closeSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CLOSE + " " +
+					"expected");
 		}
 	}
 
+	/**
+	 * Search all seats for the given ride and update their status
+	 *
+	 * @param rideId     - The ride for which all seats are to be searched for
+	 * @param seatStatus - The status to be given to the seats
+	 */
 	private void updateSeats(String rideId, SeatStatus seatStatus) {
 		List<Seat> seats = seatService.getSeatsByRide(rideId);
 		seats.forEach(seat -> seat.setSeatStatus(seatStatus));

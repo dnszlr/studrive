@@ -28,9 +28,15 @@ public class RequestClient {
 		this.offerClient = offerClient;
 	}
 
+	/**
+	 * Calls the offer-service and checks if the ride to the given id still has free seats.
+	 *
+	 * @param rideId - The id of the ride to be checked
+	 * @return true if there are still places available, false if not.
+	 */
 	public boolean verifyRideSeats(String rideId) {
 		String path = Constant.SLASH + rideId + Constant.SLASH + Constant.SEATS;
-		logger.info("RequestClient.verifyRideSeats called path: " + path);
+		logger.info("RequestClient.verifyRideSeats: Called path: " + path);
 		return Boolean.TRUE.equals(offerClient.get().uri(path)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
@@ -38,9 +44,15 @@ public class RequestClient {
 				.block(REQUEST_TIMEOUT));
 	}
 
+	/**
+	 * Calls the user-service and checks if the user has deposited paymentInformation for the given id
+	 *
+	 * @param passengerId - The id of the user to be checked
+	 * @return true if the user has deposited paymentInformation, false if not
+	 */
 	public boolean verifyPaymentDetail(Long passengerId) {
 		String path = Constant.SLASH + passengerId + Constant.SLASH + Constant.VERIFY;
-		logger.info("RequestClient.verifyPaymentDetail called path: " + path);
+		logger.info("RequestClient.verifyPaymentDetail: Called path: " + path);
 		return Boolean.TRUE.equals(userClient.get().uri(path).accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.bodyToMono(boolean.class)
