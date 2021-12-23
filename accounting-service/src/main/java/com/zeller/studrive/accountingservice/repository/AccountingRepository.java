@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface AccountingRepository extends CrudRepository<Accounting, Long> {
 
+	Optional<Accounting> findAccountingById(Long id);
+
 	Optional<Accounting> findAccountingBySeatId(String seatId);
 }

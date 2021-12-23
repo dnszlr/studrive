@@ -24,10 +24,19 @@ public class AccountingService {
 		return accountingRepository.save(accounting);
 	}
 
-	// TODO findById maybe necessary
+	/**
+	 * Returns the account matching the passed id
+	 *
+	 * @param id - The id of the requested account
+	 * @return The account or null
+	 */
+	public Optional<Accounting> findById(Long id) {
+		return accountingRepository.findAccountingById(id);
+	}
 
 	/**
 	 * Returns all accounts for the passed seat id
+	 *
 	 * @param seatId - the id of the seat from which the accounts are to be searched for
 	 * @return The accounting or null
 	 */
