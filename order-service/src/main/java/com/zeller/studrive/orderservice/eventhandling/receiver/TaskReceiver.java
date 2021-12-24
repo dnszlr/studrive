@@ -28,6 +28,7 @@ public class TaskReceiver {
 	 */
 	@RabbitListener(queues = RabbitMQConstant.CANCEL_SEATS_QUEUE)
 	public void cancelSeats(UpdateSeats updateSeats) {
+		// TODO Für alle deren Status akzeptiert ist, wird die Rechnung gecancelt
 		if(updateSeats.getOperation() == Operation.CANCEL) {
 			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CANCELED);
 		} else {
@@ -58,6 +59,7 @@ public class TaskReceiver {
 	 * @param seatStatus - The status to be given to the seats
 	 */
 	private void updateSeats(String rideId, SeatStatus seatStatus) {
+		// TODO Nur für die deren Status akzeptiert ist
 		List<Seat> seats = seatService.getSeatsByRide(rideId);
 		seats.forEach(seat -> seat.setSeatStatus(seatStatus));
 		seatService.saveAll(seats);

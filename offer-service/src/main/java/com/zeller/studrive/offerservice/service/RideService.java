@@ -73,12 +73,13 @@ public class RideService {
 		Optional<Ride> rideTemp = this.rideRepository.findRidesById(id);
 		if(rideTemp.isPresent()) {
 			Ride ride = rideTemp.get();
-			ride.setRideStatus(RideStatus.CANCELED);
-			// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
-			this.rideRepository.save(ride);
-			logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
-			taskSender.cancelRide(ride.getId());
-
+			if(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED)) {
+				ride.setRideStatus(RideStatus.CANCELED);
+				// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
+				this.rideRepository.save(ride);
+				logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
+				taskSender.cancelRide(ride.getId());
+			}
 		}
 		return rideTemp;
 	}
