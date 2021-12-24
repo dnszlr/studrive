@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class CustomRideRepositoryImpl implements CustomRideRepository {
 
 	private final MongoTemplate mongoTemplate;
-	Logger logger = LoggerFactory.getLogger(CustomRideRepositoryImpl.class);
+	final Logger logger = LoggerFactory.getLogger(CustomRideRepositoryImpl.class);
 
 	public CustomRideRepositoryImpl(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;

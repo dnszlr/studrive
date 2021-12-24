@@ -21,9 +21,9 @@ public class OfferController {
 	}
 
 	@PostMapping(path = "/")
-	public OfferRideResponse offerRide(@RequestBody Ride ride) {
-		Ride createdRide = rideService.offerRide(ride);
-		return new OfferRideResponse(createdRide.getId());
+	public ResponseEntity<OfferRideResponse> offerRide(@RequestBody Ride ride) {
+		Optional<Ride> rideTemp = rideService.offerRide(ride);
+		return rideTemp.map(value -> new ResponseEntity<>(new OfferRideResponse(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
 	}
 
 	@GetMapping(path = "/{rideId}")

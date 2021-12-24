@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,14 +46,18 @@ public class RideService {
 	 * @param ride - the ride to be saved
 	 * @return the newly created ride
 	 */
-	public Ride offerRide(Ride ride) {
-		// TODO was ist wenn Geodata nicht gefunden wird?
+	public Optional<Ride> offerRide(Ride ride) {
+		Optional<Ride> rideTemp = Optional.empty();
 		// TODO Überschneidungen noch machen?
 		// TODO Was ist mit validierung der Werte? (Datum in Zukunft und nicht überkreuz)
-		ride.setRideStatus(RideStatus.AVAILABLE);
-		mapboxClient.getGeodata(ride.getStart());
-		mapboxClient.getGeodata(ride.getDestination());
-		return this.rideRepository.save(ride);
+		if(mapboxClient.getGeodata(ride.getStart()) &&
+				mapboxClient.getGeodata(ride.getDestination())) {
+			ride.setRideStatus(RideStatus.AVAILABLE);
+			mapboxClient.getGeodata(ride.getStart());
+			mapboxClient.getGeodata(ride.getDestination());
+			rideTemp = Optional.of(this.rideRepository.save(ride));
+		}
+		return rideTemp;
 	}
 
 	/**
@@ -77,10 +82,14 @@ public class RideService {
 			Ride ride = rideTemp.get();
 			if(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED)) {
 				ride.setRideStatus(RideStatus.CANCELED);
-				// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
-				this.rideRepository.save(ride);
-				logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
-				taskSender.cancelRide(ride.getId());
+				try {
+					rideRepository.save(ride);
+					logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
+					taskSender.cancelRide(ride.getId());
+				} catch(Exception ex) {
+					rideTemp = Optional.empty();
+					logger.info("RideService.cancelRide: Problems canceling the Ride with the id " + ride.getId(), ex);
+				}
 			}
 		}
 		return rideTemp;
@@ -100,10 +109,14 @@ public class RideService {
 			if(validateTime(ride.getEndDate()) &&
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
-				// TODO wie hier überprüfen ob die Fahrt gespeichert wurde?
-				this.rideRepository.save(ride);
-				logger.info("RideService.closeRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
-				taskSender.closeRide(ride.getId());
+				try {
+					this.rideRepository.save(ride);
+					logger.info("RideService.closeRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
+					taskSender.closeRide(ride.getId());
+				} catch(Exception ex) {
+					rideTemp = Optional.empty();
+					logger.info("RideService.closeRide: Problems closing the Ride with the id " + ride.getId(), ex);
+				}
 			}
 		}
 		return rideTemp;
@@ -158,11 +171,13 @@ public class RideService {
 	 * @return The list of available rides for the passed values
 	 */
 	private List<Ride> getAvailableRidesList(String index, LocalDateTime formatted, Address address) {
-		// TODO was ist wenn Geodata nicht gefunden wird?
-		mapboxClient.getGeodata(address);
-		double[] coords = address.getCoordinates();
-		Point point = new Point(coords[0], coords[1]);
-		List<GeoResult<Ride>> result = rideRepository.findAvailableRides(index, formatted, point).getContent();
+		List<GeoResult<Ride>> result = Collections.emptyList();
+		if(mapboxClient.getGeodata(address)) {
+			double[] coords = address.getCoordinates();
+			Point point = new Point(coords[0], coords[1]);
+			result = rideRepository.findAvailableRides(index, formatted, point).getContent();
+
+		}
 		return result.stream().map(GeoResult::getContent).collect(Collectors.toList());
 	}
 

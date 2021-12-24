@@ -80,11 +80,15 @@ public class SeatService {
 			boolean acceptedStatus = checkSeatStatus(seat, SeatStatus.ACCEPTED);
 			if(acceptedStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.CANCELED);
-				// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
-				seatRepository.save(seat);
-				logger.info("SeatService.cancelSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
-				if(acceptedStatus) {
-					taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
+				try {
+					seatRepository.save(seat);
+					logger.info("SeatService.cancelSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
+					if(acceptedStatus) {
+						taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
+					}
+				} catch(Exception ex) {
+					seatTemp = Optional.empty();
+					logger.info("SeatService.cancelSeat: Problems canceling Seat with the id " + seat.getId(), ex);
 				}
 			}
 		}
@@ -104,12 +108,16 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			if(checkSeatStatus(seat, SeatStatus.PENDING) && requestClient.verifyRideSeats(seat.getRideId())) {
 				seat.setSeatStatus(SeatStatus.ACCEPTED);
-				// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
-				seatRepository.save(seat);
-				logger.info("SeatService.acceptSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
-				String rideId = seat.getRideId();
-				CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
-				taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
+				try {
+					seatRepository.save(seat);
+					logger.info("SeatService.acceptSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
+					String rideId = seat.getRideId();
+					CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
+					taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
+				} catch(Exception ex) {
+					seatTemp = Optional.empty();
+					logger.info("SeatService.acceptSeat: Problem accepting the Seat with the id " + seat.getId(), ex);
+				}
 			}
 		}
 		return seatTemp;
@@ -128,9 +136,14 @@ public class SeatService {
 			Seat seat = seatTemp.get();
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.DENIED);
-				// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
-				seatRepository.save(seat);
-				logger.info("SeatService.declineSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
+				try {
+					seatRepository.save(seat);
+					logger.info("SeatService.declineSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
+				} catch(Exception ex) {
+					seatTemp = Optional.empty();
+					logger.info("SeatService.declineSeat: Problem declining the Seat with the id " + seat.getId(), ex);
+
+				}
 			}
 		}
 		return seatTemp;
