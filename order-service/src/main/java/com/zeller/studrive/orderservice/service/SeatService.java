@@ -10,6 +10,7 @@ import com.zeller.studrive.orderservice.repository.SeatRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,12 +46,23 @@ public class SeatService {
 	 * @param seat - the seat to be saved
 	 * @return the newly created seat
 	 */
+	@Transactional(rollbackFor = IllegalArgumentException.class)
+	public Seat save(Seat seat) {
+		return seatRepository.save(seat);
+	}
+
+	/**
+	 * Books a new seat with the passed attribute
+	 *
+	 * @param seat - the seat to be booked
+	 * @return the newly created seat or null
+	 */
 	public Optional<Seat> bookSeat(Seat seat) {
 		Optional<Seat> seatTemp = Optional.empty();
 		// If the ride has available seats and the user has already deposited payment information, a seat can be booked.
 		if(requestClient.verifyRideSeats(seat.getRideId()) && requestClient.verifyPaymentDetail(seat.getPassengerId())) {
 			seat.setSeatStatus(SeatStatus.PENDING);
-			seatTemp = Optional.of(seatRepository.save(seat));
+			seatTemp = Optional.of(this.save(seat));
 			logger.info("SeatService.bookSeat: New Seat with the id " + seat.getId() + " and SeatStatus " + seat.getSeatStatus() + " " +
 					"booked");
 		}
@@ -81,7 +93,7 @@ public class SeatService {
 			if(acceptedStatus || checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.CANCELED);
 				try {
-					seatRepository.save(seat);
+					this.save(seat);
 					logger.info("SeatService.cancelSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
 					if(acceptedStatus) {
 						taskSender.cancelSeat(seat.getRideId(), new CancelAccount(seat.getId()));
@@ -109,7 +121,7 @@ public class SeatService {
 			if(checkSeatStatus(seat, SeatStatus.PENDING) && requestClient.verifyRideSeats(seat.getRideId())) {
 				seat.setSeatStatus(SeatStatus.ACCEPTED);
 				try {
-					seatRepository.save(seat);
+					this.save(seat);
 					logger.info("SeatService.acceptSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
 					String rideId = seat.getRideId();
 					CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
@@ -137,7 +149,7 @@ public class SeatService {
 			if(checkSeatStatus(seat, SeatStatus.PENDING)) {
 				seat.setSeatStatus(SeatStatus.DENIED);
 				try {
-					seatRepository.save(seat);
+					this.save(seat);
 					logger.info("SeatService.declineSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
 				} catch(Exception ex) {
 					seatTemp = Optional.empty();

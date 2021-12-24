@@ -6,6 +6,7 @@ import com.zeller.studrive.userservice.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class UserService {
 	 * @param user - the user to be saved
 	 * @return the newly created user or null
 	 */
+	@Transactional(rollbackFor = IllegalArgumentException.class)
 	public User save(User user) {
 		return userRepository.save(user);
 	}
@@ -54,7 +56,7 @@ public class UserService {
 			PaymentDetails upd = userEntity.getPaymentDetails();
 			if(upd == null || !upd.attributeEquals(paymentDetails)) {
 				userEntity.setPaymentDetails(paymentDetails);
-				userRepository.save(userEntity);
+				this.save(userEntity);
 				logger.info("UserService.updatePaymentDetails: Payment information for the user with the id " + userEntity.getId() + " " +
 						"updated.");
 			}

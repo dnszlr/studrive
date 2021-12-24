@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,16 +36,23 @@ public class RideService {
 
 	final Logger logger = LoggerFactory.getLogger(RideService.class);
 
-	public Ride save(Ride ride) {
-		return rideRepository.save(ride);
-	}
-
 	/**
 	 * Checks if the passed ride is a new entry in the database.
 	 * If yes, it will be saved, if not, the existing entry will be updated.
 	 *
 	 * @param ride - the ride to be saved
 	 * @return the newly created ride
+	 */
+	@Transactional(rollbackFor = IllegalArgumentException.class)
+	public Ride save(Ride ride) {
+		return rideRepository.save(ride);
+	}
+
+	/**
+	 * Offers a new ride to the public
+	 *
+	 * @param ride - the ride to be offered
+	 * @return the newly created ride or null
 	 */
 	public Optional<Ride> offerRide(Ride ride) {
 		Optional<Ride> rideTemp = Optional.empty();
@@ -55,7 +63,7 @@ public class RideService {
 			ride.setRideStatus(RideStatus.AVAILABLE);
 			mapboxClient.getGeodata(ride.getStart());
 			mapboxClient.getGeodata(ride.getDestination());
-			rideTemp = Optional.of(this.rideRepository.save(ride));
+			rideTemp = Optional.of(this.save(ride));
 		}
 		return rideTemp;
 	}
@@ -83,7 +91,7 @@ public class RideService {
 			if(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED)) {
 				ride.setRideStatus(RideStatus.CANCELED);
 				try {
-					rideRepository.save(ride);
+					this.save(ride);
 					logger.info("RideService.cancelRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
 					taskSender.cancelRide(ride.getId());
 				} catch(Exception ex) {
@@ -110,7 +118,7 @@ public class RideService {
 					(checkRideStatus(ride, RideStatus.AVAILABLE) || checkRideStatus(ride, RideStatus.OCCUPIED))) {
 				ride.setRideStatus(RideStatus.CLOSED);
 				try {
-					this.rideRepository.save(ride);
+					this.save(ride);
 					logger.info("RideService.closeRide: Ride with the id " + ride.getId() + " got " + ride.getRideStatus());
 					taskSender.closeRide(ride.getId());
 				} catch(Exception ex) {

@@ -2,6 +2,9 @@ package com.zeller.studrive.orderservice.basic;
 
 public class Constant {
 
+	// MongoConfig
+	public static final String DATABASE = "order-service";
+
 	// API Endpoints of other services
 	// Not necessary with service registry
 	public static final String USERCLIENT = "http://localhost:9001/v1/users";

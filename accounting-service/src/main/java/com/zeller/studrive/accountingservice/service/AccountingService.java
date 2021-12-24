@@ -3,6 +3,7 @@ package com.zeller.studrive.accountingservice.service;
 import com.zeller.studrive.accountingservice.model.Accounting;
 import com.zeller.studrive.accountingservice.repository.AccountingRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class AccountingService {
 	 * @param accounting - the accounting to be saved
 	 * @return the newly created accounting
 	 */
+	@Transactional(rollbackFor = IllegalArgumentException.class)
 	public Accounting save(Accounting accounting) {
 		return accountingRepository.save(accounting);
 	}
