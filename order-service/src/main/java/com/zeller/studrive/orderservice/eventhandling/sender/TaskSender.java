@@ -17,7 +17,7 @@ public class TaskSender {
 	private RabbitTemplate template;
 	@Autowired
 	private DirectExchange directExchange;
-	Logger logger = LoggerFactory.getLogger(TaskSender.class);
+	final Logger logger = LoggerFactory.getLogger(TaskSender.class);
 
 	/**
 	 * Notifies the accounting and offer-service that a seat has been canceled

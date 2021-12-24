@@ -30,7 +30,7 @@ public class RideService {
 	@Autowired
 	private MapboxClient mapboxClient;
 
-	Logger logger = LoggerFactory.getLogger(RideService.class);
+	final Logger logger = LoggerFactory.getLogger(RideService.class);
 
 	public Ride save(Ride ride) {
 		return rideRepository.save(ride);

@@ -17,7 +17,7 @@ public class TaskSender {
 	@Autowired
 	private DirectExchange directExchange;
 
-	Logger logger = LoggerFactory.getLogger(TaskSender.class);
+	final Logger logger = LoggerFactory.getLogger(TaskSender.class);
 
 	/**
 	 * Notifies the order-service that a ride has been canceled

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class TaskReceiver {
 
-	Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
+	final Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
 
 	@Autowired
 	private AccountingService accountingService;

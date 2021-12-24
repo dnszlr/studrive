@@ -15,7 +15,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	Logger logger = LoggerFactory.getLogger(UserService.class);
+	final Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	/**
 	 * Checks if the passed user is a new entry in the database.

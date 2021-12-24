@@ -24,7 +24,7 @@ public class SeatService {
 	private TaskSender taskSender;
 	@Autowired
 	private RequestClient requestClient;
-	Logger logger = LoggerFactory.getLogger(SeatService.class);
+	final Logger logger = LoggerFactory.getLogger(SeatService.class);
 
 	/**
 	 * Saves all passed seats
@@ -100,13 +100,15 @@ public class SeatService {
 		Optional<Seat> seatTemp = seatRepository.findSeatById(seatId);
 		if(seatTemp.isPresent()) {
 			Seat seat = seatTemp.get();
-			seat.setSeatStatus(SeatStatus.ACCEPTED);
-			// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
-			seatRepository.save(seat);
-			logger.info("SeatService.acceptSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
-			String rideId = seat.getRideId();
-			CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
-			taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
+			if(checkSeatStatus(seat, SeatStatus.PENDING) && requestClient.verifyRideSeats(seat.getRideId())) {
+				seat.setSeatStatus(SeatStatus.ACCEPTED);
+				// TODO wie hier überprüfen ob der Sitzplatz gespeichert wurde?
+				seatRepository.save(seat);
+				logger.info("SeatService.acceptSeat: Seat with the id " + seat.getId() + " got " + seat.getSeatStatus());
+				String rideId = seat.getRideId();
+				CreateAccount createAccount = new CreateAccount(seat.getPassengerId(), seat.getId());
+				taskSender.acceptSeat(rideId, createAccount, getCurrentSeats(rideId));
+			}
 		}
 		return seatTemp;
 	}
