@@ -9,7 +9,6 @@ import com.zeller.studrive.orderservice.model.SeatStatus;
 import com.zeller.studrive.orderservice.repository.SeatRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +17,16 @@ import java.util.Optional;
 @Service
 public class SeatService {
 
-	@Autowired
-	private SeatRepository seatRepository;
-	@Autowired
-	private TaskSender taskSender;
-	@Autowired
-	private RequestClient requestClient;
+	private final SeatRepository seatRepository;
+	private final TaskSender taskSender;
+	private final RequestClient requestClient;
 	final Logger logger = LoggerFactory.getLogger(SeatService.class);
+
+	public SeatService(SeatRepository seatRepository, TaskSender taskSender, RequestClient requestClient) {
+		this.seatRepository = seatRepository;
+		this.taskSender = taskSender;
+		this.requestClient = requestClient;
+	}
 
 	/**
 	 * Saves all passed seats

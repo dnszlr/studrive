@@ -2,24 +2,21 @@ package com.zeller.studrive.orderservice.basic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
 
-@Service
+@Component
 public class RequestClient {
 
 	private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);
 	final Logger logger = LoggerFactory.getLogger(RequestClient.class);
 
-	@Autowired
 	@Qualifier("userClient")
 	private final WebClient userClient;
-	@Autowired
 	@Qualifier("offerClient")
 	private final WebClient offerClient;
 

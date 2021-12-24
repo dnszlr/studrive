@@ -5,7 +5,6 @@ import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
@@ -21,10 +20,12 @@ import java.time.LocalDateTime;
 @Repository
 public class CustomRideRepositoryImpl implements CustomRideRepository {
 
-	@Autowired
-	MongoTemplate mongoTemplate;
-
+	private final MongoTemplate mongoTemplate;
 	Logger logger = LoggerFactory.getLogger(CustomRideRepositoryImpl.class);
+
+	public CustomRideRepositoryImpl(MongoTemplate mongoTemplate) {
+		this.mongoTemplate = mongoTemplate;
+	}
 
 	/**
 	 * Performs a geoquery on the database to find all available rides within a radius of 30 km
@@ -70,7 +71,7 @@ public class CustomRideRepositoryImpl implements CustomRideRepository {
 	}
 
 	/**
-	 * Creates a new database query to support the nearQuery with additional parametes
+	 * Creates a new database query to support the nearQuery with additional parameters
 	 *
 	 * @param startDate - All rides take place after this date
 	 * @return A database query

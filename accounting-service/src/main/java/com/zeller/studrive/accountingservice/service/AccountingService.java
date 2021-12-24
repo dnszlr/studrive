@@ -2,7 +2,6 @@ package com.zeller.studrive.accountingservice.service;
 
 import com.zeller.studrive.accountingservice.model.Accounting;
 import com.zeller.studrive.accountingservice.repository.AccountingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,8 +9,11 @@ import java.util.Optional;
 @Service
 public class AccountingService {
 
-	@Autowired
-	private AccountingRepository accountingRepository;
+	private final AccountingRepository accountingRepository;
+
+	public AccountingService(AccountingRepository accountingRepository) {
+		this.accountingRepository = accountingRepository;
+	}
 
 	/**
 	 * Checks if the passed accounting is a new entry in the database.

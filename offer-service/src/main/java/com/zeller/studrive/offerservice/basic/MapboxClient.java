@@ -5,19 +5,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
 
-@Service
+@Component
 public class MapboxClient {
 
 	private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);
 
-	@Autowired
 	private final WebClient mapboxClient;
 	final Logger logger = LoggerFactory.getLogger(MapboxClient.class);
 

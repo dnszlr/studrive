@@ -10,20 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
 
-@Controller
 public class TaskReceiver {
-
-	final Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
 
 	@Autowired
 	private RideService rideService;
-
-	public TaskReceiver() {
-	}
+	final Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
 
 	/**
 	 * Subscribes to the RabbitMQ query through which a message is transmitted from the order-service if a seat is accepted.

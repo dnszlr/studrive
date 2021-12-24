@@ -5,7 +5,6 @@ import com.zeller.studrive.userservice.model.User;
 import com.zeller.studrive.userservice.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,9 +12,12 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	/**
 	 * Checks if the passed user is a new entry in the database.
@@ -53,7 +55,8 @@ public class UserService {
 			if(upd == null || !upd.attributeEquals(paymentDetails)) {
 				userEntity.setPaymentDetails(paymentDetails);
 				userRepository.save(userEntity);
-				logger.info("UserService.updatePaymentDetails: Payment information for the user with the id " + userEntity.getId() + " updated.");
+				logger.info("UserService.updatePaymentDetails: Payment information for the user with the id " + userEntity.getId() + " " +
+						"updated.");
 			}
 		}
 		return userTemp;

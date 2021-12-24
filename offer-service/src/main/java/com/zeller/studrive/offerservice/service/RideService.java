@@ -9,7 +9,6 @@ import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +22,15 @@ import java.util.stream.Collectors;
 @Service
 public class RideService {
 
-	@Autowired
-	private RideRepository rideRepository;
-	@Autowired
-	private TaskSender taskSender;
-	@Autowired
-	private MapboxClient mapboxClient;
+	private final RideRepository rideRepository;
+	private final TaskSender taskSender;
+	private final MapboxClient mapboxClient;
+
+	public RideService(RideRepository rideRepository, TaskSender taskSender, MapboxClient mapboxClient) {
+		this.rideRepository = rideRepository;
+		this.taskSender = taskSender;
+		this.mapboxClient = mapboxClient;
+	}
 
 	final Logger logger = LoggerFactory.getLogger(RideService.class);
 
