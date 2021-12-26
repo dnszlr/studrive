@@ -8,7 +8,6 @@ import com.zeller.studrive.offerservice.model.Car;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.model.RideStatus;
 import com.zeller.studrive.offerservice.repository.RideRepository;
-import jdk.vm.ci.meta.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
