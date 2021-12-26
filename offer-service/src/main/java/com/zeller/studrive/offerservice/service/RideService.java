@@ -59,8 +59,6 @@ public class RideService {
 		if(mapboxClient.getGeodata(ride.getStart()) &&
 				mapboxClient.getGeodata(ride.getDestination())) {
 			ride.setRideStatus(RideStatus.AVAILABLE);
-			mapboxClient.getGeodata(ride.getStart());
-			mapboxClient.getGeodata(ride.getDestination());
 			rideTemp = Optional.of(this.save(ride));
 		}
 		return rideTemp;
@@ -188,13 +186,13 @@ public class RideService {
 	}
 
 	/**
-	 * Checks if the passed time plus one day is greater than or equal to the current time
+	 * Checks if the current time minus one day is greater than or equal to the passed time
 	 *
 	 * @param time - The time to be checked
-	 * @return true if the passed time plus days is greater than or equal to the current time, false if not
+	 * @return true if the current time minus one day is greater than or equal to the passend time, false if not
 	 */
 	private boolean validateTime(LocalDateTime time) {
-		return time.plusDays(1).isAfter(LocalDateTime.now());
+		return LocalDateTime.now().minusDays(1).isAfter(time);
 	}
 
 	/**
