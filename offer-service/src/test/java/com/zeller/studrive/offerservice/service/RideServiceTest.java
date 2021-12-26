@@ -68,7 +68,7 @@ class RideServiceTest {
 		Mockito.when(mapboxClient.getGeodata(ride.getDestination())).thenReturn(true);
 		ride.getDestination().setCoordinates(new double[]{13.380010, 52.516110});
 		// Mock save
-		ride.setId("100");
+		ride.setId("100R");
 		Mockito.when(rideRepository.save(ride)).thenReturn(ride);
 		// Test
 		Optional<Ride> result = testService.offerRide(ride);
@@ -92,7 +92,7 @@ class RideServiceTest {
 
 	@Test
 	void canFindById() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
 		Optional<Ride> result = testService.findById(id);
@@ -103,7 +103,7 @@ class RideServiceTest {
 
 	@Test
 	void canCancelRide() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
@@ -113,25 +113,25 @@ class RideServiceTest {
 		verify(rideRepository).save(ride);
 		assertThat(result.isPresent()).isTrue();
 		assertThat(result.get()).isEqualTo(ride);
-		assertThat(result.get().getRideStatus()).isEqualTo(RideStatus.CANCELED);
+		assertThat(ride.getRideStatus()).isEqualTo(RideStatus.CANCELED);
 	}
 
 	@Test
 	void cantCancelRide() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		ride.setRideStatus(RideStatus.CLOSED);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
 		Optional<Ride> result = testService.cancelRide(id);
 		verify(rideRepository).findRidesById(id);
 		assertThat(result.isPresent()).isTrue();
-		assertThat(result.get().getRideStatus()).isEqualTo(RideStatus.CLOSED);
+		assertThat(ride.getRideStatus()).isEqualTo(RideStatus.CLOSED);
 		verifyNoInteractions(taskSender);
 	}
 
 	@Test
 	void canCloseRide() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
@@ -141,7 +141,7 @@ class RideServiceTest {
 		verify(rideRepository).save(ride);
 		assertThat(result.isPresent()).isTrue();
 		assertThat(result.get()).isEqualTo(ride);
-		assertThat(result.get().getRideStatus()).isEqualTo(RideStatus.CLOSED);
+		assertThat(ride.getRideStatus()).isEqualTo(RideStatus.CLOSED);
 	}
 
 	@Test
@@ -154,7 +154,7 @@ class RideServiceTest {
 
 	@Test
 	void canVerifyRideSeats() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		ride.setRideStatus(RideStatus.AVAILABLE);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
@@ -165,7 +165,7 @@ class RideServiceTest {
 
 	@Test
 	void cantVerifyRideSeats() {
-		String id = "100";
+		String id = "100R";
 		ride.setId(id);
 		ride.setRideStatus(RideStatus.CLOSED);
 		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));

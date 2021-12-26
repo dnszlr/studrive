@@ -7,4 +7,5 @@ public enum RideStatus {
     CANCELED,
     CLOSED
 
+
 }

@@ -18,10 +18,9 @@ public class Seat {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private SeatStatus seatStatus;
 
-	public Seat(Long passengerId, String rideId, SeatStatus seatStatus) {
+	public Seat(Long passengerId, String rideId) {
 		this.passengerId = passengerId;
 		this.rideId = rideId;
-		this.seatStatus = seatStatus;
 	}
 
 	public String getId() {
