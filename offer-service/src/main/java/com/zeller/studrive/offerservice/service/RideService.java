@@ -56,8 +56,6 @@ public class RideService {
 	 */
 	public Optional<Ride> offerRide(Ride ride) {
 		Optional<Ride> rideTemp = Optional.empty();
-		// TODO Überschneidungen noch machen?
-		// TODO Was ist mit validierung der Werte? (Datum in Zukunft und nicht überkreuz)
 		if(mapboxClient.getGeodata(ride.getStart()) &&
 				mapboxClient.getGeodata(ride.getDestination())) {
 			ride.setRideStatus(RideStatus.AVAILABLE);

@@ -26,11 +26,12 @@ public class TaskReceiver {
 	 */
 	@RabbitListener(queues = RabbitMQConstant.CANCEL_SEATS_QUEUE)
 	public void cancelSeats(UpdateSeats updateSeats) {
-		// TODO Für alle deren Status akzeptiert ist, wird die Rechnung gecancelt
+		// TODO Für alle deren Status akzeptiert ist, wird die Rechnung gecancelt (Über Service gehen und Sender da aufrufen)
 		if(updateSeats.getOperation() == Operation.CANCEL) {
 			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CANCELED);
 		} else {
-			logger.info("TaskReceiver.cancelSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CANCEL + " " +
+			logger.info("TaskReceiver.cancelSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CANCEL +
+					" " +
 					"expected");
 		}
 	}
@@ -57,7 +58,7 @@ public class TaskReceiver {
 	 * @param seatStatus - The status to be given to the seats
 	 */
 	private void updateSeats(String rideId, SeatStatus seatStatus) {
-		// TODO Nur für die deren Status akzeptiert ist
+		// TODO Nur für die deren Status akzeptiert ist (Über Service gehen und Sender da aufrufen)
 		List<Seat> seats = seatService.getSeatsByRide(rideId);
 		seats.forEach(seat -> seat.setSeatStatus(seatStatus));
 		seatService.saveAll(seats);
