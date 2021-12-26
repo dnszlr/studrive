@@ -20,15 +20,17 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/")
-	public CreateUserResponse createUser(@RequestBody User user) {
+	public ResponseEntity<CreateUserResponse> createUser(@RequestBody User user) {
 
 		User createdUser = userService.save(user);
-		return new CreateUserResponse(createdUser.getId());
+		return createdUser != null ? new ResponseEntity<>(new CreateUserResponse(createdUser.getId()), HttpStatus.OK) :
+				new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping(path = "/{userId}")
-	public Optional<User> findUserById(@PathVariable Long userId) {
-		return userService.getById(userId);
+	public ResponseEntity<User> findUserById(@PathVariable Long userId) {
+		Optional<User> user = userService.getById(userId);
+		return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PutMapping(path = "/{userId}/paymentDetails")

@@ -3,6 +3,7 @@ package com.zeller.studrive.userservice.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "paymentDetails", schema = "userservice")
@@ -89,22 +90,28 @@ public class PaymentDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if(this == o)
+            return true;
+        if(o == null || getClass() != o.getClass())
+            return false;
 
         PaymentDetails that = (PaymentDetails) o;
 
-        if (checkDigit != that.checkDigit) return false;
-        if (bankCode != that.bankCode) return false;
-        if (accountNumber != that.accountNumber) return false;
-        if (!id.equals(that.id)) return false;
-        return countryCode.equals(that.countryCode);
+        if(checkDigit != that.checkDigit)
+            return false;
+        if(bankCode != that.bankCode)
+            return false;
+        if(accountNumber != that.accountNumber)
+            return false;
+        if(!Objects.equals(id, that.id))
+            return false;
+        return Objects.equals(countryCode, that.countryCode);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + countryCode.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (countryCode != null ? countryCode.hashCode() : 0);
         result = 31 * result + checkDigit;
         result = 31 * result + bankCode;
         result = 31 * result + accountNumber;
