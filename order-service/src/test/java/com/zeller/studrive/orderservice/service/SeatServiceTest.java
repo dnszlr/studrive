@@ -1,6 +1,5 @@
 package com.zeller.studrive.orderservice.service;
 
-import com.zeller.studrive.accoutingservicemq.eventmodel.CancelAccount;
 import com.zeller.studrive.orderservice.basic.RequestClient;
 import com.zeller.studrive.orderservice.eventhandling.sender.TaskSender;
 import com.zeller.studrive.orderservice.model.Seat;
@@ -14,13 +13,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class SeatServiceTest {
@@ -46,7 +44,7 @@ class SeatServiceTest {
 
 	@Test
 	void canSaveAll() {
-		List<Seat> seatList = Arrays.asList(seat);
+		List<Seat> seatList = Collections.singletonList(seat);
 		testService.saveAll(seatList);
 		verify(seatRepository).saveAll(seatList);
 	}

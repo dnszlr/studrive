@@ -184,7 +184,7 @@ class RideServiceTest {
 		Mockito.when(mapboxClient.getGeodata(destination)).thenReturn(true);
 		LocalDate ld = LocalDate.of(2020, 12, 30);
 		LocalDateTime ldt = LocalDateTime.of(ld, LocalTime.of(0, 0, 0));
-		List<GeoResult<Ride>> result = Arrays.asList(new GeoResult(ride, new Distance(12)));
+		List<GeoResult<Ride>> result = Collections.singletonList(new GeoResult<>(ride, new Distance(12)));
 		GeoResults<Ride> results = new GeoResults<>(result);
 		Mockito.when(rideRepository.findAvailableRides(Constant.STARTINDEX, ldt, new Point(9.187890, 48.482890))).thenReturn(results);
 		Mockito.when(rideRepository.findAvailableRides(Constant.DESTINATIONINDEX, ldt, new Point(13.380010, 52.516110))).thenReturn(results);
