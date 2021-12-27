@@ -70,7 +70,7 @@ class OrderControllerTest {
 		mockMvc.perform(get("/v1/seats/{seatId}", id))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id", is(seat.getId())))
-				.andExpect(jsonPath("$.seatStatus", is(seat.getSeatStatus().toString())));
+				.andExpect(jsonPath("$.seatStatus", is(SeatStatus.PENDING.toString())));
 	}
 
 	@Test
@@ -142,7 +142,7 @@ class OrderControllerTest {
 
 	@Test
 	void canFindSeatsByPassenger() throws Exception {
-		List<Seat> dummy = Arrays.asList(seat, new Seat(100L, "200R"), new Seat(100L, "300R"));
+		List<Seat> dummy = Arrays.asList(seat, seat, seat);
 		Mockito.when(seatService.getSeatsByPassenger(seat.getPassengerId())).thenReturn(dummy);
 		mockMvc.perform(get("/v1/seats/passenger/{passengerId}", seat.getPassengerId()))
 				.andExpect(status().isOk())
@@ -159,7 +159,7 @@ class OrderControllerTest {
 
 	@Test
 	void canFindSeatsByRide() throws Exception {
-		List<Seat> dummy = Arrays.asList(seat, new Seat(200L, "100R"), new Seat(300L, "100R"));
+		List<Seat> dummy = Arrays.asList(seat, seat, seat);
 		Mockito.when(seatService.getSeatsByRide(seat.getRideId())).thenReturn(dummy);
 		mockMvc.perform(get("/v1/seats/ride/{rideId}", seat.getRideId()))
 				.andExpect(status().isOk())

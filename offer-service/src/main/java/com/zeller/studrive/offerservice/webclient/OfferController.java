@@ -27,8 +27,9 @@ public class OfferController {
 	}
 
 	@GetMapping(path = "/{rideId}")
-	public Optional<Ride> findRideById(@PathVariable String rideId) {
-		return rideService.findById(rideId);
+	public ResponseEntity<Ride> findRideById(@PathVariable String rideId) {
+		Optional<Ride> ride = rideService.findById(rideId);
+		return ride.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PutMapping(path = "/{rideId}/cancel")

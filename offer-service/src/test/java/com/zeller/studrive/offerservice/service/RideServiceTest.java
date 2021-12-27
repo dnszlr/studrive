@@ -145,6 +145,19 @@ class RideServiceTest {
 	}
 
 	@Test
+	void cantCloseRide() {
+		String id = "100R";
+		ride.setId(id);
+		ride.setRideStatus(RideStatus.AVAILABLE);
+		ride.setEndDate(LocalDateTime.now().minusHours(5));
+		Mockito.when(rideRepository.findRidesById(id)).thenReturn(Optional.of(ride));
+		Optional<Ride> result = testService.closeRide(id);
+		verify(rideRepository).findRidesById(id);
+		assertThat(result.isPresent()).isTrue();
+		assertThat(ride.getRideStatus()).isEqualTo(RideStatus.AVAILABLE);
+	}
+
+	@Test
 	void canGetRidesByDriver() {
 		Mockito.when(rideRepository.findRidesByDriverId(100L)).thenReturn(Collections.singletonList(ride));
 		List<Ride> rides = testService.getRidesByDriver(100L);
