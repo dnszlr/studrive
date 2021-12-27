@@ -2,7 +2,8 @@ version: '3.8'
 services:
   #mongodb database
   mongodb:
-    image: mongo
+    # Version 4.4 because latest doesn't run on Ubuntu Host Server
+    image: mongo:4.4
     container_name: mongodb
     ports:
       - "27017:27017"
