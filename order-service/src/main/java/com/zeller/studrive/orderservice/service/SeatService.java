@@ -9,6 +9,7 @@ import com.zeller.studrive.orderservice.model.SeatStatus;
 import com.zeller.studrive.orderservice.repository.SeatRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,6 +106,19 @@ public class SeatService {
 			}
 		}
 		return seatTemp;
+	}
+
+	/**
+	 * Calls the accounting-service to cancel a accounting
+	 *
+	 * @param cancelAccount - The Rabbitmq message object that contains all the information for the accounting service
+	 */
+	public void cancelAccounting(CancelAccount cancelAccount) {
+		try {
+			taskSender.cancelAccounting(cancelAccount);
+		} catch(AmqpException aex) {
+			logger.info("SeatService.cancelAccounting: Problems canceling Accounting for Seat" + cancelAccount.getSeatId(), aex);
+		}
 	}
 
 	/**

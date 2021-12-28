@@ -28,6 +28,14 @@ public class TaskSender {
 	public void cancelSeat(String rideId, CancelAccount cancelAccount) {
 		logger.info("TaskSender.cancelSeat: RabbitMQ message send to accounting and offer-service");
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.FREE_RIDE_KEY, new FreeRide(rideId));
+		cancelAccounting(cancelAccount);
+	}
+
+	/**
+	 * Notifies the accounting-service that a seat has been canceled
+	 * @param cancelAccount - The Rabbitmq message object that contains all the information for the accounting service
+	 */
+	public void cancelAccounting(CancelAccount cancelAccount) {
 		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_ACCOUNTING_KEY, cancelAccount);
 	}
 

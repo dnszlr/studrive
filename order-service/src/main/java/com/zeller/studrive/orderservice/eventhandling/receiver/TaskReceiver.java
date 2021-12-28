@@ -1,5 +1,6 @@
 package com.zeller.studrive.orderservice.eventhandling.receiver;
 
+import com.zeller.studrive.accoutingservicemq.eventmodel.CancelAccount;
 import com.zeller.studrive.offerservicemq.basic.RabbitMQConstant;
 import com.zeller.studrive.orderservice.model.Seat;
 import com.zeller.studrive.orderservice.model.SeatStatus;
@@ -10,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TaskReceiver {
 
 	final Logger logger = LoggerFactory.getLogger(TaskReceiver.class);
@@ -26,13 +29,13 @@ public class TaskReceiver {
 	 */
 	@RabbitListener(queues = RabbitMQConstant.CANCEL_SEATS_QUEUE)
 	public void cancelSeats(UpdateSeats updateSeats) {
-		// TODO Für alle deren Status akzeptiert ist, wird die Rechnung gecancelt (Über Service gehen und Sender da aufrufen)
 		if(updateSeats.getOperation() == Operation.CANCEL) {
-			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CANCELED);
+			List<Seat> seats = seatService.getSeatsByRide(updateSeats.getRideId());
+			cancelAccounting(seats);
+			updateSeats(seats, SeatStatus.RIDE_CANCELED);
 		} else {
 			logger.info("TaskReceiver.cancelSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CANCEL +
-					" " +
-					"expected");
+					" " + "expected");
 		}
 	}
 
@@ -44,7 +47,8 @@ public class TaskReceiver {
 	@RabbitListener(queues = RabbitMQConstant.CLOSE_SEATS_QUEUE)
 	public void closeSeats(UpdateSeats updateSeats) {
 		if(updateSeats.getOperation() == Operation.CLOSE) {
-			updateSeats(updateSeats.getRideId(), SeatStatus.RIDE_CLOSED);
+			List<Seat> seats = seatService.getSeatsByRide(updateSeats.getRideId());
+			updateSeats(seats, SeatStatus.RIDE_CLOSED);
 		} else {
 			logger.info("TaskReceiver.closeSeats: Wrong seat passed: " + updateSeats.getOperation() + " passed " + Operation.CLOSE + " " +
 					"expected");
@@ -52,14 +56,21 @@ public class TaskReceiver {
 	}
 
 	/**
+	 * Cancel all accountings for seats with status accepted
+	 * @param seats - The seats whose accountings should be canceled
+	 */
+	private void cancelAccounting(List<Seat> seats) {
+		seats.stream().filter(seat -> seat.getSeatStatus() == SeatStatus.ACCEPTED)
+				.forEach(match -> seatService.cancelAccounting(new CancelAccount(match.getId())));
+	}
+
+	/**
 	 * Search all seats for the given ride and update their status
 	 *
-	 * @param rideId     - The ride for which all seats are to be searched for
+	 * @param seats      - The seats whose status should be updated
 	 * @param seatStatus - The status to be given to the seats
 	 */
-	private void updateSeats(String rideId, SeatStatus seatStatus) {
-		// TODO Nur für die deren Status akzeptiert ist (Über Service gehen und Sender da aufrufen)
-		List<Seat> seats = seatService.getSeatsByRide(rideId);
+	private void updateSeats(List<Seat> seats, SeatStatus seatStatus) {
 		seats.forEach(seat -> seat.setSeatStatus(seatStatus));
 		seatService.saveAll(seats);
 	}

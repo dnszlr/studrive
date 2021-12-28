@@ -1,6 +1,5 @@
 package com.zeller.studrive.offerservice.webclient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeller.studrive.offerservice.model.*;
 import com.zeller.studrive.offerservice.service.RideService;
