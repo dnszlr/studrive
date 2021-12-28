@@ -1,8 +1,8 @@
 package com.zeller.studrive.offerservice.basic;
 
+import com.jayway.jsonpath.JsonPath;
 import com.zeller.studrive.offerservice.model.Address;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import net.minidev.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -38,13 +38,10 @@ public class MapboxClient {
 						.bodyToMono(String.class)
 						.block(REQUEST_TIMEOUT);
 		try {
-			final JSONObject json = new JSONObject(response);
-			// features, geometry, coordinates
-			final JSONObject features = (JSONObject) json.getJSONArray("features").get(0);
-			final JSONObject geometry = features.getJSONObject("geometry");
-			final JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-			// coordinates[0] = longitude, coordinates[1] = latitude.
-			address.setCoordinates(new double[]{coordinates.getDouble(0), coordinates.getDouble(1)});
+			final JSONArray coordinates = JsonPath.read(response, "$.features[0].geometry.coordinates");
+			double longitude = (double) coordinates.get(0);
+			double latitude = (double) coordinates.get(1);
+			address.setCoordinates(new double[]{longitude, latitude});
 			result = true;
 		} catch(Exception ex) {
 			logger.error("Error while reading latitude and longitude from mapbox json", ex);
