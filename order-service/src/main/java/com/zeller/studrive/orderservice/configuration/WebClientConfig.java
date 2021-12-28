@@ -1,6 +1,7 @@
 package com.zeller.studrive.orderservice.configuration;
 
 import com.zeller.studrive.orderservice.basic.Constant;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,9 @@ public class WebClientConfig {
 
 	public String getDynamicHost(String path) {
 		String[] activeProfile = environment.getActiveProfiles();
-		String client = path.equals(Constant.USERCLIENT) ? Constant.USER_SERVICE :  Constant.OFFER_SERVICE;
-		String host = activeProfile[0].equals(Constant.DOCKER_PROFILE) ? client : Constant.LOCALHOST;
+		String dockerClient = path.equals(Constant.USERCLIENT) ? Constant.USER_SERVICE : Constant.OFFER_SERVICE;
+		String localClient = path.equals(Constant.USERCLIENT) ? Constant.USER_LOCALHOST : Constant.OFFER_LOCALHOST;
+		String host = activeProfile[0].equals(Constant.DOCKER_PROFILE) ? dockerClient : localClient;
 		logger.info("Running on host: " + host);
 		return Constant.HTTP_PREFIX + host + path;
 	}
