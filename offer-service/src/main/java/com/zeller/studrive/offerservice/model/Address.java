@@ -64,6 +64,7 @@ public class Address {
 		this.coordinates = coordinates;
 	}
 
+	@JsonIgnore
 	public String getQueryString() {
 		String uriSeparator = "+";
 		return this.city + uriSeparator + this.postalCode + uriSeparator + this.street + uriSeparator + this.houseNumber + ".json";
