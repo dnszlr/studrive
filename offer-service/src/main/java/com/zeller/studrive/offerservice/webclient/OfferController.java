@@ -1,6 +1,5 @@
 package com.zeller.studrive.offerservice.webclient;
 
-import com.zeller.studrive.offerservice.model.FindAvailableRequest;
 import com.zeller.studrive.offerservice.model.Ride;
 import com.zeller.studrive.offerservice.service.RideService;
 import org.springframework.http.HttpStatus;

@@ -20,9 +20,9 @@ public class UserController {
 	}
 
 	@PostMapping(path = "/")
-	public ResponseEntity<CreateUserResponse> createUser(@RequestBody User user) {
+	public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
 
-		User createdUser = userService.save(user);
+		User createdUser = userService.save(new User(createUserRequest));
 		return createdUser != null ? new ResponseEntity<>(new CreateUserResponse(createdUser.getId()), HttpStatus.OK) :
 				new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

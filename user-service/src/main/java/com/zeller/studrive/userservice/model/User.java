@@ -1,6 +1,7 @@
 package com.zeller.studrive.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zeller.studrive.userservice.webclient.CreateUserRequest;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,12 +10,6 @@ import java.util.Objects;
 @Table(name = "users", schema = "userservice")
 public class User {
 
-    /**
-     * Don't remove hibernate empty constructor
-     */
-    public User() {
-    }
-
     private Long id;
     private String matriculationNumber;
     private String university;
@@ -22,6 +17,22 @@ public class User {
     private String lastName;
     private String email;
     private PaymentDetails paymentDetails;
+
+    /**
+     * Don't remove hibernate empty constructor
+     */
+    public User() {
+    }
+
+    public User(CreateUserRequest createUserRequest) {
+        this.matriculationNumber = createUserRequest.getMatriculationNumber();
+        this.university = createUserRequest.getUniversity();
+        this.firstName = createUserRequest.getFirstName();
+        this.lastName = createUserRequest.getLastName();
+        this.email = createUserRequest.getEmail();
+    }
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

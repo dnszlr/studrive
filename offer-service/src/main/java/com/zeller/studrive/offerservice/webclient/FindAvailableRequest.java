@@ -1,4 +1,6 @@
-package com.zeller.studrive.offerservice.model;
+package com.zeller.studrive.offerservice.webclient;
+
+import com.zeller.studrive.offerservice.model.Address;
 
 import java.time.LocalDate;
 
