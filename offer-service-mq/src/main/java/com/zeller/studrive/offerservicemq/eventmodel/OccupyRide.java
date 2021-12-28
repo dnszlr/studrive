@@ -1,6 +1,8 @@
 package com.zeller.studrive.offerservicemq.eventmodel;
 
-public class OccupyRide {
+import java.io.Serializable;
+
+public class OccupyRide implements Serializable {
 
 	private String rideId;
 	private final int currentSeats;
