@@ -17,27 +17,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
-	@Autowired
-	private Environment environment;
-
-	Logger logger = LoggerFactory.getLogger(WebClientConfig.class);
-
 	@Bean("userClient")
 	public WebClient user() {
-		return WebClient.create(getDynamicHost(Constant.USERCLIENT));
+		return WebClient.create(Constant.HTTP_PREFIX + Constant.USER_CLIENT);
 	}
 
 	@Bean("offerClient")
 	public WebClient offer() {
-		return WebClient.create(getDynamicHost(Constant.OFFERCLIENT));
-	}
-
-	public String getDynamicHost(String path) {
-		String[] activeProfile = environment.getActiveProfiles();
-		String dockerClient = path.equals(Constant.USERCLIENT) ? Constant.USER_SERVICE : Constant.OFFER_SERVICE;
-		String localClient = path.equals(Constant.USERCLIENT) ? Constant.USER_LOCALHOST : Constant.OFFER_LOCALHOST;
-		String host = activeProfile[0].equals(Constant.DOCKER_PROFILE) ? dockerClient : localClient;
-		logger.info("Running on host: " + host);
-		return Constant.HTTP_PREFIX + host + path;
+		return WebClient.create(Constant.HTTP_PREFIX + Constant.OFFER_CLIENT);
 	}
 }
