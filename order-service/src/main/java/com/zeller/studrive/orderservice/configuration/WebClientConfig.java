@@ -5,6 +5,8 @@ import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -17,13 +19,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+	@Value("${userservice.url}")
+	private String userServiceUrl;
+
+	@Value("${offerservice.url}")
+	private String offerServiceUrl;
+
 	@Bean("userClient")
 	public WebClient user() {
-		return WebClient.create(Constant.HTTP_PREFIX + Constant.USER_CLIENT);
+		return WebClient.create(userServiceUrl);
 	}
 
 	@Bean("offerClient")
 	public WebClient offer() {
-		return WebClient.create(Constant.HTTP_PREFIX + Constant.OFFER_CLIENT);
+		return WebClient.create(offerServiceUrl);
 	}
 }
