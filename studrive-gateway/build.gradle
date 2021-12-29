@@ -1,0 +1,12 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+dependencies {
+    // Basic
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // Shared Projects
+    implementation project(":openapi-config")
+}

@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/openapi-config" />
             <option value="$PROJECT_DIR$/order-service" />
             <option value="$PROJECT_DIR$/order-service-mq" />
+            <option value="$PROJECT_DIR$/studrive-gateway" />
             <option value="$PROJECT_DIR$/user-service" />
           </set>
         </option>

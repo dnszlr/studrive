@@ -1,6 +1,6 @@
 rootProject.name = 'studrive'
 
-include 'openapi-config'
+include 'studrive-gateway'
 include 'user-service'
 include 'offer-service'
 include 'offer-service-mq'
@@ -8,3 +8,4 @@ include 'order-service'
 include 'order-service-mq'
 include 'accounting-service'
 include 'accounting-service-mq'
+include 'openapi-config'

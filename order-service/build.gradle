@@ -23,6 +23,4 @@ dependencies {
     implementation project(":accounting-service-mq")
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
 }
