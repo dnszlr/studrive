@@ -3,6 +3,8 @@ package com.zeller.studrive.userservice.webclient;
 import com.zeller.studrive.userservice.model.PaymentDetails;
 import com.zeller.studrive.userservice.model.User;
 import com.zeller.studrive.userservice.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class UserController {
 
 	private final UserService userService;
+	Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	public UserController(UserService userService) {
 		this.userService = userService;
@@ -29,6 +32,7 @@ public class UserController {
 
 	@GetMapping(path = "/{userId}")
 	public ResponseEntity<User> findUserById(@PathVariable Long userId) {
+		logger.info("Received something alteast");
 		Optional<User> user = userService.getById(userId);
 		return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}

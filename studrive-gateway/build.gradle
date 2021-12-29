@@ -5,13 +5,9 @@ plugins {
 
 dependencies {
     // Basic
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway:3.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway:3.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.1'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    // Shared Projects
-    implementation project(":openapi-config")
     // Dependencies Processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
