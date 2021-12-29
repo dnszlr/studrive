@@ -62,10 +62,10 @@ services:
     volumes:
       - ./data/logs:/logs
   #studrive-gateway
-  studrive-gateway:
-    build: ./studrive-gateway
-    ports:
-      - "9000:8080"
+  #studrive-gateway:
+    #build: ./studrive-gateway
+    #ports:
+      #- "9000:8080"
   #user-service
   user-service:
     build: ./user-service

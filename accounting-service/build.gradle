@@ -6,6 +6,7 @@ plugins {
 dependencies {
 
     // Basic
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
     // Database
     implementation 'org.postgresql:postgresql:42.3.1'
