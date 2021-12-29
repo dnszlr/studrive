@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "userservice.url",
+      "type": "java.lang.String",
+      "description": "Route to user-service microservice."
+    },
+    {
+      "name": "offerservice.url",
+      "type": "java.lang.String",
+      "description": "Route to offer-service microservices."
+    },
+    {
+      "name": "orderservice.url",
+      "type": "java.lang.String",
+      "description": "Route to order-service microservice."
+    }
+  ]
+}

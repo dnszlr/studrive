@@ -12,4 +12,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // Shared Projects
     implementation project(":openapi-config")
+    // Dependencies Processor
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }

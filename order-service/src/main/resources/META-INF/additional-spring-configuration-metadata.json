@@ -3,11 +3,12 @@
     {
       "name": "userservice.url",
       "type": "java.lang.String",
-      "description": "Url Path to user-service microservice."
+      "description": "Route to user-service microservice.."
     },
     {
       "name": "offerservice.url",
       "type": "java.lang.String",
-      "description": "Url Path to offer-service microservice."
+      "description": "Route to offer-service microservice."
     }
-  ] }
+  ]
+}
