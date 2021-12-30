@@ -1,4 +1,5 @@
-
+# This file is for defining api-gateway routes only. For other properties use application.properties file
+# in same folder. TODO Outsource this in a config server in a later stage of the project.
 spring:
   cloud:
     gateway:
@@ -7,25 +8,25 @@ spring:
           enabled: true
       routes:
         - id: user-service
-          uri: http://localhost:9001
+          uri: http://user-service:8080
           predicates:
             - Path=/user/v3/api-docs, /v1/users/**
           filters:
             - RewritePath=/user/v3/api-docs, /v3/api-docs
         - id: offer-service
-          uri: http://localhost:9002
+          uri: http://offer-service:8080
           predicates:
             - Path=/offer/v3/api-docs, /v1/rides/**
           filters:
             - RewritePath=/offer/v3/api-docs, /v3/api-docs
         - id: order-service
-          uri: http://localhost:9003
+          uri: http://order-service:8080
           predicates:
             - Path=/order/v3/api-docs, /v1/seats/**
           filters:
             - RewritePath=/order/v3/api-docs, /v3/api-docs
         - id: openapi
-          uri: http://localhost:9000
+          uri: http://localhost:8080
           predicates:
             - Path=/v3/api-docs/**
           filters:
