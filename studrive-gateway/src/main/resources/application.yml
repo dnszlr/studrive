@@ -1,5 +1,6 @@
 # This file is for defining api-gateway routes only. For other properties use application.properties file
-# in same folder. TODO Outsource this in a config server in a later stage of the project.
+# in same folder.
+# TODO Outsource this in a config-server service in a later stage of the project.
 spring:
   cloud:
     gateway:
