@@ -16,8 +16,11 @@ public class UserServiceRouting {
 	@Bean
 	public RouteLocator userRouting(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(route -> route.path("/").uri(userserviceUrl))
-				.route(route -> route.path("/test").uri("https://spring.io/"))
+				.route(route -> route
+						.path("/v1/users/**")
+						.and()
+						.method(Constant.GET)
+						.uri(userserviceUrl))
 				.build();
 	}
 }

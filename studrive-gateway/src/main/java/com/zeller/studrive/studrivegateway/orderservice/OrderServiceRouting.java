@@ -16,9 +16,9 @@ public class OrderServiceRouting {
 	@Bean
 	public RouteLocator orderRouting(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(route -> route.path("/seats/**").and().method(Constant.GET).uri(orderserviceUrl))
-				.route(route -> route.path("/seats").and().method(Constant.POST).uri(orderserviceUrl))
-				.route(route -> route.path("/seats/**").and().method(Constant.PUT).uri(orderserviceUrl))
+				.route(route -> route.path("/v1/seats/**").and().method(Constant.GET).uri(orderserviceUrl))
+				.route(route -> route.path("/v1/seats").and().method(Constant.POST).uri(orderserviceUrl))
+				.route(route -> route.path("/v1/seats/**").and().method(Constant.PUT).uri(orderserviceUrl))
 				.build();
 	}
 }

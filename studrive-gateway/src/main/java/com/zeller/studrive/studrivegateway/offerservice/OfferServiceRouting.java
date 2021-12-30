@@ -16,9 +16,9 @@ public class OfferServiceRouting {
 	@Bean
 	public RouteLocator offerRouting(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route(route -> route.path("/rides/**").and().method(Constant.GET).uri(offerserviceUrl))
-				.route(route -> route.path("/rides").and().method(Constant.POST).uri(offerserviceUrl))
-				.route(route -> route.path("/rides/**").and().method(Constant.PUT).uri(offerserviceUrl))
+				.route(route -> route.path("/v1/rides/**").and().method(Constant.GET).uri(offerserviceUrl))
+				.route(route -> route.path("/v1/rides").and().method(Constant.POST).uri(offerserviceUrl))
+				.route(route -> route.path("/v1/rides/**").and().method(Constant.PUT).uri(offerserviceUrl))
 				.build();
 	}
 
