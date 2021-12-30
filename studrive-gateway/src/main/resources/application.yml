@@ -1,6 +1,6 @@
 # This file is for defining api-gateway routes only. For other properties use application.properties file
 # in same folder.
-# TODO Outsource this in a config-server service in a later stage of the project.
+# Outsource this in a config server in a later stage of the project.
 spring:
   cloud:
     gateway:
@@ -35,7 +35,10 @@ spring:
 
 springdoc:
   swagger-ui:
+    path: /studrive-swagger
     use-root-path: true
+    disable-swagger-default-url: true
+    display-request-duration: true
     urls:
       - name: user
         url: /v3/api-docs/user
