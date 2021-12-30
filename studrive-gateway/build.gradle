@@ -8,6 +8,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.1'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway:3.1.0'
+    // Open-API
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.5.12'
     // Dependencies Processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
