@@ -27,7 +27,6 @@ public class StudriveGatewayApplication {
 
 	@Bean
 	public List<GroupedOpenApi> apis(SwaggerUiConfigParameters swaggerUiConfigParameters, RouteDefinitionLocator locator) {
-		logger.info("HAT UEBERHAUPT MAL GEKLAPPT");
 		List<GroupedOpenApi> groups = new ArrayList<>();
 		List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
 		for (RouteDefinition definition : definitions) {
