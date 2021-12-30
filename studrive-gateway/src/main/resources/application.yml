@@ -32,6 +32,25 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+        - id: userOpenapi
+          uri: http://localhost:8080
+          predicates:
+            - Path=/user/v1/**
+          filters:
+            - RewritePath=/user/v1/(?<path>.*), /v1/$\{path}
+        - id: offerOpenapi
+          uri: http://localhost:8080
+          predicates:
+            - Path=/offer/v1/**
+          filters:
+            - RewritePath=/offer/v1/(?<path>.*), /v1/$\{path}
+        - id: orderOpenapi
+          uri: http://localhost:8080
+          predicates:
+            - Path=/order/v1/**
+          filters:
+            - RewritePath=/order/v1/(?<path>.*), /v1/$\{path}
+
 
 springdoc:
   swagger-ui:
