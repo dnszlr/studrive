@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 @Import({OpenAPIConfiguration.class})
 public class OfferServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OfferServiceApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(OfferServiceApplication.class, args);
+	}
 }

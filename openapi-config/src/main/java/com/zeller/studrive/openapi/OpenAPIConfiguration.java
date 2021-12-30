@@ -13,9 +13,9 @@ public class OpenAPIConfiguration {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Studrive API")
+                .info(new Info().title("Studrive Application")
                         .description("Studrive API Documentation")
-                        .version("v0.0.1")
+                        .version("v1.0.0")
                         .license(new License().name("Apache 2.0").url("https://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("SpringShop Wiki Documentation")

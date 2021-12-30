@@ -1,0 +1,43 @@
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: http://localhost:9001
+          predicates:
+            - Path=/user/v3/api-docs, /v1/users/**
+          filters:
+            - RewritePath=/user/v3/api-docs, /v3/api-docs
+        - id: offer-service
+          uri: http://localhost:9002
+          predicates:
+            - Path=/offer/v3/api-docs, /v1/rides/**
+          filters:
+            - RewritePath=/offer/v3/api-docs, /v3/api-docs
+        - id: order-service
+          uri: http://localhost:9003
+          predicates:
+            - Path=/order/v3/api-docs, /v1/seats/**
+          filters:
+            - RewritePath=/order/v3/api-docs, /v3/api-docs
+        - id: openapi
+          uri: http://localhost:9000
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    urls:
+      - name: user
+        url: /v3/api-docs/user
+      - name: offer
+        url: /v3/api-docs/offer
+      - name: order
+        url: /v3/api-docs/order

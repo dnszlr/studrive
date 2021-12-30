@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-
     // Basic
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -22,6 +21,4 @@ dependencies {
     implementation project(":order-service-mq")
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
 }
