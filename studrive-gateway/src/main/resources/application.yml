@@ -3,10 +3,10 @@
 # Outsource this in a config server in a later stage of the project.
 
 urls:
-    user-service: http://user-service:8080
-    offer-service: http://offer-service:8080
-    order-service: http://order-service:8080
-    localhost: http://localhost:8080
+    user-service: ${USERSERVICE_URL:http://localhost:9001}
+    offer-service: ${OFFERSERVICE_URL:http://localhost:9002}
+    order-service: ${ORDERSERVICE_URL:http://localhost:9003}
+    localhost: http://localhost:${server.port}
 
 spring:
   cloud:
