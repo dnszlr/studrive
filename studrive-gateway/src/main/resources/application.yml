@@ -8,22 +8,37 @@ spring:
         locator:
           enabled: true
       routes:
+        # Microservices architecture paths
+        - id: user-route
+          uri: http://user-service:8080
+          predicates:
+            Path=/v1/users/**
+        - id: offer-route
+          uri: http://offer-service:8080
+          predicates:
+            Path=/v1/rides/**
+        - id: order-route
+          uri: http:order-service:8080
+          predicates:
+            Path=/v1/seats/**
+
+        # Swagger-ui paths
         - id: user-service
           uri: http://user-service:8080
           predicates:
-            - Path=/user/v3/api-docs, /v1/users/**
+            - Path=/user/v3/api-docs
           filters:
             - RewritePath=/user/v3/api-docs, /v3/api-docs
         - id: offer-service
           uri: http://offer-service:8080
           predicates:
-            - Path=/offer/v3/api-docs, /v1/rides/**
+            - Path=/offer/v3/api-docs
           filters:
             - RewritePath=/offer/v3/api-docs, /v3/api-docs
         - id: order-service
           uri: http://order-service:8080
           predicates:
-            - Path=/order/v3/api-docs, /v1/seats/**
+            - Path=/order/v3/api-docs
           filters:
             - RewritePath=/order/v3/api-docs, /v3/api-docs
         - id: openapi
@@ -50,7 +65,6 @@ spring:
             - Path=/order/v1/**
           filters:
             - RewritePath=/order/v1/(?<path>.*), /v1/$\{path}
-
 
 springdoc:
   swagger-ui:

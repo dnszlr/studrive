@@ -15,8 +15,8 @@ import java.util.Optional;
 @RequestMapping(path = "/v1/users")
 public class UserController {
 
+	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private final UserService userService;
-	Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	public UserController(UserService userService) {
 		this.userService = userService;
@@ -24,7 +24,7 @@ public class UserController {
 
 	@PostMapping(path = "/")
 	public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
-
+		logger.info("Received createUser request: " + createUserRequest);
 		User createdUser = userService.save(new User(createUserRequest));
 		return createdUser != null ? new ResponseEntity<>(new CreateUserResponse(createdUser.getId()), HttpStatus.OK) :
 				new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -32,7 +32,7 @@ public class UserController {
 
 	@GetMapping(path = "/{userId}")
 	public ResponseEntity<User> findUserById(@PathVariable Long userId) {
-		logger.info("Received something alteast");
+		logger.info("Received findUserById request with id: " + userId);
 		Optional<User> user = userService.getById(userId);
 		return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
@@ -40,6 +40,7 @@ public class UserController {
 	@PutMapping(path = "/{userId}/paymentDetails")
 	public ResponseEntity<PaymentDetailsResponse> updatePaymentDetails(@PathVariable Long userId,
 																	   @RequestBody PaymentDetails paymentDetails) {
+		logger.info("Received updatePaymentDetails request with id: " + userId);
 		return createResponseEntity(userService.updatePaymentDetails(userId, paymentDetails));
 	}
 
@@ -58,6 +59,7 @@ public class UserController {
 
 	@GetMapping(path = "/{userId}/verify")
 	public boolean verifyPaymentDetails(@PathVariable Long userId) {
+		logger.info("Received verifyPaymentDetails request with id: " + userId);
 		return userService.verifyPaymentDetails(userId);
 	}
 }
