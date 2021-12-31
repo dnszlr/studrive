@@ -1,19 +1,23 @@
 {
   "properties": [
     {
-      "name": "userservice.url",
+      "name": "urls.user-service",
       "type": "java.lang.String",
-      "description": "Route to user-service microservice."
+      "description": "User-service docker  url."
     },
     {
-      "name": "offerservice.url",
+      "name": "urls.offer-service",
       "type": "java.lang.String",
-      "description": "Route to offer-service microservices."
+      "description": "Offer-service docker  url."
     },
     {
-      "name": "orderservice.url",
+      "name": "urls.order-service",
       "type": "java.lang.String",
-      "description": "Route to order-service microservice."
+      "description": "Order-service docker  url."
+    },
+    {
+      "name": "urls.localhost",
+      "type": "java.lang.String",
+      "description": "Localhost docker url."
     }
-  ]
-}
+  ] }

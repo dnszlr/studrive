@@ -1,6 +1,13 @@
 # This file is for defining api-gateway routes only. For other properties use application.properties file
 # in same folder.
 # Outsource this in a config server in a later stage of the project.
+
+urls:
+    user-service: http://user-service:8080
+    offer-service: http://offer-service:8080
+    order-service: http://order-service:8080
+    localhost: http://localhost:8080
+
 spring:
   cloud:
     gateway:
@@ -8,59 +15,59 @@ spring:
         locator:
           enabled: true
       routes:
-        # Microservices architecture paths
+        # Microservices routes
         - id: user-route
-          uri: http://user-service:8080
+          uri: ${urls.user-service}
           predicates:
             Path=/v1/users/**
         - id: offer-route
-          uri: http://offer-service:8080
+          uri: ${urls.offer-service}
           predicates:
             Path=/v1/rides/**
         - id: order-route
-          uri: http:order-service:8080
+          uri: ${urls.order-service}
           predicates:
             Path=/v1/seats/**
 
-        # Swagger-ui paths
+          # Swagger-ui routes
         - id: user-service
-          uri: http://user-service:8080
+          uri: ${urls.user-service}
           predicates:
             - Path=/user/v3/api-docs
           filters:
             - RewritePath=/user/v3/api-docs, /v3/api-docs
         - id: offer-service
-          uri: http://offer-service:8080
+          uri: ${urls.offer-service}
           predicates:
             - Path=/offer/v3/api-docs
           filters:
             - RewritePath=/offer/v3/api-docs, /v3/api-docs
         - id: order-service
-          uri: http://order-service:8080
+          uri: ${urls.order-service}
           predicates:
             - Path=/order/v3/api-docs
           filters:
             - RewritePath=/order/v3/api-docs, /v3/api-docs
         - id: openapi
-          uri: http://localhost:8080
+          uri: ${urls.localhost}
           predicates:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         - id: userOpenapi
-          uri: http://localhost:8080
+          uri: ${urls.localhost}
           predicates:
             - Path=/user/v1/**
           filters:
             - RewritePath=/user/v1/(?<path>.*), /v1/$\{path}
         - id: offerOpenapi
-          uri: http://localhost:8080
+          uri: ${urls.localhost}
           predicates:
             - Path=/offer/v1/**
           filters:
             - RewritePath=/offer/v1/(?<path>.*), /v1/$\{path}
         - id: orderOpenapi
-          uri: http://localhost:8080
+          uri: ${urls.localhost}
           predicates:
             - Path=/order/v1/**
           filters:
