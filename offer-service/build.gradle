@@ -8,13 +8,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.jetbrains:annotations:22.0.0'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.2'
     implementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
     implementation 'org.json:json:20211205'
     // Database
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.2'
     // Rabbitmq
-    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.6.2'
     // Shared Projects
     implementation project(":openapi-config")
     implementation project(":offer-service-mq")

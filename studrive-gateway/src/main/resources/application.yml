@@ -20,14 +20,50 @@ spring:
           uri: ${urls.user-service}
           predicates:
             Path=/v1/users/**
+          filters:
+          - name: Retry
+            args:
+              retries: 3
+              methods: GET
+              backoff:
+                first: 50ms
+                maxBackoff: 500ms
+          - name: CircuitBreaker
+            args:
+              name: user-circuit
+              fallbackUri: forward:/circuit-fallback
         - id: offer-route
           uri: ${urls.offer-service}
           predicates:
             Path=/v1/rides/**
+          filters:
+          - name: Retry
+            args:
+              retries: 3
+              methods: GET
+              backoff:
+                first: 50ms
+                maxBackoff: 500ms
+          - name: CircuitBreaker
+            args:
+              name: offer-circuit
+              fallbackUri: forward:/circuit-fallback
         - id: order-route
           uri: ${urls.order-service}
           predicates:
             Path=/v1/seats/**
+          filters:
+          - name: Retry
+            args:
+              retries: 3
+              methods: GET
+              backoff:
+                first: 50ms
+                maxBackoff: 500ms
+          - name: CircuitBreaker
+            args:
+              name: order-circuit
+              fallbackUri: forward:/circuit-fallback
 
           # Swagger-ui routes
         - id: user-service
@@ -73,6 +109,7 @@ spring:
           filters:
             - RewritePath=/order/v1/(?<path>.*), /v1/$\{path}
 
+# Swagger-ui config
 springdoc:
   swagger-ui:
     path: /studrive-swagger
@@ -86,3 +123,35 @@ springdoc:
         url: /v3/api-docs/offer
       - name: order
         url: /v3/api-docs/order
+
+# CircuitBreaker config
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-circuit:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        registerHealthIndicator: true
+      offer-circuit:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        registerHealthIndicator: true
+      order-circuit:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        registerHealthIndicator: true
+  timelimiter:
+    instances:
+      user-circuit:
+        timeoutDuration: 2s
+      offer-circuit:
+        timeoutDuration: 2s
+      order-circuit:
+        timeoutDuration: 2s
+

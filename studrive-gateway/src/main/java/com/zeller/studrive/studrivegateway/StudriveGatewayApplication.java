@@ -29,8 +29,8 @@ public class StudriveGatewayApplication {
 	public List<GroupedOpenApi> apis(SwaggerUiConfigParameters swaggerUiConfigParameters, RouteDefinitionLocator locator) {
 		List<GroupedOpenApi> groups = new ArrayList<>();
 		List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
-		for (RouteDefinition definition : definitions) {
-			logger.info("id: " + definition.getId()+ "  "+definition.getUri().toString());
+		for(RouteDefinition definition : definitions) {
+			logger.info("id: " + definition.getId() + "  " + definition.getUri().toString());
 		}
 		definitions.stream().filter(routeDefinition -> routeDefinition.getId().matches(".*-service")).forEach(routeDefinition -> {
 			String name = routeDefinition.getId().replaceAll("-service", "");
