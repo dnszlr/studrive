@@ -21,49 +21,49 @@ spring:
           predicates:
             Path=/v1/users/**
           filters:
-          - name: Retry
-            args:
-              retries: 3
-              methods: GET
-              backoff:
-                first: 100ms
-                maxBackoff: 500ms
-          - name: CircuitBreaker
-            args:
-              name: user-circuit
-              fallbackUri: forward:/circuit-fallback
+            - name: Retry
+              args:
+                retries: 3
+                method: GET
+                backoff:
+                  firstBackoff: 100ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: user-circuit
+                fallbackUri: forward:/circuit-fallback
         - id: offer-route
           uri: ${urls.offer-service}
           predicates:
             Path=/v1/rides/**
           filters:
-          - name: Retry
-            args:
-              retries: 3
-              methods: GET
-              backoff:
-                first: 100ms
-                maxBackoff: 500ms
-          - name: CircuitBreaker
-            args:
-              name: offer-circuit
-              fallbackUri: forward:/circuit-fallback
+            - name: Retry
+              args:
+                retries: 3
+                method: GET
+                backoff:
+                  firstBackoff: 100ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: offer-circuit
+                fallbackUri: forward:/circuit-fallback
         - id: order-route
           uri: ${urls.order-service}
           predicates:
             Path=/v1/seats/**
           filters:
-          - name: Retry
-            args:
-              retries: 3
-              methods: GET
-              backoff:
-                first: 100ms
-                maxBackoff: 500ms
-          - name: CircuitBreaker
-            args:
-              name: order-circuit
-              fallbackUri: forward:/circuit-fallback
+            - name: Retry
+              args:
+                retries: 3
+                method: GET
+                backoff:
+                  firstBackoff: 100ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: order-circuit
+                fallbackUri: forward:/circuit-fallback
 
           # Swagger-ui routes
         - id: user-service
@@ -132,19 +132,19 @@ resilience4j:
         slidingWindowSize: 10
         permittedNumberOfCallsInHalfOpenState: 5
         failureRateThreshold: 50
-        waitDurationInOpenState: 10000
+        waitDurationInOpenState: 15000
         registerHealthIndicator: true
       offer-circuit:
         slidingWindowSize: 10
         permittedNumberOfCallsInHalfOpenState: 5
         failureRateThreshold: 50
-        waitDurationInOpenState: 10000
+        waitDurationInOpenState: 15000
         registerHealthIndicator: true
       order-circuit:
         slidingWindowSize: 10
         permittedNumberOfCallsInHalfOpenState: 5
         failureRateThreshold: 50
-        waitDurationInOpenState: 10000
+        waitDurationInOpenState: 15000
         registerHealthIndicator: true
   timelimiter:
     instances:
@@ -154,4 +154,3 @@ resilience4j:
         timeoutDuration: 2s
       order-circuit:
         timeoutDuration: 2s
-
