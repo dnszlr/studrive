@@ -11,4 +11,5 @@ public class FallbackController {
 		return "Sorry, that shouldn't have happened. You can see a CircuitBreaker fallback view here for " +
 					"demonstration purposes.";
 	}
+
 }
