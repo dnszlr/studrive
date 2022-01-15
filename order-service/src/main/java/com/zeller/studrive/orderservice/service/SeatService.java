@@ -109,7 +109,7 @@ public class SeatService {
 	}
 
 	/**
-	 * Calls the accounting-service to cancel a accounting
+	 * Calls the accounting-service to cancel an accounting
 	 *
 	 * @param cancelAccount - The Rabbitmq message object that contains all the information for the accounting service
 	 */

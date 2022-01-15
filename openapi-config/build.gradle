@@ -12,7 +12,7 @@ jar {
 }
 
 dependencies {
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.2'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.3'
 }
 
 test {
