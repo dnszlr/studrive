@@ -4,12 +4,14 @@ import java.util.Objects;
 
 public class UserRequest {
 
+	private Long id;
 	private String university;
 	private String firstName;
 	private String lastName;
 	private String email;
 
-	public UserRequest(String university, String firstName, String lastName, String email) {
+	public UserRequest(Long id, String university, String firstName, String lastName, String email) {
+		this.id = id;
 		this.university = university;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -17,6 +19,14 @@ public class UserRequest {
 	}
 
 	public UserRequest() {
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUniversity() {
@@ -60,6 +70,8 @@ public class UserRequest {
 
 		UserRequest that = (UserRequest) o;
 
+		if(!Objects.equals(id, that.id))
+			return false;
 		if(!Objects.equals(university, that.university))
 			return false;
 		if(!Objects.equals(firstName, that.firstName))
@@ -71,7 +83,8 @@ public class UserRequest {
 
 	@Override
 	public int hashCode() {
-		int result = university != null ? university.hashCode() : 0;
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (university != null ? university.hashCode() : 0);
 		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
 		result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
 		result = 31 * result + (email != null ? email.hashCode() : 0);
