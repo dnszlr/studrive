@@ -27,8 +27,8 @@ public class TaskReceiver {
 	 *
 	 * @param updateSeats - RabbitMQ message object that contains all the required information.
 	 */
-	@RabbitListener(queues = RabbitMQConstant.CANCEL_SEATS_QUEUE)
-	public void cancelSeats(UpdateSeats updateSeats) {
+	@RabbitListener(queues = RabbitMQConstant.SEATS_CANCELED_QUEUE)
+	public void seatsCanceled(UpdateSeats updateSeats) {
 		if(updateSeats.getOperation() == Operation.CANCEL) {
 			List<Seat> seats = seatService.getSeatsByRide(updateSeats.getRideId());
 			cancelAccounting(seats);
@@ -44,8 +44,8 @@ public class TaskReceiver {
 	 *
 	 * @param updateSeats - RabbitMQ message object that contains all the required information.
 	 */
-	@RabbitListener(queues = RabbitMQConstant.CLOSE_SEATS_QUEUE)
-	public void closeSeats(UpdateSeats updateSeats) {
+	@RabbitListener(queues = RabbitMQConstant.SEATS_CLOSED_QUEUE)
+	public void seatsClosed(UpdateSeats updateSeats) {
 		if(updateSeats.getOperation() == Operation.CLOSE) {
 			List<Seat> seats = seatService.getSeatsByRide(updateSeats.getRideId());
 			updateSeats(seats, SeatStatus.RIDE_CLOSED);

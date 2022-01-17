@@ -26,7 +26,7 @@ public class TaskSender {
 	 */
 	public void cancelRide(String rideId) {
 		logger.info("TaskSender.cancelRide: RabbitMQ message send to order-service");
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CANCEL_SEATS_KEY, new UpdateSeats(rideId, Operation.CANCEL));
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.SEATS_CANCELED_KEY, new UpdateSeats(rideId, Operation.CANCEL));
 	}
 
 	/**
@@ -36,6 +36,6 @@ public class TaskSender {
 	 */
 	public void closeRide(String rideId) {
 		logger.info("TaskSender.closeRide: RabbitMQ message send to order-service");
-		template.convertAndSend(directExchange.getName(), RabbitMQConstant.CLOSE_SEATS_KEY, new UpdateSeats(rideId, Operation.CLOSE));
+		template.convertAndSend(directExchange.getName(), RabbitMQConstant.SEATS_CLOSED_KEY, new UpdateSeats(rideId, Operation.CLOSE));
 	}
 }
