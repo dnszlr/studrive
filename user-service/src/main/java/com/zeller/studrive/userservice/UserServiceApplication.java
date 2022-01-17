@@ -1,5 +1,6 @@
 package com.zeller.studrive.userservice;
 
+import com.zeller.studrive.httptrace.HttpTraceConfiguration;
 import com.zeller.studrive.openapi.OpenAPIConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Configuration
-@Import({OpenAPIConfiguration.class})
+@Import({OpenAPIConfiguration.class, HttpTraceConfiguration.class})
 public class UserServiceApplication {
 
 	public static void main(String[] args) {

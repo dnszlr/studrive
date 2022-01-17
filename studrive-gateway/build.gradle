@@ -11,6 +11,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j:2.1.0'
     implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.2'
+    // Shared Projects
+    implementation project(":httptrace-config")
     // Open-API
     implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.3'
     // Dependencies Processor

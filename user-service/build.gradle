@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:8.4.1'
     // Shared Projects
     implementation project(":openapi-config")
+    implementation project(":httptrace-config")
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

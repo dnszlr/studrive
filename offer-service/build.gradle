@@ -17,6 +17,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp:2.6.2'
     // Shared Projects
     implementation project(":openapi-config")
+    implementation project(":httptrace-config")
     implementation project(":offer-service-mq")
     implementation project(":order-service-mq")
     // Testing
