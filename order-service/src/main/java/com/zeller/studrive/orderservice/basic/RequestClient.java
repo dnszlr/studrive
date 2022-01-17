@@ -32,7 +32,7 @@ public class RequestClient {
 	 * @return true if there are still places available, false if not.
 	 */
 	public boolean verifyRideSeats(String rideId) {
-		String path = Constant.SLASH + rideId + Constant.SLASH + Constant.SEATS;
+		String path = Constant.RIDES + rideId + Constant.SEATS;
 		logger.info("RequestClient.verifyRideSeats: Called path: " + path);
 		return Boolean.TRUE.equals(offerClient.get().uri(path)
 				.accept(MediaType.APPLICATION_JSON)
@@ -48,7 +48,7 @@ public class RequestClient {
 	 * @return true if the user has deposited paymentInformation, false if not
 	 */
 	public boolean verifyPaymentDetail(Long passengerId) {
-		String path = Constant.SLASH + passengerId + Constant.SLASH + Constant.VERIFY;
+		String path = Constant.USERS + passengerId + Constant.VERIFY;
 		logger.info("RequestClient.verifyPaymentDetail: Called path: " + path);
 		return Boolean.TRUE.equals(userClient.get().uri(path).accept(MediaType.APPLICATION_JSON)
 				.retrieve()
