@@ -1,14 +1,14 @@
 #!/bin/bash
-#title:       	measure_availability.sh
-#description:	  Used to determine the impact of patterns for microservices on availability
-#		            Measures via curl data from outgoing requests and stores the data in a .csv file to be able to import them later to excel
-#author:	      Dennis Zeller
-#date:		      18/01/2022
-#version:	      0.3
-#usage:       	./measure_availability.sh [url] [export_file_name.csv]
-#notes:	      	Use curl version 7.72.0 to get the best results.
-#credit:	      Inspired by https://ops.tips/gists/measuring-http-response-times-curl/
-#os:		        Implemented for Linux
+#title:	measure_availability.sh
+#description:	Used to determine the impact of patterns for microservices on availability
+#		Measures via curl data from outgoing requests and stores the data in a .csv file to be able to import them later 			to excel
+#author:	Dennis Zeller
+#date:		18/01/2022
+#version:	0.3
+#usage:	Start this file with command ./measure_availability [url] [export_file_name.csv]
+#notes:	Use curl version 7.72.0 to get the best results.  
+#credit:	Inspired by https://ops.tips/gists/measuring-http-response-times-curl/
+#os:		Implemented for Linux
 
 echo 'Start script'
 
