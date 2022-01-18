@@ -1,14 +1,14 @@
 #!/bin/bash
 #title:	      	measure_efficiency.sh
-#description:	Used to determine the impact of patterns for microservices on performance efficiency
-#		        Measures via curl data from outgoing requests and stores the data in a .csv file to be able to import them later to excel
-#author:	    Dennis Zeller
-#date:		    17/01/2022
-#version:	    0.2
+#description:	  Used to determine the impact of patterns for microservices on performance efficiency
+#		            Measures via curl data from outgoing requests and stores the data in a .csv file to be able to import them later to excel
+#author:	      Dennis Zeller
+#date:		      17/01/2022
+#version:	      0.2
 #usage:	      	./measure_efficiency.sh [url] [export_file_name.csv]
 #notes:	      	Use curl version 7.72.0 to get the best results.
 #credit:      	Inspired by https://ops.tips/gists/measuring-http-response-times-curl/
-#os:		    Implemented for Linux
+#os:		        Implemented for Linux
 
 echo 'Start script'
 
