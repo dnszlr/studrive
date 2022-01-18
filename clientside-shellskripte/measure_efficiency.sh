@@ -35,13 +35,13 @@ done
 }
 
 printHeader() {
-	echo "timestamp,method,url,status,connect_time,total_time" >> $file
+	echo "timestamp,method,url,status,total_time" >> $file
 }
 
 makeRequest() {
 	local url=$1
 	curl \
-	--write-out "$(date "+%d.%m.%Y %H:%M:%S"),%{method},%{url_effective},%{http_code},%{time_connect},%{time_total}\n" >> $file \
+	--write-out "$(date "+%d.%m.%Y %H:%M:%S"),%{method},%{url_effective},%{http_code},%{time_total}\n" >> $file \
 	--silent \
 	--output /dev/null \
 	"$url"
