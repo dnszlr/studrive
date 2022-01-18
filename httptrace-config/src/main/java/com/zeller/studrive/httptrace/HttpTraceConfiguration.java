@@ -10,6 +10,6 @@ public class HttpTraceConfiguration {
 
 	@Bean
 	public HttpTraceRepository httpTraceRepository() {
-		return new CSVTraceRepository();
+		return new InMemoryHttpTraceRepository();
 	}
 }

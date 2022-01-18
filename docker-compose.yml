@@ -68,8 +68,6 @@ services:
       - USERSERVICE_URL=http://user-service:8080
       - OFFERSERVICE_URL=http://offer-service:8080
       - ORDERSERVICE_URL=http://order-service:8080
-    volumes:
-      - httpTrace:/data/csv
   #user-service
   user-service:
     build: ./user-service
@@ -77,8 +75,6 @@ services:
       - "9001:8080"
     depends_on:
       - postgres
-    volumes:
-      - httpTrace:/data/csv
   #offer-service
   offer-service:
     build: ./offer-service
@@ -87,8 +83,6 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
-    volumes:
-      - httpTrace:/data/csv
   #order-service
   order-service:
     build: ./order-service
@@ -100,8 +94,6 @@ services:
     environment:
       - USERSERVICE_URL=http://user-service:8080
       - OFFERSERVICE_URL=http://offer-service:8080
-    volumes:
-      - httpTrace:/data/csv
   #accounting-service
   accounting-service:
     build: ./accounting-service
@@ -114,4 +106,3 @@ services:
 volumes:
   mongodbdata: { }
   postgresdata: { }
-  httpTrace: { }
