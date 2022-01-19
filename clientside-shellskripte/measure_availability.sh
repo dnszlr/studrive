@@ -9,6 +9,7 @@
 #notes:	Use curl version 7.72.0 to get the best results.  
 #credit:	Inspired by https://ops.tips/gists/measuring-http-response-times-curl/
 #os:		Implemented for Linux
+#note:		Use netem to emulate a malfunction with packet loss https://wiki.linuxfoundation.org/networking/netem
 
 echo 'Start script'
 
@@ -18,11 +19,11 @@ main() {
 	
 	
 printHeader $file
-for value in {1..50}
+for value in {1..100}
 do
 	makeRequest $url $file
-	printf "######## Request %d/50 ########\r" $value
-	sleep 5s
+	printf "######## Request %d/100 ########\r" $value
+	sleep 2s
 done
 }
 
@@ -34,6 +35,7 @@ makeRequest() {
 	local url=$1
 	curl \
 	--write-out "$(date "+%d.%m.%Y %H:%M:%S"),%{method},%{url_effective},%{http_code}," >> $file \
+	--max-time 5.0 \
 	--silent \
 	--output /dev/null \
 	"$url"
