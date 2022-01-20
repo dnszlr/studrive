@@ -12,14 +12,6 @@
 
 echo 'Start script'
 
-# Emulate delay in latency in localnetwork to
-# simulate real network traffic
-# Remove current delay if exists
-tc qdisc del dev ens160 root
-# --> Replace [ens160] with your network.
-echo 'Set local network delay to 50ms'
-tc qdisc add dev ens160 root netem delay 50ms
-
 main() {
 	local url=$1
 	local file=$2
@@ -47,8 +39,3 @@ makeRequest() {
 	"$url"
 }
 main "$@"
-
-# Remove delay in latency in localnetwork
-# --> Replace [ens160] with your network again.
-echo 'Remove local network delay'
-tc qdisc del dev ens160 root

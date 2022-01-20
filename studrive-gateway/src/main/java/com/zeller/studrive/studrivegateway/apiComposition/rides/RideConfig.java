@@ -15,7 +15,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class RideConfig {
 
 	@Bean
-	public RouterFunction<ServerResponse> rideAggregationRouting(RideAggregator rideAggregator) {
+	public RouterFunction<ServerResponse> findRideByIdWithDetails(RideAggregator rideAggregator) {
 		return RouterFunctions.route(GET("/v1/rides/{rideId}/details"), rideAggregator::getRideComposition);
 	}
 
