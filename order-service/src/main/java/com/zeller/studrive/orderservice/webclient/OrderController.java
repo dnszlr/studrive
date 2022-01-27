@@ -30,8 +30,8 @@ public class OrderController {
 	}
 
 	@GetMapping(path = "/{seatId}")
-	public ResponseEntity<Seat> findRideById(@PathVariable String seatId) {
-		logger.info("Received findRideById request with id: " + seatId);
+	public ResponseEntity<Seat> findSeatById(@PathVariable String seatId) {
+		logger.info("Received findSeatById request with id: " + seatId);
 		Optional<Seat> seat = seatService.findById(seatId);
 		return seat.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
