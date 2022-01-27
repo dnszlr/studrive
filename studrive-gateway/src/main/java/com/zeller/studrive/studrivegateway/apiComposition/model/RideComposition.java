@@ -1,7 +1,5 @@
-package com.zeller.studrive.studrivegateway.apiComposition.rides;
+package com.zeller.studrive.studrivegateway.apiComposition.model;
 
-import com.zeller.studrive.studrivegateway.apiComposition.model.RideRequest;
-import com.zeller.studrive.studrivegateway.apiComposition.model.UserRequest;
 import reactor.util.function.Tuple2;
 
 import java.util.Objects;

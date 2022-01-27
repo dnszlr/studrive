@@ -24,7 +24,7 @@ public class RabbitConfig {
 		// Queue
 		@Bean
 		public Queue cancelSeatsQueue() {
-			return new Queue(RabbitMQConstant.SEATS_CANCELED_QUEUE);
+			return new Queue(RabbitMQConstant.SEATS_CANCEL_QUEUE);
 		}
 
 		// Key for Queue
@@ -33,13 +33,13 @@ public class RabbitConfig {
 										  Queue cancelSeatsQueue) {
 			return BindingBuilder.bind(cancelSeatsQueue)
 					.to(direct)
-					.with(RabbitMQConstant.SEATS_CANCELED_KEY);
+					.with(RabbitMQConstant.SEATS_CANCEL_KEY);
 		}
 
 		// Queue
 		@Bean
 		public Queue closeSeatsQueue() {
-			return new Queue(RabbitMQConstant.SEATS_CLOSED_QUEUE);
+			return new Queue(RabbitMQConstant.SEATS_CLOSE_QUEUE);
 		}
 
 		// Key for Queue
@@ -48,7 +48,7 @@ public class RabbitConfig {
 										 Queue closeSeatsQueue) {
 			return BindingBuilder.bind(closeSeatsQueue)
 					.to(direct)
-					.with(RabbitMQConstant.SEATS_CLOSED_KEY);
+					.with(RabbitMQConstant.SEATS_CLOSE_KEY);
 		}
 
 		@Bean

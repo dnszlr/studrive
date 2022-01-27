@@ -1,5 +1,6 @@
 package com.zeller.studrive.studrivegateway.apiComposition.rides;
 
+import com.zeller.studrive.studrivegateway.apiComposition.model.RideComposition;
 import com.zeller.studrive.studrivegateway.apiComposition.model.RideRequest;
 import com.zeller.studrive.studrivegateway.apiComposition.proxy.RideService;
 import com.zeller.studrive.studrivegateway.apiComposition.proxy.UserService;

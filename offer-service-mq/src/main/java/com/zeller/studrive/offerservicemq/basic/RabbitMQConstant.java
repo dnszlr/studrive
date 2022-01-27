@@ -5,8 +5,8 @@ public class RabbitMQConstant {
 	public static final String OFFER_DIRECT = "offer.service";
 
 	// TO ORDER-SERVICE
-	public static final String SEATS_CANCELED_QUEUE = "seats.canceled.queue";
-	public static final String SEATS_CANCELED_KEY = "seats.canceled.key";
-	public static final String SEATS_CLOSED_QUEUE = "seats.closed.queue";
-	public static final String SEATS_CLOSED_KEY = "seats.closed.key";
+	public static final String SEATS_CANCEL_QUEUE = "seats.cancel.queue";
+	public static final String SEATS_CANCEL_KEY = "seats.cancel.key";
+	public static final String SEATS_CLOSE_QUEUE = "seats.close.queue";
+	public static final String SEATS_CLOSE_KEY = "seats.close.key";
 }
