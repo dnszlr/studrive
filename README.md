@@ -1,4 +1,4 @@
-# Bachelor thesis project Studrive Documentation
+# Documentation for Bachelor thesis project Studrive
 ### by Dennis Zeller, Reutlingen University, 31.01.2022
 ## Overview
 
