@@ -55,6 +55,7 @@ API documentation is provided via Swagger UI. These can be found via the followi
 - [order-service](https://github.com/dnszlr/studrive/tree/master/order-service): http://localhost:9003/swagger-ui.html
 
 To create a Swagger UI for future microservices, the [openapi-config](https://github.com/dnszlr/studrive/tree/master/openapi-config) module must be imported to the respective service.
+
 A example can be found here [here](https://github.com/dnszlr/studrive/blob/master/offer-service/src/main/java/com/zeller/studrive/offerservice/OfferServiceApplication.java)
 
 To extend the Swagger UI of the studrive gateway, the respective paths must be added to the [application.yml](https://github.com/dnszlr/studrive/blob/master/studrive-gateway/src/main/resources/application.yml) file.
