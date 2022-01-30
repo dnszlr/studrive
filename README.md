@@ -1,25 +1,25 @@
-#Bachelor thesis project Studrive Documentation
-###by Dennis Zeller, Reutlingen University, 31.01.2022
-##Overview
+# Bachelor thesis project Studrive Documentation
+### by Dennis Zeller, Reutlingen University, 31.01.2022
+## Overview
 ***
 This project is a prototype to determine the impact of microservice patterns on non-functional requirements.
-##Subject
+## Subject
 ***
 The Studrive application is a fictional carpooling service for students only. Users can register, offer rides or even book seats.
-##Required Installation
+## Required Installation
 ***
 - Java 8 or higher
 - Gradle
 - Docker
 - Docker-compose
-##Microservices
+## Microservices
 ***
 - user-service: User administration and deposit of payment details
 - offer-service: Management of offered rides
 - order-service: Management of ordered seats
 - accounting-service: Management of bills for booked seats
 - studrive-gateway: The Studrive applications API gateway
-##Getting started
+## Getting started
 ***
 In every Microservice's application.properties file the spring profile has to be selected to run locally or via docker container.
 
@@ -30,7 +30,7 @@ The following steps are required for a deployment via docker containers.
 3. **docker-compose up**
 
 To stop the application simply write **docker-compose** down
-##Microservice Endpoints
+## Microservice Endpoints
 ***
 | Microservice       | Port | Language | Framework    | Database   | Messaging    |
 |--------------------|------|----------|--------------|------------|--------------|
@@ -41,7 +41,7 @@ To stop the application simply write **docker-compose** down
 | accounting-service | 9004 | Java     | Spring Boot | Postgresql | RabbitMQ |
 
 Using a port from the table, a service can be reached via localhost
-##Swagger UI
+## Swagger UI
 ***
 API documentation is provided via Swagger UI. These can be found via the following links.
 - studrive-gateway: http://localhost:9000/studrive-swagger
@@ -54,13 +54,13 @@ To create a Swagger UI for future microservices, the [openapi-config](https://gi
 To include the paths of a microservice into the studrive-gateway Swagger UI a example can be found [here](https://github.com/dnszlr/studrive/blob/master/offer-service/src/main/java/com/zeller/studrive/offerservice/OfferServiceApplication.java)
 
 To extend the Swagger UI of the studrive gateway, the respective paths must be added to the [application.yml](https://github.com/dnszlr/studrive/blob/master/studrive-gateway/src/main/resources/application.yml) file.
-##Useful tools
+## Useful tools
 ***
 - Actuator: Provides endpoints for further measurements or to monitor the system. Example for user-service, http://localhost:9001/actuator/
 - RabbitMQ Management: Admin Interface for rabbitMQ. Can be found here http://localhost:15672/
 - pgadmin4: Admin Interface for postgresql database. Can be found here http://localhost:5050/
 - mongo-express: Admin Interface for MongoDB. Can be found here http://localhost:8081/
-##Measurement of non-functional requirements
+## Measurement of non-functional requirements
 ***
 The scripts that are used to measure the non-functional availability and performance efficiency requirements can be found [here](https://github.com/dnszlr/studrive/tree/master/clientside-shellscript).
 
