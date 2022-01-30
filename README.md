@@ -7,7 +7,6 @@ This project provides a prototype to determine the impact of microservice patter
 
 ## Subject
 
----
 The Studrive application is a fictional carpooling service for students only. Users can register, offer rides or even book seats.
 
 ## Required Installation
