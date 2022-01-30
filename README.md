@@ -14,11 +14,11 @@ The Studrive application is a fictional carpooling service for students only. Us
 - Docker-compose
 ## Microservices
 ***
-- user-service: User administration and deposit of payment details
-- offer-service: Management of offered rides
-- order-service: Management of ordered seats
-- accounting-service: Management of bills for booked seats
-- studrive-gateway: The Studrive applications API gateway
+- [user-service](https://github.com/dnszlr/studrive/tree/master/user-service): Management of users and payment details
+- [offer-service](https://github.com/dnszlr/studrive/tree/master/offer-service): Management of offered rides
+- [order-service](https://github.com/dnszlr/studrive/tree/master/order-service): Management of ordered seats
+- [accounting-service](https://github.com/dnszlr/studrive/tree/master/accounting-service): Management of accounts for booked seats
+- [studrive-gateway](https://github.com/dnszlr/studrive/tree/master/studrive-gateway): The Studrive applications API gateway
 ## Getting started
 ***
 In every Microservice's application.properties file the spring profile has to be selected to run locally or via docker container.
@@ -44,10 +44,10 @@ Using a port from the table, a service can be reached via localhost
 ## Swagger UI
 ***
 API documentation is provided via Swagger UI. These can be found via the following links.
-- studrive-gateway: http://localhost:9000/studrive-swagger
-- user-service: http://localhost:9001/swagger-ui.html
-- offer-service: http://localhost:9002/swagger-ui.html
-- order-service: http://localhost:9003/swagger-ui.html
+- [studrive-gateway](https://github.com/dnszlr/studrive/tree/master/studrive-gateway): http://localhost:9000/studrive-swagger
+- [user-service](https://github.com/dnszlr/studrive/tree/master/user-service): http://localhost:9001/swagger-ui.html
+- [offer-service](https://github.com/dnszlr/studrive/tree/master/offer-service): http://localhost:9002/swagger-ui.html
+- [order-service](https://github.com/dnszlr/studrive/tree/master/order-service): http://localhost:9003/swagger-ui.html
 
 To create a Swagger UI for future microservices, the [openapi-config](https://github.com/dnszlr/studrive/tree/master/openapi-config) module must be imported to the respective service.
 
