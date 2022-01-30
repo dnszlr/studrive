@@ -78,5 +78,5 @@ To extend the Swagger UI of the studrive gateway, the respective paths must be a
 ## Measurement of non-functional requirements
 
 ---
-The scripts that are used to measure the non-functional availability and performance efficiency requirements can be found [here](https://github.com/dnszlr/studrive/tree/master/clientside-shellscript).
+The scripts that are used to measure the non-functional requirements availability and performance efficiency requirements can be found [here](https://github.com/dnszlr/studrive/tree/master/clientside-shellscript).
 
