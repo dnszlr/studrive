@@ -1,5 +1,5 @@
-#ReadMe
-***
+# ReadMe
+
 These scripts are used to evaluate the properties of the API Gateway pattern in terms of the non-functional requirements Availability and Efficiency.
 Further information can be found in the scripts.
 
