@@ -24,7 +24,7 @@ The Studrive application is a fictional carpooling service for students only. Us
 - [studrive-gateway](https://github.com/dnszlr/studrive/tree/master/studrive-gateway): The Studrive applications API gateway
 ## Getting started
 
-In every Microservice's application.properties file the spring profile has to be selected to run locally or via docker container.
+In every Microservice's [application.properties](https://github.com/dnszlr/studrive/blob/master/offer-service/src/main/resources/application.properties) file the spring profile has to be selected to run locally or via docker container.
 
 The following steps are required for a deployment via docker containers.
 
