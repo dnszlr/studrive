@@ -3,7 +3,7 @@
 ## Overview
 
 ---
-This project is a prototype to determine the impact of microservice patterns on non-functional requirements.
+This project provides a prototype to determine the impact of microservice patterns on non-functional requirements.
 
 ## Subject
 
