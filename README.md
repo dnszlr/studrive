@@ -45,10 +45,10 @@ To stop the application simply write **docker-compose** down
 | Microservice       | Port | Language | Framework    | Database   | Messaging    |
 |--------------------|------|----------|--------------|------------|--------------|
 | studrive-gateway   | 9000 | Java     | Spring Boot  | -          | -            |
-| user-service       | 9001 | Java     | Spring Boot | Postgresql | -            |
+| user-service       | 9001 | Java     | Spring Boot | PostgreSQL | -            |
 | offer-service      | 9002 | Java     | Spring Boot | MongoDB    | RabbitMQ     |
 | order-service      | 9003 | Java     | Spring Boot | MongoDB    | RabbitMQ |
-| accounting-service | 9004 | Java     | Spring Boot | Postgresql | RabbitMQ |
+| accounting-service | 9004 | Java     | Spring Boot | PostgreSQL | RabbitMQ |
 
 Using a port from the table, a service can be reached via localhost
 
@@ -72,8 +72,8 @@ To extend the Swagger UI of the studrive gateway, the respective paths must be a
 ---
 - Actuator: Provides endpoints for further measurements or to monitor the system. Example for user-service, http://localhost:9001/actuator/
 - RabbitMQ Management: Admin Interface for rabbitMQ. Can be found here http://localhost:15672/
-- pgadmin4: Admin Interface for postgresql database. Can be found here http://localhost:5050/
-- mongo-express: Admin Interface for MongoDB. Can be found here http://localhost:8081/
+- pgadmin4: Admin Interface for PostgreSQL database. Can be found here http://localhost:5050/
+- mongo-express: Admin Interface for MongoDB database. Can be found here http://localhost:8081/
 
 ## Measurement of non-functional requirements
 
